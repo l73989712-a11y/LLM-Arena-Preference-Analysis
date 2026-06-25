@@ -1,0 +1,5 @@
+datasets
+sqlalchemy
+pymysql
+jupyterlab
+openpyxl
