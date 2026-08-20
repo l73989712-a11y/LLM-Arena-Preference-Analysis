@@ -12,6 +12,7 @@ from src.data_io import download_chatbot_arena, load_csv
 from src.preprocess import clean_arena_data
 from src.topic import add_rule_topics, add_kmeans_topics
 from src.analysis import build_model_statistics, create_summary_tables
+from src.population import LEGACY_SCORE, apply_population
 from src.visualization import create_static_charts, create_pyecharts
 from src.ml_model import train_preference_model
 
@@ -62,7 +63,8 @@ def main():
     cleaned.to_csv(cleaned_path, index=False, encoding="utf-8-sig")
     (TABLE_DIR / "cleaning_report.json").write_text(json.dumps(cleaning_report, ensure_ascii=False, indent=2), encoding="utf-8")
 
-    model_stat = build_model_statistics(cleaned)
+    legacy_score_view = apply_population(cleaned, LEGACY_SCORE).eligible
+    model_stat = build_model_statistics(legacy_score_view)
     model_stat.to_csv(TABLE_DIR / "model_statistics.csv", index=False, encoding="utf-8-sig")
 
     tables = create_summary_tables(cleaned)

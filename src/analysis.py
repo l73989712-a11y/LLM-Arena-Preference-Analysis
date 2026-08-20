@@ -4,21 +4,22 @@ import pandas as pd
 
 
 def build_model_statistics(df: pd.DataFrame) -> pd.DataFrame:
-    """Summarize only canonical outcomes supported by the legacy score policy.
+    """Summarize an explicit legacy-score population view.
 
-    Rows without both model IDs, ``tie_bothbad``, and ``invalid_unknown`` are
-    deliberately excluded rather than silently treated as ordinary ties.
+    Population selection belongs in ``apply_population(LEGACY_SCORE)``. The
+    branches below remain defensive so unsupported values cannot become ties.
     """
+    outcome_column = "canonical_outcome" if "canonical_outcome" in df.columns else "winner"
     rows = []
-    for item in df[["model_a", "model_b", "winner"]].itertuples(index=False):
-        if not all(isinstance(model, str) and model.strip() for model in (item.model_a, item.model_b)):
+    for model_a, model_b, outcome in df[["model_a", "model_b", outcome_column]].itertuples(index=False, name=None):
+        if not all(isinstance(model, str) and model.strip() for model in (model_a, model_b)):
             continue
-        if item.winner == "model_a_win":
-            rows.extend([(item.model_a, 1, 1, 0, 0), (item.model_b, 1, 0, 1, 0)])
-        elif item.winner == "model_b_win":
-            rows.extend([(item.model_a, 1, 0, 1, 0), (item.model_b, 1, 1, 0, 0)])
-        elif item.winner == "tie":
-            rows.extend([(item.model_a, 1, 0, 0, 1), (item.model_b, 1, 0, 0, 1)])
+        if outcome == "model_a_win":
+            rows.extend([(model_a, 1, 1, 0, 0), (model_b, 1, 0, 1, 0)])
+        elif outcome == "model_b_win":
+            rows.extend([(model_a, 1, 0, 1, 0), (model_b, 1, 1, 0, 0)])
+        elif outcome == "tie":
+            rows.extend([(model_a, 1, 0, 0, 1), (model_b, 1, 0, 0, 1)])
 
     stat = pd.DataFrame(rows, columns=["model_name", "battle_count", "win_count", "lose_count", "tie_count"])
     if stat.empty:
