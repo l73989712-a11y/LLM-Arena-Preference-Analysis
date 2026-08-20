@@ -117,6 +117,33 @@ def test_conversation_parse_contract_and_prompt_consistency() -> None:
     assert not result.loc[2, "conversation_a_valid"]
 
 
+def test_parseable_conversations_need_user_and_assistant_turns_for_source_validity() -> None:
+    empty = _canonical([_row(conversation_a=[], conversation_b=[])])
+    user_only = _canonical([
+        _row(conversation_a=[{"role": "user", "content": "x"}], conversation_b=[{"role": "user", "content": "x"}])
+    ])
+    assistant_only = _canonical([
+        _row(
+            conversation_a=[{"role": "assistant", "content": "x"}],
+            conversation_b=[{"role": "assistant", "content": "x"}],
+        )
+    ])
+    normal = _canonical([_row()])
+
+    assert empty.loc[0, "conversation_a_valid"]
+    assert empty.loc[0, "conversation_b_valid"]
+    assert not empty.loc[0, "conversation_a_has_user"]
+    assert not empty.loc[0, "conversation_a_has_assistant"]
+    assert not empty.loc[0, "source_record_valid"]
+    assert user_only.loc[0, "conversation_a_has_user"]
+    assert not user_only.loc[0, "conversation_a_has_assistant"]
+    assert not user_only.loc[0, "source_record_valid"]
+    assert not assistant_only.loc[0, "conversation_a_has_user"]
+    assert assistant_only.loc[0, "conversation_a_has_assistant"]
+    assert not assistant_only.loc[0, "source_record_valid"]
+    assert normal.loc[0, "source_record_valid"]
+
+
 def test_timestamp_is_canonical_utc_without_local_timezone_dependence() -> None:
     result = _canonical([
         _row(tstamp=0),

@@ -4,16 +4,30 @@ import pandas as pd
 
 
 def build_model_statistics(df: pd.DataFrame) -> pd.DataFrame:
+    """Summarize only canonical outcomes supported by the legacy score policy.
+
+    Rows without both model IDs, ``tie_bothbad``, and ``invalid_unknown`` are
+    deliberately excluded rather than silently treated as ordinary ties.
+    """
     rows = []
     for item in df[["model_a", "model_b", "winner"]].itertuples(index=False):
-        if item.winner == "model_a":
+        if not all(isinstance(model, str) and model.strip() for model in (item.model_a, item.model_b)):
+            continue
+        if item.winner == "model_a_win":
             rows.extend([(item.model_a, 1, 1, 0, 0), (item.model_b, 1, 0, 1, 0)])
-        elif item.winner == "model_b":
+        elif item.winner == "model_b_win":
             rows.extend([(item.model_a, 1, 0, 1, 0), (item.model_b, 1, 1, 0, 0)])
-        else:
+        elif item.winner == "tie":
             rows.extend([(item.model_a, 1, 0, 0, 1), (item.model_b, 1, 0, 0, 1)])
 
     stat = pd.DataFrame(rows, columns=["model_name", "battle_count", "win_count", "lose_count", "tie_count"])
+    if stat.empty:
+        return stat.assign(
+            win_rate=pd.Series(dtype=float),
+            tie_rate=pd.Series(dtype=float),
+            score=pd.Series(dtype=float),
+            score_rate=pd.Series(dtype=float),
+        )
     result = stat.groupby("model_name", as_index=False).sum()
     result["win_rate"] = result["win_count"] / result["battle_count"]
     result["tie_rate"] = result["tie_count"] / result["battle_count"]

@@ -296,6 +296,16 @@ def canonicalize_battles(df: pd.DataFrame, *, provenance: SourceProvenance) -> p
     result["conversation_b_valid"] = [item.valid for item in parsed_b]
     result["conversation_a_error"] = [item.error_code for item in parsed_a]
     result["conversation_b_error"] = [item.error_code for item in parsed_b]
+    result["conversation_a_has_user"] = [item.valid and bool(_user_turns(item)) for item in parsed_a]
+    result["conversation_b_has_user"] = [item.valid and bool(_user_turns(item)) for item in parsed_b]
+    result["conversation_a_has_assistant"] = [
+        item.valid and any(role == "assistant" for role, _ in item.turns)
+        for item in parsed_a
+    ]
+    result["conversation_b_has_assistant"] = [
+        item.valid and any(role == "assistant" for role, _ in item.turns)
+        for item in parsed_b
+    ]
     result["prompt_pair_consistent"] = [
         a.valid and b.valid and _user_turns(a) == _user_turns(b)
         for a, b in zip(parsed_a, parsed_b)
@@ -335,6 +345,10 @@ def canonicalize_battles(df: pd.DataFrame, *, provenance: SourceProvenance) -> p
         & result["outcome_valid"]
         & result["conversation_a_valid"]
         & result["conversation_b_valid"]
+        & result["conversation_a_has_user"]
+        & result["conversation_b_has_user"]
+        & result["conversation_a_has_assistant"]
+        & result["conversation_b_has_assistant"]
         & result["prompt_pair_consistent"]
         & result["timestamp_valid"]
     )
