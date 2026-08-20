@@ -17,7 +17,7 @@ def test_core_pipeline(tmp_path: Path):
     assert len(cleaned) > 100
     assert report["清洗后记录数"] == len(cleaned)
     assert "topic_name" in cleaned.columns
-    assert statistics["battle_count"].sum() == len(cleaned) * 2
+    assert statistics["battle_count"].sum() == cleaned["model_a"].notna().sum() + cleaned["model_b"].notna().sum()
 
 
 def test_versioned_sample_fixture_is_synthetic_and_cleanable():
