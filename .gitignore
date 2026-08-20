@@ -1,0 +1,56 @@
+# Python caches and test/tool state
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual environments and portable package installs
+.venv/
+venv/
+_packages/
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+
+# IDE and operating-system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Jupyter and local logs
+.ipynb_checkpoints/
+*.log
+*.tmp
+*.temp
+wt_diary/
+
+# Coursework and private distribution materials
+coursework_private/
+local_private/
+coursework_archive/
+*.docx
+*.doc
+*.pdf
+*.pptx
+*.ppt
+*.zip
+*.7z
+*.rar
+*.mp4
+*.mov
+*.avi
+
+# Future raw data and generated artifacts
+data/raw/
+data/processed/
+artifacts/
+outputs/
+*.joblib
+*.pkl
+*.pickle
