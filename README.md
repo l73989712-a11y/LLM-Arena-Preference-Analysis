@@ -1,30 +1,49 @@
-﻿# LLM Arena User Preference Analysis System
+# LLM Arena User Preference Analysis
 
-This is the portable Windows edition. It does not create a virtual environment.
-Python packages are installed into the local `_packages` folder, so the project can run from any path, including folders whose names contain spaces.
+This repository is the long-term development workspace for an analysis project based on pairwise LLM preference data. It evolved from a course project; course submissions and private materials are kept outside this Git repository.
 
-## Quick start
+The current code provides a small, synthetic-data workflow for data cleaning, descriptive model statistics, topic labeling, visualizations, a Streamlit dashboard, and a demonstration preference classifier. It is a development baseline, not a finished research result.
 
-1. Extract the ZIP completely.
-2. Open the `LLM_Arena_Project_Portable` folder.
-3. Double-click `RUN_SAMPLE_DEMO.bat`.
+## Quick Start
 
-The script installs packages locally, builds sample results, and starts the Streamlit dashboard.
+Create an isolated environment and install the declared dependencies:
 
-## Important
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python -m pip install -r requirements.txt -r requirements-dev.txt
+```
 
-- Do not run files directly inside the ZIP preview.
-- The project path does not need to be `C:\LLM_Arena_Project`.
-- Your current Desktop path is supported.
-- If installation is interrupted, run `RESET_PORTABLE_ENV.bat` and retry.
+The commands above use the native Windows virtual-environment layout. In a
+POSIX or MSYS environment, use `.venv/bin/python` instead.
 
-## Separate steps
+Run the synthetic sample pipeline:
 
-- `00_CHECK_PYTHON.bat`
-- `01_INSTALL_PORTABLE_PACKAGES.bat`
-- `02_BUILD_SAMPLE_RESULTS.bat`
-- `03_START_DASHBOARD.bat`
+```powershell
+.\.venv\Scripts\python run_pipeline.py --mode sample
+```
 
-## Real data
+Then start the dashboard:
 
-Run `04_INSTALL_OPTIONAL_TOOLS.bat`, then `05_DOWNLOAD_REAL_DATA_AND_RUN.bat`.
+```powershell
+.\.venv\Scripts\python -m streamlit run app.py
+```
+
+The pipeline writes processed data, charts, tables, and model artifacts to ignored local paths. They are generated outputs, not source-controlled results.
+
+## Data and Reproducibility
+
+- `data/sample/arena_sample.csv` is a small deterministic synthetic fixture for local demos and tests. It does not contain real Arena conversations or users.
+- Real/raw Arena data must not be committed. Review license, privacy, and redistribution conditions before using a new data source.
+- `data/raw/`, `data/processed/`, `outputs/`, and serialized model artifacts are ignored for future development because they can be generated locally.
+- The current ML workflow is a demo baseline. Its saved metrics must not be interpreted as validated real-world or research performance.
+
+`docs/DEVELOPMENT_SAFETY.md` defines the repository safety rules. Always inspect `git status` before staging files.
+
+## Development Checks
+
+```powershell
+.\.venv\Scripts\python -m pytest
+.\.venv\Scripts\python -m compileall -q .
+```
+
+The repository also contains exploratory notebooks and SQL examples. Notebook output cleanup and research-method development are intentionally outside the current hygiene phase.
