@@ -92,6 +92,64 @@ def test_canonical_invalidity_audit_preserves_multiple_granular_reasons() -> Non
     assert ExclusionReason.INVALID_TIMESTAMP.value in reasons
 
 
+def test_missing_model_does_not_claim_same_model() -> None:
+    reasons = apply_population(_canonical([_row(model_a=None)]), BASE_RESEARCH).audit.loc[0, "exclusion_reasons"]
+
+    assert ExclusionReason.INVALID_MODEL_FIELDS.value in reasons
+    assert ExclusionReason.SAME_MODEL.value not in reasons
+
+
+def test_valid_same_model_ids_report_same_model_without_invalid_fields() -> None:
+    reasons = apply_population(
+        _canonical([_row(model_a="same-model", model_b="same-model")]), BASE_RESEARCH
+    ).audit.loc[0, "exclusion_reasons"]
+
+    assert ExclusionReason.SAME_MODEL.value in reasons
+    assert ExclusionReason.INVALID_MODEL_FIELDS.value not in reasons
+
+
+def test_malformed_conversation_does_not_claim_missing_turns_or_prompt_mismatch() -> None:
+    reasons = apply_population(
+        _canonical([_row(conversation_a="malformed")]), BASE_RESEARCH
+    ).audit.loc[0, "exclusion_reasons"]
+
+    assert ExclusionReason.INVALID_CONVERSATION_A.value in reasons
+    assert ExclusionReason.MISSING_USER_TURN_A.value not in reasons
+    assert ExclusionReason.MISSING_ASSISTANT_TURN_A.value not in reasons
+    assert ExclusionReason.PROMPT_PAIR_MISMATCH.value not in reasons
+
+
+def test_valid_user_only_conversation_reports_missing_assistant_only() -> None:
+    user_only = [{"role": "user", "content": "prompt"}]
+    reasons = apply_population(
+        _canonical([_row(conversation_a=user_only, conversation_b=user_only)]), BASE_RESEARCH
+    ).audit.loc[0, "exclusion_reasons"]
+
+    assert ExclusionReason.MISSING_ASSISTANT_TURN_A.value in reasons
+    assert ExclusionReason.INVALID_CONVERSATION_A.value not in reasons
+    assert ExclusionReason.PROMPT_PAIR_MISMATCH.value not in reasons
+
+
+def test_valid_different_user_sequences_report_prompt_mismatch() -> None:
+    reasons = apply_population(
+        _canonical([_row(
+            conversation_a=_conversation("prompt-a"),
+            conversation_b=_conversation("prompt-b"),
+        )]), BASE_RESEARCH
+    ).audit.loc[0, "exclusion_reasons"]
+
+    assert ExclusionReason.PROMPT_PAIR_MISMATCH.value in reasons
+
+
+def test_invalid_conversation_plus_valid_other_side_has_no_false_prompt_mismatch() -> None:
+    reasons = apply_population(
+        _canonical([_row(conversation_a="malformed", conversation_b=_conversation())]), BASE_RESEARCH
+    ).audit.loc[0, "exclusion_reasons"]
+
+    assert ExclusionReason.INVALID_CONVERSATION_A.value in reasons
+    assert ExclusionReason.PROMPT_PAIR_MISMATCH.value not in reasons
+
+
 def test_judge_and_language_requirements_are_population_specific() -> None:
     missing_judge = _canonical([_row(judge=None)])
     missing_language = _canonical([_row(language=" ")])

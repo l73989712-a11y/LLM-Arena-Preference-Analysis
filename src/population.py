@@ -133,21 +133,43 @@ def _canonical_invalid_reasons(row: pd.Series) -> list[ExclusionReason]:
         return []
 
     reasons = [ExclusionReason.SOURCE_RECORD_INVALID]
-    for column, reason in (
-        ("model_fields_valid", ExclusionReason.INVALID_MODEL_FIELDS),
-        ("distinct_models", ExclusionReason.SAME_MODEL),
-        ("outcome_valid", ExclusionReason.INVALID_OUTCOME),
-        ("conversation_a_valid", ExclusionReason.INVALID_CONVERSATION_A),
-        ("conversation_b_valid", ExclusionReason.INVALID_CONVERSATION_B),
-        ("conversation_a_has_user", ExclusionReason.MISSING_USER_TURN_A),
-        ("conversation_b_has_user", ExclusionReason.MISSING_USER_TURN_B),
-        ("conversation_a_has_assistant", ExclusionReason.MISSING_ASSISTANT_TURN_A),
-        ("conversation_b_has_assistant", ExclusionReason.MISSING_ASSISTANT_TURN_B),
-        ("prompt_pair_consistent", ExclusionReason.PROMPT_PAIR_MISMATCH),
-        ("timestamp_valid", ExclusionReason.INVALID_TIMESTAMP),
+    model_fields_valid = _flag(row, "model_fields_valid")
+    if not model_fields_valid:
+        reasons.append(ExclusionReason.INVALID_MODEL_FIELDS)
+    elif not _flag(row, "distinct_models"):
+        reasons.append(ExclusionReason.SAME_MODEL)
+
+    if not _flag(row, "outcome_valid"):
+        reasons.append(ExclusionReason.INVALID_OUTCOME)
+
+    conversation_a_valid = _flag(row, "conversation_a_valid")
+    conversation_b_valid = _flag(row, "conversation_b_valid")
+    if not conversation_a_valid:
+        reasons.append(ExclusionReason.INVALID_CONVERSATION_A)
+    else:
+        if not _flag(row, "conversation_a_has_user"):
+            reasons.append(ExclusionReason.MISSING_USER_TURN_A)
+        if not _flag(row, "conversation_a_has_assistant"):
+            reasons.append(ExclusionReason.MISSING_ASSISTANT_TURN_A)
+    if not conversation_b_valid:
+        reasons.append(ExclusionReason.INVALID_CONVERSATION_B)
+    else:
+        if not _flag(row, "conversation_b_has_user"):
+            reasons.append(ExclusionReason.MISSING_USER_TURN_B)
+        if not _flag(row, "conversation_b_has_assistant"):
+            reasons.append(ExclusionReason.MISSING_ASSISTANT_TURN_B)
+
+    if (
+        conversation_a_valid
+        and conversation_b_valid
+        and _flag(row, "conversation_a_has_user")
+        and _flag(row, "conversation_b_has_user")
+        and not _flag(row, "prompt_pair_consistent")
     ):
-        if not _flag(row, column):
-            reasons.append(reason)
+        reasons.append(ExclusionReason.PROMPT_PAIR_MISMATCH)
+
+    if not _flag(row, "timestamp_valid"):
+        reasons.append(ExclusionReason.INVALID_TIMESTAMP)
     return reasons
 
 
