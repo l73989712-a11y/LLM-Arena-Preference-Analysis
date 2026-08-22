@@ -4,6 +4,8 @@ This repository is the long-term development workspace for an analysis project b
 
 The current code provides a small, synthetic-data workflow for data cleaning, descriptive model statistics, topic labeling, visualizations, a Streamlit dashboard, and a demonstration preference classifier. It is a development baseline, not a finished research result.
 
+The Phase 2B research foundation is documented in [docs/phase-2/RESEARCH-CONTRACT.md](docs/phase-2/RESEARCH-CONTRACT.md) and [docs/phase-2/PHASE-2B-FOUNDATION-RESULT.md](docs/phase-2/PHASE-2B-FOUNDATION-RESULT.md). Canonical battle identity, population audit, and reproducible run-manifest contracts are implemented; synthetic fixtures are for testing and reproduction only. Real empirical analysis and support-parameter freezing remain pending gated Arena row-level access.
+
 ## Quick Start
 
 Create an isolated environment and install the declared dependencies:
