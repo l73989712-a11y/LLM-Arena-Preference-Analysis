@@ -149,6 +149,17 @@ class RunManifest:
             source_file=values.get("source_file"),
             source_file_sha256=values.get("source_file_sha256"),
         )
+        expected_source_snapshot_id = source_snapshot_id(
+            SourceProvenance(
+                source_dataset=manifest.source_dataset,
+                source_revision=manifest.source_revision,
+                source_split=manifest.source_split,
+                source_file=manifest.source_file,
+                source_file_sha256=manifest.source_file_sha256,
+            )
+        )
+        if manifest.source_snapshot_id != expected_source_snapshot_id:
+            raise ValueError("source_snapshot_id does not match source provenance fields")
         expected = run_id_for(
             source_snapshot=manifest.source_snapshot_id,
             canonical_schema_version=manifest.canonical_schema_version,

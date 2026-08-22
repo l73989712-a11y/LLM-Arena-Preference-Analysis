@@ -74,6 +74,30 @@ def test_json_round_trip_preserves_identity_and_payload() -> None:
     assert json.loads(restored.to_json()) == json.loads(manifest.to_json())
 
 
+def test_source_revision_tampering_is_rejected() -> None:
+    payload = _manifest().to_dict()
+    payload["source_revision"] = "tampered-revision"
+
+    with pytest.raises(ValueError, match="source_snapshot_id does not match source provenance fields"):
+        type(_manifest()).from_dict(payload)
+
+
+def test_source_file_hash_tampering_is_rejected() -> None:
+    payload = _manifest().to_dict()
+    payload["source_file_sha256"] = "c" * 64
+
+    with pytest.raises(ValueError, match="source_snapshot_id does not match source provenance fields"):
+        type(_manifest()).from_dict(payload)
+
+
+def test_run_id_tampering_is_rejected_after_provenance_validation() -> None:
+    payload = _manifest().to_dict()
+    payload["run_id"] = "0" * 64
+
+    with pytest.raises(ValueError, match="run_id does not match manifest identity fields"):
+        type(_manifest()).from_dict(payload)
+
+
 def test_environment_capture_excludes_secrets_paths_and_variables() -> None:
     manifest = _manifest()
     serialized = manifest.to_json()
