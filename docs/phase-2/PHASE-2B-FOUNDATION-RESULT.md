@@ -14,7 +14,7 @@ T3  population specifications: ACCEPTED
 T3a exclusion-audit correction: ACCEPTED
 T4  reproducible run manifest: ACCEPTED
 T4a manifest provenance-integrity correction: ACCEPTED
-T5  documentation closeout: current task
+T5  documentation closeout: ACCEPTED
 ```
 
 ## C. Implementation Commits
@@ -30,7 +30,13 @@ c01c46232969846c62a9e8eaf8580d91d1c693ac  fix: clarify population exclusion reas
 c641828c9670bca846f01fcddbd05ef74b91673f  fix: validate run manifest provenance
 ```
 
-The final T5 documentation commit is the Git `HEAD` reported with this closeout; its exact hash is recorded in the final handoff after commit creation so this document does not require a history rewrite.
+The T5 documentation closeout commit is:
+
+```text
+4ba208236068b6c6c9a9b598f59a13a9037a94bc  docs: close phase 2b research foundation
+```
+
+The subsequent T5a documentation-state correction is recorded separately in Git history.
 
 ## D. Implemented Foundation
 
@@ -50,9 +56,10 @@ source_snapshot_id -> run_id provenance integrity
 The foundation test suite and T5 documentation checks are run with the project virtual environment:
 
 ```text
-pytest: PASS
+pytest: 39 passed
 compileall: PASS
 git diff --check: PASS
+synthetic sample pipeline: PASS
 ```
 
 The synthetic sample pipeline is permitted for local reproduction with:
