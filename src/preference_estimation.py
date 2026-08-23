@@ -33,6 +33,7 @@ class EstimationErrorCode(str, Enum):
     MISSING_REQUIRED_COLUMNS = "MISSING_REQUIRED_COLUMNS"
     INVALID_OUTCOME = "INVALID_OUTCOME"
     INVALID_MODEL_ID = "INVALID_MODEL_ID"
+    SELF_COMPARISON = "SELF_COMPARISON"
     ZERO_LIKELIHOOD_ROWS = "ZERO_LIKELIHOOD_ROWS"
     INSUFFICIENT_MODELS = "INSUFFICIENT_MODELS"
     MODEL_DROPPED_BY_OUTCOME_POLICY = "MODEL_DROPPED_BY_OUTCOME_POLICY"
@@ -148,6 +149,8 @@ def _validate_population_frame(frame: pd.DataFrame) -> None:
         invalid = ~frame[column].map(lambda value: isinstance(value, str) and bool(value.strip()))
         if invalid.any():
             _error(EstimationErrorCode.INVALID_MODEL_ID, f"invalid model identifier in {column}")
+    if (frame["model_a_id"] == frame["model_b_id"]).any():
+        _error(EstimationErrorCode.SELF_COMPARISON, "likelihood contains a model compared with itself")
     unknown = set(frame["canonical_outcome"].astype("string").dropna()).difference(_ALL_KNOWN_OUTCOMES)
     if unknown or frame["canonical_outcome"].isna().any():
         _error(EstimationErrorCode.INVALID_OUTCOME, "population contains an unsupported canonical outcome")
@@ -220,6 +223,51 @@ def _is_strongly_connected_decisive_graph(frame: pd.DataFrame, model_ids: tuple[
         return seen
 
     return reachable(forward) == set(model_ids) and reachable(reverse) == set(model_ids)
+
+
+def _is_strongly_connected_davidson_graph(frame: pd.DataFrame, model_ids: tuple[str, ...]) -> bool:
+    """Check Davidson's declared outcome-aware directed support condition.
+
+    A decisive outcome contributes winner -> loser. An ordinary tie contributes
+    both directions. This is a pre-fit support guard; optimizer success is still
+    checked independently and does not replace this validation.
+    """
+    adjacency = {model: set() for model in model_ids}
+    for model_a, model_b, outcome in frame[["model_a_id", "model_b_id", "canonical_outcome"]].itertuples(
+        index=False, name=None
+    ):
+        if outcome == CanonicalOutcome.MODEL_A_WIN.value:
+            adjacency[model_a].add(model_b)
+        elif outcome == CanonicalOutcome.MODEL_B_WIN.value:
+            adjacency[model_b].add(model_a)
+        elif outcome == CanonicalOutcome.TIE.value:
+            adjacency[model_a].add(model_b)
+            adjacency[model_b].add(model_a)
+
+    seen: set[str] = set()
+    queue: deque[str] = deque([model_ids[0]])
+    while queue:
+        model = queue.popleft()
+        if model in seen:
+            continue
+        seen.add(model)
+        queue.extend(sorted(adjacency[model].difference(seen)))
+    if seen != set(model_ids):
+        return False
+
+    reverse = {model: set() for model in model_ids}
+    for source, targets in adjacency.items():
+        for target in targets:
+            reverse[target].add(source)
+    seen.clear()
+    queue.append(model_ids[0])
+    while queue:
+        model = queue.popleft()
+        if model in seen:
+            continue
+        seen.add(model)
+        queue.extend(sorted(reverse[model].difference(seen)))
+    return seen == set(model_ids)
 
 
 def _scores_from_free_parameters(free_parameters: np.ndarray) -> np.ndarray:
@@ -357,6 +405,8 @@ def fit_preference(
                 EstimationErrorCode.UNIDENTIFIABLE_TIE_PARAMETER,
                 "Davidson requires at least one ordinary tie and one decisive outcome",
             )
+        if not _is_strongly_connected_davidson_graph(likelihood, estimator_models):
+            _error(EstimationErrorCode.SEPARATION, "Davidson outcome-aware support graph is not strongly connected")
 
     index_by_model = {model: index for index, model in enumerate(estimator_models)}
     aggregated = (

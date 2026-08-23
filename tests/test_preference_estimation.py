@@ -185,6 +185,40 @@ def test_decisive_bradley_terry_rejects_separation_instead_of_returning_a_bounda
     _assert_error(EstimationErrorCode.SEPARATION, population, "bradley_terry_decisive")
 
 
+def test_davidson_rejects_connected_undirected_but_outcome_separated_data() -> None:
+    population = _population(
+        [_row("a", "b", "model_a") for _ in range(4)]
+        + [_row("b", "c", "tie") for _ in range(4)]
+    )
+
+    _assert_error(EstimationErrorCode.SEPARATION, population)
+
+
+def test_davidson_accepts_outcome_aware_strongly_connected_data() -> None:
+    rows = (
+        [_row("a", "b", "model_a") for _ in range(4)]
+        + [_row("b", "c", "tie") for _ in range(4)]
+        + [_row("c", "a", "model_a") for _ in range(4)]
+    )
+    result = _fit(rows, "davidson")
+
+    assert result.graph_component_count == 1
+    assert result.converged
+
+
+def test_davidson_a_b_swap_preserves_outcome_connected_fit() -> None:
+    rows = (
+        [_row("a", "b", "model_a") for _ in range(4)]
+        + [_row("b", "c", "tie") for _ in range(4)]
+        + [_row("c", "a", "model_a") for _ in range(4)]
+    )
+    original = _fit(rows, "davidson")
+    swapped = _fit(_swapped(rows), "davidson")
+
+    assert swapped.model_ids == original.model_ids
+    assert swapped.latent_scores == pytest.approx(original.latent_scores, abs=1e-9)
+
+
 @pytest.mark.parametrize("winner", ["model_a", "tie"])
 def test_davidson_rejects_an_unidentifiable_tie_parameter(winner: str) -> None:
     population = _population([_row("a", "b", winner) for _ in range(4)])
@@ -223,7 +257,24 @@ def test_one_model_self_comparison_is_rejected() -> None:
     self_comparison = population.eligible.copy()
     self_comparison["model_b_id"] = "a"
 
-    _assert_error(EstimationErrorCode.INSUFFICIENT_MODELS, replace(population, eligible=self_comparison))
+    _assert_error(EstimationErrorCode.SELF_COMPARISON, replace(population, eligible=self_comparison))
+
+
+def test_mixed_self_comparison_is_rejected_without_silent_discard() -> None:
+    canonical = canonicalize_battles(
+        pd.DataFrame([
+            _row("a", "a", "model_a"),
+            _row("a", "b", "model_a"),
+            _row("b", "a", "model_b"),
+        ]),
+        provenance=PROVENANCE,
+    )
+    population = replace(
+        _population([_row("a", "a", "model_a"), _row("a", "b", "model_a"), _row("b", "a", "model_b")]),
+        eligible=canonical,
+    )
+
+    _assert_error(EstimationErrorCode.SELF_COMPARISON, population, "bradley_terry_decisive")
 
 
 def test_model_dropped_by_outcome_policy_is_rejected() -> None:
