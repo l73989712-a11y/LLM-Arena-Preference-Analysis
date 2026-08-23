@@ -63,6 +63,12 @@ Canonical rows expose separate flags for model fields, distinct models, outcome 
 
 Parseability is not research usability. An empty list may parse structurally, but without user and assistant turns it cannot be a valid source record. A parse failure is not relabeled as a missing turn.
 
+Source conversations may materialize as a Python `list` or a one-dimensional
+NumPy `ndarray` of turn mappings (for example after Parquet/Arrow loading).
+Both containers normalize to the same canonical conversation semantics;
+multidimensional and scalar arrays are not flattened or broadly accepted as
+arbitrary iterables.
+
 ### Timestamp
 
 Numeric `tstamp` values are Unix seconds. Timezone-aware text is converted to UTC. Timezone-naive text is interpreted as UTC. Canonical fields are `timestamp_utc`, `battle_date_utc`, `battle_hour_utc`, and `battle_month_utc`; conversion does not depend on the host machine's local timezone.

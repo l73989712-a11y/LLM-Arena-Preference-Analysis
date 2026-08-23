@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import numpy as np
 import pandas as pd
 
 from src.battle_contract import (
@@ -27,6 +28,15 @@ def _conversation(prompt: str = "prompt", response: str = "response") -> list[di
         {"role": "user", "content": prompt},
         {"role": "assistant", "content": response},
     ]
+
+
+def _conversation_array(prompt: str = "prompt", response: str = "response") -> np.ndarray:
+    value = np.empty(2, dtype=object)
+    value[:] = [
+        {"role": "user", "content": prompt},
+        {"role": "assistant", "content": response},
+    ]
+    return value
 
 
 def _row(**overrides: object) -> dict[str, object]:
@@ -141,6 +151,74 @@ def test_conversation_parse_contract_and_prompt_consistency() -> None:
     assert result.loc[0, "response_a_text"] == "response"
     assert result.loc[2, "conversation_a_error"] == "parse_error"
     assert not result.loc[2, "conversation_a_valid"]
+
+
+def test_list_and_one_dimensional_ndarray_conversations_are_equivalent() -> None:
+    list_result = parse_conversation(_conversation())
+    array = _conversation_array()
+    array_result = parse_conversation(array)
+
+    assert array_result == list_result
+    assert array.tolist() == _conversation()
+
+
+def test_ndarray_conversations_preserve_source_validity_and_prompt_contract() -> None:
+    result = _canonical([_row(conversation_a=_conversation_array(), conversation_b=_conversation_array())])
+
+    assert result.loc[0, "conversation_a_valid"]
+    assert result.loc[0, "conversation_b_valid"]
+    assert result.loc[0, "conversation_a_has_user"]
+    assert result.loc[0, "conversation_a_has_assistant"]
+    assert result.loc[0, "prompt_pair_consistent"]
+    assert result.loc[0, "prompt_text"] == "prompt"
+    assert result.loc[0, "response_a_text"] == "response"
+    assert result.loc[0, "source_record_valid"]
+
+
+def test_empty_ndarray_matches_empty_list_semantics() -> None:
+    array_result = parse_conversation(np.empty(0, dtype=object))
+    list_result = parse_conversation([])
+    assert array_result == list_result
+    canonical = _canonical([_row(conversation_a=np.empty(0, dtype=object), conversation_b=[])])
+    assert canonical.loc[0, "conversation_a_valid"]
+    assert not canonical.loc[0, "conversation_a_has_user"]
+    assert not canonical.loc[0, "source_record_valid"]
+
+
+def test_malformed_ndarray_turn_preserves_existing_error_semantics() -> None:
+    malformed = np.empty(1, dtype=object)
+    malformed[0] = {"role": "user"}
+    assert parse_conversation(malformed).error_code == "missing_content"
+    assert parse_conversation([{"role": "user"}]).error_code == "missing_content"
+
+
+def test_multidimensional_and_scalar_ndarrays_are_rejected_without_flattening() -> None:
+    matrix = np.empty((1, 2), dtype=object)
+    scalar = np.array({"role": "user", "content": "x"}, dtype=object)
+    assert parse_conversation(matrix).error_code == "not_list"
+    assert parse_conversation(scalar).error_code == "not_list"
+
+
+def test_ndarray_non_dict_turn_uses_invalid_turn_semantics() -> None:
+    invalid = np.empty(1, dtype=object)
+    invalid[0] = "not-a-turn"
+    assert parse_conversation(invalid).error_code == "invalid_turn"
+
+
+def test_ndarray_prompt_pair_mismatch_and_mixed_representations_are_correct() -> None:
+    result = _canonical([
+        _row(conversation_a=_conversation_array("one"), conversation_b=_conversation("one")),
+        _row(conversation_a=_conversation("one"), conversation_b=_conversation_array("two")),
+    ])
+    assert result["prompt_pair_consistent"].tolist() == [True, False]
+    assert result["source_record_valid"].tolist() == [True, False]
+
+
+def test_ndarray_normalization_does_not_mutate_contained_turn_mappings() -> None:
+    array = _conversation_array()
+    before = [dict(turn) for turn in array.tolist()]
+    assert parse_conversation(array).valid
+    assert array.tolist() == before
 
 
 def test_parseable_conversations_need_user_and_assistant_turns_for_source_validity() -> None:

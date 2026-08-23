@@ -12,6 +12,7 @@ from collections.abc import Mapping
 from numbers import Integral, Real
 from typing import Any
 
+import numpy as np
 import pandas as pd
 
 
@@ -159,6 +160,10 @@ def parse_conversation(value: Any) -> ConversationParseResult:
             except (SyntaxError, ValueError):
                 return ConversationParseResult((), False, "parse_error")
 
+    if isinstance(parsed, np.ndarray):
+        if parsed.ndim != 1:
+            return ConversationParseResult((), False, "not_list")
+        parsed = parsed.tolist()
     if not isinstance(parsed, list):
         return ConversationParseResult((), False, "not_list")
 
