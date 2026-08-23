@@ -65,8 +65,10 @@ class PreferenceEstimatorConfig:
     tolerance: float = 1e-9
 
     def __post_init__(self) -> None:
-        if self.estimator_name not in {"davidson", "bradley_terry_decisive"}:
-            raise ValueError("estimator_name must be 'davidson' or 'bradley_terry_decisive'")
+        if self.estimator_name not in {"davidson", "davidson_coalesced_ties", "bradley_terry_decisive"}:
+            raise ValueError(
+                "estimator_name must be 'davidson', 'davidson_coalesced_ties', or 'bradley_terry_decisive'"
+            )
         if self.identifiability_constraint != SUM_TO_ZERO_CONSTRAINT:
             raise ValueError("identifiability_constraint must be 'sum_to_zero'")
         if self.optimizer != L_BFGS_B_OPTIMIZER:
@@ -108,6 +110,7 @@ class PreferenceEstimationResult:
     identifiability_constraint: str
     population_eligible_battle_count: int
     likelihood_battle_count: int
+    population_outcome_counts: dict[str, int]
     likelihood_outcome_counts: dict[str, int]
     excluded_outcome_counts: dict[str, int]
     population_model_count: int
@@ -130,6 +133,12 @@ _DAVIDSON_OUTCOMES = frozenset({
     CanonicalOutcome.MODEL_A_WIN.value,
     CanonicalOutcome.MODEL_B_WIN.value,
     CanonicalOutcome.TIE.value,
+})
+_DAVIDSON_COALESCED_OUTCOMES = frozenset({
+    CanonicalOutcome.MODEL_A_WIN.value,
+    CanonicalOutcome.MODEL_B_WIN.value,
+    CanonicalOutcome.TIE.value,
+    CanonicalOutcome.TIE_BOTHBAD.value,
 })
 _BT_DECISIVE_OUTCOMES = frozenset({
     CanonicalOutcome.MODEL_A_WIN.value,
@@ -159,11 +168,19 @@ def _validate_population_frame(frame: pd.DataFrame) -> None:
 
 
 def _outcome_policy(config: PreferenceEstimatorConfig) -> frozenset[str]:
-    return _DAVIDSON_OUTCOMES if config.estimator_name == "davidson" else _BT_DECISIVE_OUTCOMES
+    if config.estimator_name == "davidson":
+        return _DAVIDSON_OUTCOMES
+    if config.estimator_name == "davidson_coalesced_ties":
+        return _DAVIDSON_COALESCED_OUTCOMES
+    return _BT_DECISIVE_OUTCOMES
 
 
 def _outcome_policy_name(config: PreferenceEstimatorConfig) -> str:
-    return "ordinary_tie_only" if config.estimator_name == "davidson" else "decisive_only"
+    if config.estimator_name == "davidson":
+        return "ordinary_tie_only"
+    if config.estimator_name == "davidson_coalesced_ties":
+        return "all_ties_coalesced"
+    return "decisive_only"
 
 
 def _ordered_model_ids(frame: pd.DataFrame) -> tuple[str, ...]:
@@ -377,6 +394,9 @@ def fit_preference(
     allowed_outcomes = _outcome_policy(config)
     population_models = _ordered_model_ids(frame)
     likelihood = frame.loc[frame["canonical_outcome"].isin(allowed_outcomes)].copy()
+    if config.estimator_name == "davidson_coalesced_ties":
+        bothbad = likelihood["canonical_outcome"].eq(CanonicalOutcome.TIE_BOTHBAD.value)
+        likelihood.loc[bothbad, "canonical_outcome"] = CanonicalOutcome.TIE.value
     if likelihood.empty:
         _error(EstimationErrorCode.ZERO_LIKELIHOOD_ROWS, "no rows satisfy the estimator outcome policy")
 
@@ -397,13 +417,13 @@ def fit_preference(
         likelihood, estimator_models
     ):
         _error(EstimationErrorCode.SEPARATION, "decisive outcome graph does not admit a finite Bradley-Terry MLE")
-    if config.estimator_name == "davidson":
+    if config.estimator_name in {"davidson", "davidson_coalesced_ties"}:
         has_tie = likelihood["canonical_outcome"].eq(CanonicalOutcome.TIE.value).any()
         has_decisive = likelihood["canonical_outcome"].isin(_BT_DECISIVE_OUTCOMES).any()
         if not has_tie or not has_decisive:
             _error(
                 EstimationErrorCode.UNIDENTIFIABLE_TIE_PARAMETER,
-                "Davidson requires at least one ordinary tie and one decisive outcome",
+                "Davidson requires at least one effective tie and one decisive outcome",
             )
         if not _is_strongly_connected_davidson_graph(likelihood, estimator_models):
             _error(EstimationErrorCode.SEPARATION, "Davidson outcome-aware support graph is not strongly connected")
@@ -422,7 +442,8 @@ def fit_preference(
     model_b_indices = aggregated["model_b_index"].to_numpy(dtype=int)
     outcomes = aggregated["outcome"].to_numpy(dtype=str)
     weights = aggregated["size"].to_numpy(dtype=float)
-    initial = np.zeros(len(estimator_models) if config.estimator_name == "davidson" else len(estimator_models) - 1)
+    davidson_mode = config.estimator_name in {"davidson", "davidson_coalesced_ties"}
+    initial = np.zeros(len(estimator_models) if davidson_mode else len(estimator_models) - 1)
 
     def objective(parameters: np.ndarray) -> float:
         return _negative_log_likelihood(
@@ -461,7 +482,7 @@ def fit_preference(
 
     scores = _scores_from_free_parameters(optimization.x[: len(estimator_models) - 1])
     tie_parameter: float | None = None
-    if config.estimator_name == "davidson":
+    if davidson_mode:
         with np.errstate(over="ignore", invalid="ignore"):
             tie_parameter = float(np.exp(optimization.x[-1]))
         if not math.isfinite(tie_parameter) or tie_parameter <= 0:
@@ -470,7 +491,13 @@ def fit_preference(
         _error(EstimationErrorCode.NONFINITE_RESULT, "sum-to-zero scores are nonfinite or invalid")
 
     all_counts = Counter(frame["canonical_outcome"])
-    likelihood_counts = {outcome: int(all_counts[outcome]) for outcome in sorted(allowed_outcomes)}
+    effective_counts = Counter(likelihood["canonical_outcome"])
+    likelihood_counts = {
+        outcome: int(effective_counts[outcome])
+        for outcome in sorted(_DAVIDSON_OUTCOMES if config.estimator_name in {"davidson", "davidson_coalesced_ties"} else _BT_DECISIVE_OUTCOMES)
+        if effective_counts[outcome]
+    }
+    population_counts = {outcome: int(all_counts[outcome]) for outcome in sorted(_ALL_KNOWN_OUTCOMES)}
     excluded_counts = {
         outcome: int(all_counts[outcome])
         for outcome in sorted(_ALL_KNOWN_OUTCOMES.difference(allowed_outcomes))
@@ -489,6 +516,7 @@ def fit_preference(
         identifiability_constraint=config.identifiability_constraint,
         population_eligible_battle_count=len(frame),
         likelihood_battle_count=len(likelihood),
+        population_outcome_counts=population_counts,
         likelihood_outcome_counts=likelihood_counts,
         excluded_outcome_counts=excluded_counts,
         population_model_count=len(population_models),
