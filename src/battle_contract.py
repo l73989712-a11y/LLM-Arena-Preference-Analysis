@@ -15,7 +15,7 @@ from typing import Any
 import pandas as pd
 
 
-CANONICAL_BATTLE_SCHEMA_VERSION = 1
+CANONICAL_BATTLE_SCHEMA_VERSION = 2
 
 
 class CanonicalOutcome(str, Enum):
@@ -126,6 +126,19 @@ def canonicalize_outcome(value: Any) -> tuple[CanonicalOutcome, bool]:
     }
     outcome = mapping.get(normalized, CanonicalOutcome.INVALID_UNKNOWN)
     return outcome, outcome is not CanonicalOutcome.INVALID_UNKNOWN
+
+
+def canonicalize_anony(value: Any) -> tuple[Any, bool, bool]:
+    """Return raw value, strict validity, and anonymous-battle meaning."""
+    if isinstance(value, bool):
+        return value, True, value
+    if isinstance(value, str):
+        normalized = value.strip().lower()
+        if normalized in {"true", "1"}:
+            return value, True, True
+        if normalized in {"false", "0"}:
+            return value, True, False
+    return value, False, False
 
 
 def parse_conversation(value: Any) -> ConversationParseResult:
@@ -326,12 +339,17 @@ def canonicalize_battles(df: pd.DataFrame, *, provenance: SourceProvenance) -> p
 
     judge_raw = df["judge"] if "judge" in df.columns else pd.Series(pd.NA, index=df.index)
     language_raw = df["language"] if "language" in df.columns else pd.Series(pd.NA, index=df.index)
+    anony_raw = df["anony"] if "anony" in df.columns else pd.Series(pd.NA, index=df.index)
+    anony_values = [canonicalize_anony(value) for value in anony_raw]
     result["judge_cluster_id"] = judge_raw
     result["judge_present"] = [_trimmed_string(value) is not None for value in judge_raw]
     result["language_raw"] = language_raw
     result["language_canonical"] = [_trimmed_string(value) for value in language_raw]
     result["language_source"] = "source"
     result["language_present"] = result["language_canonical"].notna()
+    result["anony_raw"] = [raw for raw, _, _ in anony_values]
+    result["anony_valid"] = [valid for _, valid, _ in anony_values]
+    result["anonymous_battle"] = [anonymous for _, _, anonymous in anony_values]
 
     result["prompt_chars"] = result["prompt_text"].str.len()
     result["response_a_chars"] = result["response_a_text"].str.len()

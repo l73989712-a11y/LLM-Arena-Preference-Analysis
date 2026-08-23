@@ -11,7 +11,7 @@ import pandas as pd
 from src.battle_contract import CanonicalOutcome
 
 
-POPULATION_SPEC_SCHEMA_VERSION = 1
+POPULATION_SPEC_SCHEMA_VERSION = 2
 
 
 class ExclusionReason(str, Enum):
@@ -29,6 +29,8 @@ class ExclusionReason(str, Enum):
     INVALID_TIMESTAMP = "INVALID_TIMESTAMP"
     MISSING_JUDGE = "MISSING_JUDGE"
     MISSING_LANGUAGE = "MISSING_LANGUAGE"
+    INVALID_ANONY_FLAG = "INVALID_ANONY_FLAG"
+    NON_ANONYMOUS_BATTLE = "NON_ANONYMOUS_BATTLE"
     OUTCOME_NOT_ALLOWED = "OUTCOME_NOT_ALLOWED"
     EXACT_DUPLICATE_EXCLUDED = "EXACT_DUPLICATE_EXCLUDED"
 
@@ -55,6 +57,7 @@ class PopulationSpec:
     require_source_record_valid: bool = True
     require_judge: bool = False
     require_language: bool = False
+    require_anonymous: bool = False
     allowed_outcomes: frozenset[str] = ALL_CANONICAL_VALID_OUTCOMES
     exclude_exact_duplicates: bool = False
     description: str = ""
@@ -79,22 +82,26 @@ class PopulationResult:
 
 BASE_RESEARCH = PopulationSpec(
     population_id="base_research",
+    require_anonymous=True,
     allowed_outcomes=ALL_CANONICAL_VALID_OUTCOMES,
     description="Canonical structurally valid battles, including both tie types.",
 )
 LEGACY_SCORE = PopulationSpec(
     population_id="legacy_score",
+    require_anonymous=True,
     allowed_outcomes=LEGACY_SCORE_OUTCOMES,
     description="Canonical battles supported by the legacy score-rate summary.",
 )
 JUDGE_CLUSTER_RESEARCH = PopulationSpec(
     population_id="judge_cluster_research",
+    require_anonymous=True,
     require_judge=True,
     allowed_outcomes=ALL_CANONICAL_VALID_OUTCOMES,
     description="Base research battles with a source judge-cluster value.",
 )
 LANGUAGE_RESEARCH = PopulationSpec(
     population_id="language_research",
+    require_anonymous=True,
     require_language=True,
     allowed_outcomes=ALL_CANONICAL_VALID_OUTCOMES,
     description="Base research battles with a source language label.",
@@ -119,6 +126,8 @@ _REQUIRED_COLUMNS = frozenset({
     "timestamp_valid",
     "judge_present",
     "language_present",
+    "anony_valid",
+    "anonymous_battle",
     "exact_duplicate",
 })
 
@@ -196,6 +205,11 @@ def apply_population(canonical_df: pd.DataFrame, spec: PopulationSpec) -> Popula
             reasons.append(ExclusionReason.MISSING_JUDGE)
         if spec.require_language and not _flag(row, "language_present"):
             reasons.append(ExclusionReason.MISSING_LANGUAGE)
+        if spec.require_anonymous:
+            if not _flag(row, "anony_valid"):
+                reasons.append(ExclusionReason.INVALID_ANONY_FLAG)
+            elif not _flag(row, "anonymous_battle"):
+                reasons.append(ExclusionReason.NON_ANONYMOUS_BATTLE)
         outcome = row["canonical_outcome"]
         if outcome == CanonicalOutcome.INVALID_UNKNOWN.value or outcome not in spec.allowed_outcomes:
             reasons.append(ExclusionReason.OUTCOME_NOT_ALLOWED)

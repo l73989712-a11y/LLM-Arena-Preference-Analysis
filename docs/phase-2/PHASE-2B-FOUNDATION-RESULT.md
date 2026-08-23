@@ -2,7 +2,7 @@
 
 ## A. Scope
 
-Phase 2B established and documented the engineering foundation for uncertainty-aware, bias-audited pairwise LLM preference research. It did not perform real-data analysis, select empirical support thresholds, or implement a ranking estimator.
+Phase 2B established and documented the engineering foundation and pinned-snapshot policy for uncertainty-aware, bias-audited pairwise LLM preference research. It did not implement a ranking estimator or produce preference results.
 
 ## B. Accepted Tasks
 
@@ -15,6 +15,9 @@ T3a exclusion-audit correction: ACCEPTED
 T4  reproducible run manifest: ACCEPTED
 T4a manifest provenance-integrity correction: ACCEPTED
 T5  documentation closeout: ACCEPTED
+T6  Hugging Face access recovery: ACCEPTED — ACCESS READY
+T7  read-only real-data support audit: ACCEPTED
+T8  real-data parameter freeze and anonymous population contract: IMPLEMENTED / PENDING GPT ACCEPTANCE
 ```
 
 ## C. Implementation Commits
@@ -49,6 +52,8 @@ versioned population specifications
 multi-reason exclusion audit
 deterministic reproducible run manifest
 source_snapshot_id -> run_id provenance integrity
+anonymous/blinded population requirement
+snapshot-bound support and sensitivity policy
 ```
 
 ## E. Validation
@@ -70,17 +75,16 @@ PYTHONIOENCODING=utf-8 .\\.venv\\Scripts\\python.exe run_pipeline.py --mode samp
 
 It does not access the real dataset. Generated data, tables, charts, and model outputs remain ignored local artifacts.
 
-## F. Known External Blocker
+## F. Real-Data Parameter Freeze
 
-The Hugging Face `lmsys/chatbot_arena_conversations` dataset is gated for this environment. Metadata is reachable, but row-level access returned HTTP 401 Unauthorized. No raw Arena rows were downloaded or inspected during the foundation work.
+The exact pinned snapshot is `lmsys/chatbot_arena_conversations`, revision `1b6335d42a1d2c7e34870c905d03ab964f7f2bd8`, with SHA-256 `3726a6352e9bfc34e206460646f6e5e99bb837751966a671ddd30c7f64e5b06e` and 33,000 rows. T6 confirmed authenticated access and T7 completed a read-only outcome-blind support audit.
+
+T7 evidence supports retaining all 20 models and all observed 190 pairs in the primary connected component, retaining repeated question IDs as distinct battles, retaining exact duplicates, using pair-support sensitivities at 10/20/50, using English as the formal language subgroup, treating other language tiers as exploratory or descriptive, and retaining high-activity judges for primary analysis. Judge-cluster bootstrap remains primary uncertainty, battle-row bootstrap is sensitivity, with 95% confidence and a target of at least 2,000 replicates.
 
 ## G. Deferred Work
 
 ```text
-real-data support audit
-real duplicate/question-identity audit
-comparison graph implementation
-outcome-blind support thresholds
+final GPT closeout of the Phase 2B parameter freeze
 Bradley-Terry estimator
 final tie-aware estimator decision
 judge-cluster bootstrap
@@ -95,8 +99,12 @@ formal result/claim manifest
 ```text
 Phase 2A: CLOSED / FROZEN
 Phase 2B Foundation: IMPLEMENTED / DOCUMENTED
-Phase 2B real-data parameter freeze: BLOCKED / PENDING
+Phase 2B real-data parameter freeze: IMPLEMENTED / FROZEN
 Phase 2C estimator work: NOT STARTED
 ```
 
-This closeout does not declare the whole research project complete and does not authorize real-data conclusions from the synthetic fixture.
+```text
+Phase 2B: READY FOR FINAL GPT CLOSEOUT
+```
+
+This document does not declare the whole research project complete, does not authorize real-data conclusions before estimator implementation, and does not start Phase 2C.

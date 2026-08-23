@@ -37,6 +37,7 @@ def _row(**overrides: object) -> dict[str, object]:
         "tstamp": 0,
         "judge": "synthetic-cluster",
         "language": "English",
+        "anony": True,
     }
     row.update(overrides)
     return row
@@ -72,6 +73,49 @@ def test_named_populations_have_stable_ids_and_spec_versions() -> None:
         JUDGE_CLUSTER_RESEARCH,
         LANGUAGE_RESEARCH,
     ))
+    assert all(spec.require_anonymous for spec in (
+        BASE_RESEARCH,
+        LEGACY_SCORE,
+        JUDGE_CLUSTER_RESEARCH,
+        LANGUAGE_RESEARCH,
+    ))
+
+
+def test_anonymous_battle_is_required_by_formal_populations() -> None:
+    result = apply_population(_canonical([_row(anony=True)]), BASE_RESEARCH)
+
+    assert result.audit.loc[0, "eligible"]
+    assert result.audit.loc[0, "exclusion_reasons"] == ()
+
+
+def test_valid_non_anonymous_battle_has_explicit_exclusion_reason() -> None:
+    result = apply_population(_canonical([_row(anony=False)]), BASE_RESEARCH)
+    reasons = result.audit.loc[0, "exclusion_reasons"]
+
+    assert not result.audit.loc[0, "eligible"]
+    assert ExclusionReason.NON_ANONYMOUS_BATTLE.value in reasons
+    assert ExclusionReason.INVALID_ANONY_FLAG.value not in reasons
+
+
+def test_invalid_anony_flag_is_not_claimed_non_anonymous() -> None:
+    result = apply_population(_canonical([_row(anony="unknown")]), BASE_RESEARCH)
+    reasons = result.audit.loc[0, "exclusion_reasons"]
+
+    assert not result.audit.loc[0, "eligible"]
+    assert ExclusionReason.INVALID_ANONY_FLAG.value in reasons
+    assert ExclusionReason.NON_ANONYMOUS_BATTLE.value not in reasons
+
+
+def test_custom_population_can_skip_anonymous_requirement() -> None:
+    custom = replace(
+        BASE_RESEARCH,
+        population_id="custom_non_anonymous",
+        require_anonymous=False,
+    )
+    result = apply_population(_canonical([_row(anony=False)]), custom)
+
+    assert result.audit.loc[0, "eligible"]
+    assert result.audit.loc[0, "exclusion_reasons"] == ()
 
 
 def test_canonical_invalidity_audit_preserves_multiple_granular_reasons() -> None:

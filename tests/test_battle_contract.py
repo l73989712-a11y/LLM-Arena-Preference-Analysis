@@ -6,6 +6,7 @@ from src.battle_contract import (
     CANONICAL_BATTLE_SCHEMA_VERSION,
     CanonicalOutcome,
     SourceProvenance,
+    canonicalize_anony,
     canonicalize_battles,
     parse_conversation,
     source_snapshot_id,
@@ -39,6 +40,7 @@ def _row(**overrides: object) -> dict[str, object]:
         "tstamp": 0,
         "judge": "cluster-1",
         "language": " en ",
+        "anony": True,
     }
     row.update(overrides)
     return row
@@ -71,6 +73,30 @@ def test_unknown_and_missing_outcomes_are_never_ties() -> None:
     assert not result["outcome_valid"].any()
     assert result.loc[0, "winner_raw"] == "garbage"
     assert pd.isna(result.loc[1, "winner_raw"])
+
+
+def test_anony_boolean_contract_is_strict_and_explicit() -> None:
+    assert canonicalize_anony(True) == (True, True, True)
+    assert canonicalize_anony(False) == (False, True, False)
+    assert canonicalize_anony("true") == ("true", True, True)
+    assert canonicalize_anony("false") == ("false", True, False)
+
+    for value in (None, "", "unknown", object(), 1):
+        raw, valid, anonymous = canonicalize_anony(value)
+        assert raw is value
+        assert not valid
+        assert not anonymous
+
+
+def test_canonical_anony_fields_do_not_change_source_record_validity() -> None:
+    result = _canonical([_row(anony=True), _row(anony=False), _row(anony=None)])
+
+    assert result[["anony_valid", "anonymous_battle"]].values.tolist() == [
+        [True, True],
+        [True, False],
+        [False, False],
+    ]
+    assert result["source_record_valid"].tolist() == [True, True, True]
 
 
 def test_battle_ids_are_snapshot_and_source_row_deterministic() -> None:

@@ -5,7 +5,7 @@ import json
 import pytest
 
 import src.run_manifest as run_manifest_module
-from src.battle_contract import SourceProvenance
+from src.battle_contract import CANONICAL_BATTLE_SCHEMA_VERSION, SourceProvenance
 from src.population import BASE_RESEARCH, LEGACY_SCORE
 from src.run_manifest import (
     RUN_MANIFEST_SCHEMA_VERSION,
@@ -58,7 +58,7 @@ def test_manifest_schema_and_provenance_bindings_are_explicit() -> None:
     payload = manifest.to_dict()
 
     assert payload["manifest_schema_version"] == RUN_MANIFEST_SCHEMA_VERSION
-    assert payload["canonical_schema_version"] == 1
+    assert payload["canonical_schema_version"] == CANONICAL_BATTLE_SCHEMA_VERSION
     assert payload["population_id"] == "base_research"
     assert payload["population_spec_version"] == BASE_RESEARCH.population_spec_version
     assert payload["source_snapshot_id"]
