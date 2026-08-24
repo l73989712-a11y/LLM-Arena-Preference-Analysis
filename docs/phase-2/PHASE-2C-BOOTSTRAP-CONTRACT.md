@@ -8,8 +8,9 @@ does not select populations, recanonicalize rows, rerun support thresholds, or
 read the real Arena snapshot.
 
 The primary uncertainty method is judge-cluster bootstrap. Battle-row
-bootstrap is a sensitivity method. Version 1 is serial and synthetic-tested
-only.
+bootstrap is a sensitivity method. Version 1 is serial and has passed synthetic
+semantic tests plus controlled pinned-snapshot operational/performance smoke.
+The formal 2,000-attempt empirical bootstrap has not been run.
 
 ## Bootstrap Configuration
 
@@ -129,6 +130,9 @@ unit, anonymous replicate statuses, scores, ranks, and stability summaries.
 ## Status
 
 ```text
-formal real-data bootstrap: NOT RUN
-Phase 2C-T5: synthetic implementation only
+synthetic semantic tests: COMPLETE
+pinned real-data compatibility smoke: COMPLETE
+controlled real point-fit smoke: COMPLETE
+controlled real performance benchmark: COMPLETE
+formal 2,000-attempt empirical bootstrap: NOT RUN
 ```

@@ -4,7 +4,7 @@
 
 Phase 2C estimates latent relative human preference within the frozen historical Arena research population. It is model-based and associational; it does not measure objective capability, universal user preference, current model quality, or causal effects.
 
-This contract implements core point estimators only. Bootstrap uncertainty, confidence intervals, rank-stability reporting, and any real-data fit remain out of scope.
+This contract implements the accepted core point-estimator layer. Bootstrap uncertainty is specified in the companion bootstrap contract. Formal empirical ranking, confidence intervals, and public result reporting remain pending the formal-run gate.
 
 ## Estimator Modes
 
@@ -25,7 +25,7 @@ The tie parameter is optimized as `log_nu`, then reported as positive `nu`. The 
 
 For primary `davidson`, `tie_bothbad` is valid research data but excluded from the likelihood. For `bradley_terry_decisive`, both tie categories are excluded. In all modes the excluded or coalesced counts remain visible in the fit result. `invalid_unknown` is an input error, never an exclusion shortcut.
 
-Custom two-tie-category models, Rao-Kupper, bootstrap, and uncertainty reporting are not implemented by this task.
+Custom two-tie-category models and Rao-Kupper remain out of scope. Bootstrap infrastructure is implemented separately; formal uncertainty execution and public empirical result reporting have not yet run.
 
 ## Shared Fit Contract
 
@@ -51,4 +51,4 @@ Successful results include estimator/configuration identity, population identity
 
 ## Boundaries
 
-This task uses only synthetic test data. It neither reads nor fits the 33,000-row Arena snapshot, produces real model rankings, implements bootstrap, changes Phase 2B canonical/population contracts, nor changes legacy score-rate behavior.
+Synthetic tests cover the mathematical layer. Controlled operational smoke on the pinned 33,000-row snapshot has completed without reporting preference results. This contract does not authorize the formal empirical run, public rankings, or result claims. It does not change Phase 2B canonical/population contracts or legacy score-rate behavior.

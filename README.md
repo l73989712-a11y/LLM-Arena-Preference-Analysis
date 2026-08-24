@@ -2,9 +2,9 @@
 
 This repository is the long-term development workspace for an analysis project based on pairwise LLM preference data. It evolved from a course project; course submissions and private materials are kept outside this Git repository.
 
-The current code provides a small, synthetic-data workflow for data cleaning, descriptive model statistics, topic labeling, visualizations, a Streamlit dashboard, and a demonstration preference classifier. It is a development baseline, not a finished research result.
+The current code provides a small, synthetic-data workflow for data cleaning, descriptive model statistics, topic labeling, visualizations, a Streamlit dashboard, and a demonstration preference classifier. It also contains the accepted Phase 2C paired-comparison estimator and bootstrap infrastructure; formal empirical results have not yet been run or published.
 
-The Phase 2B research foundation is documented in [docs/phase-2/RESEARCH-CONTRACT.md](docs/phase-2/RESEARCH-CONTRACT.md) and [docs/phase-2/PHASE-2B-FOUNDATION-RESULT.md](docs/phase-2/PHASE-2B-FOUNDATION-RESULT.md). Canonical battle identity, population audit, reproducible run-manifest contracts, and the pinned-snapshot support audit are implemented; synthetic fixtures are for testing and reproduction only. Real empirical estimation remains pending estimator implementation and final contract closeout.
+The Phase 2B research foundation is documented in [docs/phase-2/RESEARCH-CONTRACT.md](docs/phase-2/RESEARCH-CONTRACT.md) and [docs/phase-2/PHASE-2B-FOUNDATION-RESULT.md](docs/phase-2/PHASE-2B-FOUNDATION-RESULT.md). Canonical battle identity, population audit, reproducible run-manifest contracts, pinned-snapshot support audit, estimator contracts, and bootstrap infrastructure are implemented. Synthetic fixtures are for testing and reproduction only; real empirical results remain gated on a published immutable baseline, preregistered seed, formal artifacts, and the 2,000-attempt zero-failure run.
 
 ## Quick Start
 

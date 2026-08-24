@@ -1,6 +1,6 @@
 # Phase 2 Research Contract
 
-Status: Phase 2B foundation and pinned-snapshot parameter policy implemented. Final GPT closeout remains pending.
+Status: Phase 2B is closed/frozen. Phase 2C estimator and bootstrap infrastructure is implemented and accepted; formal empirical execution remains pending.
 
 This document is the authoritative contract reference for subsequent research implementation. Snapshot-specific policies are bound to the exact source revision and hash recorded below; a source change requires a new support audit.
 
@@ -129,13 +129,13 @@ Manifest integrity is two-layered: `source provenance fields -> source_snapshot_
 
 The primary descriptive baseline includes pair counts and win/loss/tie distributions. Legacy score-rate is a descriptive compatibility baseline, not the formal estimator.
 
-The required model-based baseline is the Bradley-Terry family. Explicit tie policy and tie-aware sensitivity are required, but the final tie-aware estimator has not been frozen or implemented.
+The accepted model-based protocol uses the Davidson ordinary-tie model as the primary point estimator, Davidson with an explicit ordinary-tie plus `tie_bothbad` coalescing view as a lossy sensitivity, and decisive-only Bradley-Terry as a diagnostic sensitivity. All use `sum(theta) = 0`, L-BFGS-B, and no regularization.
 
-The primary uncertainty design is judge-cluster bootstrap. Battle-row bootstrap is a sensitivity analysis. The target confidence level is 95%, and formal research runs target at least 2,000 bootstrap replicates. Tests and CI may use smaller deterministic replicate counts. No bootstrap or estimator is implemented in the current foundation.
+The primary uncertainty design is judge-cluster bootstrap. Battle-row bootstrap is a sensitivity analysis. The target confidence level is 95%, formal research runs require at least 2,000 fixed attempts, and the formal CI gate requires zero failed replicates. Bootstrap uses an explicit PCG64 seed bound into the RunManifest. The accepted estimator and bootstrap engines have passed synthetic tests and controlled pinned-snapshot operational/performance smoke; formal empirical results have not yet been produced.
 
 ## 9. Comparison Graph Contract
 
-Formal ranking may only be interpreted within sufficiently connected comparison components. Disconnected components must not be forcibly ranked against one another. Comparison graph construction and connectivity analysis are not yet implemented.
+Formal ranking may only be interpreted within sufficiently connected comparison components. Disconnected components must not be forcibly ranked against one another. The accepted estimator layer implements estimator-effective undirected connectivity checks, decisive-BT directed finite-MLE support checks, Davidson outcome-aware directed support checks, and fixed-model-universe bootstrap failure handling. These checks do not replace a later result-level claim audit.
 
 ## 10. Snapshot-Specific Real-Data Policy
 
@@ -151,9 +151,9 @@ High-activity judge clusters are not removed from the primary population. Their 
 
 Language policy is tiered. English is the formal primary language subgroup (29,206 battles, 20 models, 190 pairs, connected graph). German, Spanish, French, Portuguese, and Russian are structured exploratory/secondary tiers. Chinese, Italian, Dutch, `unknown`, and lower-support labels are descriptive-only. No single numeric language-count threshold is frozen; promotion requires per-model, per-pair, and uncertainty diagnostics.
 
-## 11. Remaining Not Yet Frozen
+## 11. Remaining Formal-Run Decisions
 
-The final tie-aware estimator choice remains unfrozen and is deferred to Phase 2C. Any future high-activity-judge exclusion sensitivity cutoff also requires a separately registered decision. These are not primary exclusions for the pinned snapshot.
+The point-estimator and bootstrap v1 contracts are frozen and accepted. Before formal empirical execution, the run must bind an explicit preregistered seed, an immutable published Git SHA, an artifact writer/integrity procedure, and a final preflight. Any future high-activity-judge exclusion sensitivity cutoff requires a separately registered decision and is not a primary exclusion for the pinned snapshot.
 
 ## 12. Real Dataset Access Status
 
