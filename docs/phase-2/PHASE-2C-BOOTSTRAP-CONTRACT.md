@@ -37,9 +37,13 @@ clusters in the frozen eligible population. Each replicate draws `G` cluster
 indices with replacement. A selected cluster contributes all of its eligible
 battle rows; multiplicity `m` repeats every row in that cluster `m` times.
 
-Version 1 physically duplicates rows. `battle_id` remains the canonical battle
-identity and is never suffixed or regenerated. Bootstrap occurrence metadata
-is execution metadata only.
+Version 1 physically duplicates rows. The implementation may represent cluster
+membership as deterministic source-row positions and materialize one narrow
+replicate view with indexed selection; this is an execution optimization only
+and is observationally equivalent to concatenating each selected cluster's
+full rows. `battle_id` remains the canonical battle identity and is never
+suffixed or regenerated. Bootstrap occurrence metadata is execution metadata
+only.
 
 For battle-row bootstrap, let `N` be the number of eligible rows. Each replicate
 draws exactly `N` row positions with replacement. Repeated `battle_id` values

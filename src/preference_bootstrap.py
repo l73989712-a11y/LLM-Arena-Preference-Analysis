@@ -31,6 +31,7 @@ DEFAULT_CONFIDENCE_LEVEL = 0.95
 DEFAULT_BIT_GENERATOR = "PCG64"
 DEFAULT_CI_METHOD = "percentile"
 DEFAULT_FAILURE_POLICY = "fixed_attempts_zero_failure_formal_gate"
+_ESTIMATOR_COLUMNS = ("battle_id", "model_a_id", "model_b_id", "canonical_outcome")
 
 
 class BootstrapErrorCode(str, Enum):
@@ -159,35 +160,45 @@ def _deterministic_frame(frame: pd.DataFrame) -> pd.DataFrame:
     return frame.sort_values(sort_columns, kind="mergesort").reset_index(drop=True).copy()
 
 
-def _cluster_groups(frame: pd.DataFrame) -> tuple[tuple[str, ...], dict[str, pd.DataFrame]]:
+def _validate_cluster_column(frame: pd.DataFrame) -> None:
     if "judge_cluster_id" not in frame.columns:
         _bootstrap_error(BootstrapErrorCode.MISSING_JUDGE_CLUSTER, "judge_cluster_id is required for cluster bootstrap")
     if not frame["judge_cluster_id"].map(_valid_identifier).all():
         _bootstrap_error(BootstrapErrorCode.INVALID_JUDGE_CLUSTER, "every eligible row needs a non-empty judge cluster")
+
+
+def _cluster_plan(frame: pd.DataFrame) -> tuple[tuple[str, ...], tuple[np.ndarray, ...]]:
+    """Build an O(N) cluster-to-row-position plan without copying frames."""
+    _validate_cluster_column(frame)
     cluster_keys = frame["judge_cluster_id"].map(str)
-    groups = {
-        cluster: frame.loc[cluster_keys.eq(cluster)].copy().reset_index(drop=True)
-        for cluster in sorted(cluster_keys.unique())
-    }
-    return tuple(groups), groups
+    positions_by_cluster: dict[str, list[int]] = {}
+    for position, cluster in enumerate(cluster_keys.to_numpy(dtype=object)):
+        positions_by_cluster.setdefault(str(cluster), []).append(position)
+    cluster_ids = tuple(sorted(positions_by_cluster))
+    row_positions = tuple(
+        np.asarray(positions_by_cluster[cluster], dtype=np.intp)
+        for cluster in cluster_ids
+    )
+    return cluster_ids, row_positions
 
 
 def _resample_cluster_rows(
     frame: pd.DataFrame,
     rng: np.random.Generator,
 ) -> pd.DataFrame:
-    cluster_ids, groups = _cluster_groups(frame)
-    return _resample_cluster_rows_from_groups(cluster_ids, groups, rng)
+    cluster_ids, row_positions = _cluster_plan(frame)
+    return _resample_cluster_rows_from_plan(frame, cluster_ids, row_positions, rng)
 
 
-def _resample_cluster_rows_from_groups(
+def _resample_cluster_rows_from_plan(
+    frame: pd.DataFrame,
     cluster_ids: tuple[str, ...],
-    groups: dict[str, pd.DataFrame],
+    row_positions: tuple[np.ndarray, ...],
     rng: np.random.Generator,
 ) -> pd.DataFrame:
     draw_indices = rng.integers(0, len(cluster_ids), size=len(cluster_ids))
-    pieces = [groups[cluster_ids[int(index)]] for index in draw_indices]
-    return pd.concat(pieces, ignore_index=True) if pieces else next(iter(groups.values())).iloc[0:0].copy()
+    sampled_positions = np.concatenate([row_positions[int(index)] for index in draw_indices])
+    return frame.iloc[sampled_positions].reset_index(drop=True).copy()
 
 
 def _resample_rows(frame: pd.DataFrame, rng: np.random.Generator) -> pd.DataFrame:
@@ -256,7 +267,7 @@ def _validate_full_population(population: PopulationResult, config: BootstrapCon
     if population.eligible.empty:
         _bootstrap_error(BootstrapErrorCode.BOOTSTRAP_INPUT_ERROR, "bootstrap population is empty")
     if config.resampling_unit == "judge_cluster":
-        _cluster_groups(population.eligible)
+        _validate_cluster_column(population.eligible)
 
 
 def _formal_ci_valid(config: BootstrapConfig, failed_replicates: int) -> bool:
@@ -279,7 +290,12 @@ def run_bootstrap(
         )
 
     source_frame = _deterministic_frame(population.eligible)
-    cluster_plan = _cluster_groups(source_frame) if config.resampling_unit == "judge_cluster" else None
+    cluster_plan = None
+    if config.resampling_unit == "judge_cluster":
+        planning_columns = [*_ESTIMATOR_COLUMNS, "judge_cluster_id"]
+        planning_frame = source_frame.loc[:, planning_columns]
+        cluster_plan = _cluster_plan(planning_frame)
+    estimator_frame = source_frame.loc[:, list(_ESTIMATOR_COLUMNS)]
     expected_models = set(point_estimate.model_ids)
     model_ids = point_estimate.model_ids
     model_count = len(model_ids)
@@ -293,9 +309,9 @@ def run_bootstrap(
     for replicate_index in range(config.replicate_count):
         if config.resampling_unit == "judge_cluster":
             assert cluster_plan is not None
-            replicate_frame = _resample_cluster_rows_from_groups(*cluster_plan, rng)
+            replicate_frame = _resample_cluster_rows_from_plan(estimator_frame, *cluster_plan, rng)
         else:
-            replicate_frame = _resample_rows(source_frame, rng)
+            replicate_frame = _resample_rows(estimator_frame, rng)
         observed_models = _replicate_model_ids(replicate_frame)
         missing_models = expected_models.difference(observed_models)
         if missing_models:

@@ -16,6 +16,7 @@ from src.preference_bootstrap import (
     BootstrapErrorCode,
     PreferenceBootstrapError,
     _formal_ci_valid,
+    _cluster_plan,
     _pairwise_stability,
     _percentile_interval,
     _rank_summary,
@@ -23,6 +24,7 @@ from src.preference_bootstrap import (
     _resample_rows,
     run_bootstrap,
 )
+from src.preference_estimation import fit_preference
 
 
 PROVENANCE = SourceProvenance(source_dataset="synthetic/bootstrap", source_revision="v1")
@@ -98,6 +100,84 @@ def test_cluster_resampling_preserves_whole_cluster_multiplicity() -> None:
     assert set(sampled_counts).issubset(original_counts)
     for cluster, count in sampled_counts.items():
         assert count % original_counts[cluster] == 0
+
+
+def test_cluster_plan_partitions_each_source_row_once_in_sorted_cluster_order() -> None:
+    population = _clustered_davidson_population()
+    frame = population.eligible.sort_values("battle_id").reset_index(drop=True)
+    cluster_ids, row_positions = _cluster_plan(frame)
+
+    assert cluster_ids == tuple(sorted(cluster_ids))
+    flattened = np.concatenate(row_positions)
+    assert sorted(flattened.tolist()) == list(range(len(frame)))
+    assert all(np.all(np.diff(positions) > 0) for positions in row_positions)
+
+
+def test_index_plan_matches_reference_cluster_draw_and_multiplicity() -> None:
+    population = _clustered_davidson_population()
+    frame = population.eligible.sort_values("battle_id").reset_index(drop=True)
+    cluster_ids, row_positions = _cluster_plan(frame)
+    seed = 31
+    optimized = bootstrap_module._resample_cluster_rows_from_plan(
+        frame,
+        cluster_ids,
+        row_positions,
+        np.random.Generator(np.random.PCG64(seed)),
+    )
+
+    keys = frame["judge_cluster_id"].map(str)
+    reference_ids = tuple(sorted(keys.unique()))
+    draw_indices = np.random.Generator(np.random.PCG64(seed)).integers(
+        0, len(reference_ids), size=len(reference_ids)
+    )
+    reference = pd.concat(
+        [frame.loc[keys.eq(reference_ids[int(index)])] for index in draw_indices],
+        ignore_index=True,
+    )
+
+    assert optimized[["battle_id", "model_a_id", "model_b_id", "canonical_outcome"]].reset_index(drop=True).equals(
+        reference[["battle_id", "model_a_id", "model_b_id", "canonical_outcome"]].reset_index(drop=True)
+    )
+    source_counts = frame.groupby("judge_cluster_id").size().to_dict()
+    sampled_counts = optimized.groupby("judge_cluster_id").size().to_dict()
+    for cluster, count in sampled_counts.items():
+        assert count % source_counts[cluster] == 0
+
+
+def test_narrow_estimator_view_is_equivalent_for_all_point_modes() -> None:
+    population = _clustered_davidson_population()
+    narrow = population.eligible[["battle_id", "model_a_id", "model_b_id", "canonical_outcome"]].copy()
+    narrow_population = replace(population, eligible=narrow)
+
+    for estimator_name in ("davidson", "davidson_coalesced_ties", "bradley_terry_decisive"):
+        config = PreferenceEstimatorConfig(estimator_name)
+        full = fit_preference(population, config)
+        reduced = fit_preference(narrow_population, config)
+        assert reduced.model_ids == full.model_ids
+        assert reduced.latent_scores == pytest.approx(full.latent_scores)
+        assert reduced.derived_rank == full.derived_rank
+        if full.tie_parameter is None:
+            assert reduced.tie_parameter is None
+        else:
+            assert reduced.tie_parameter == pytest.approx(full.tie_parameter)
+        assert reduced.objective == pytest.approx(full.objective)
+        assert reduced.population_outcome_counts == full.population_outcome_counts
+
+
+def test_narrow_cluster_population_has_same_bootstrap_outputs() -> None:
+    population = _clustered_davidson_population()
+    narrow = population.eligible[
+        ["battle_id", "model_a_id", "model_b_id", "canonical_outcome", "judge_cluster_id"]
+    ].copy()
+    config = BootstrapConfig("judge_cluster", 4, seed=37)
+    full = run_bootstrap(population, config)
+    reduced = run_bootstrap(replace(population, eligible=narrow), config)
+
+    assert full.replicate_status == reduced.replicate_status
+    assert np.array_equal(full.score_replicates, reduced.score_replicates, equal_nan=True)
+    assert np.array_equal(full.rank_replicates, reduced.rank_replicates, equal_nan=True)
+    assert np.array_equal(full.tie_parameter_replicates, reduced.tie_parameter_replicates, equal_nan=True)
+    assert full.point_estimate.population_outcome_counts == reduced.point_estimate.population_outcome_counts
 
 
 def test_cluster_bootstrap_same_seed_is_deterministic() -> None:
