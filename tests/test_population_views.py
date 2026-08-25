@@ -93,6 +93,18 @@ def test_s4_missing_blank_and_order_outcome_invariant() -> None:
     assert pd.isna(second[1])
 
 
+def test_s4_preserves_exact_nonblank_question_identity() -> None:
+    result = _view(
+        [
+            _row(question_id="q1"),
+            _row(model_a="b", model_b="c", question_id=" q1 "),
+        ],
+        S4_REPEATED_QID,
+    )
+    assert result.support_audit == {"repeated_group_count": 0, "rows_excluded": 0, "max_group_size": 1}
+    assert len(result.population.eligible) == 2
+
+
 def test_s4_identity_and_schema_are_manifest_safe() -> None:
     result = _view([_row(question_id="q")], S4_REPEATED_QID)
     assert result.spec.population_id == "base_research_no_repeated_qid"

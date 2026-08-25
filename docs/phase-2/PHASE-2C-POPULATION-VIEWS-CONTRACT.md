@@ -85,7 +85,9 @@ Counts are computed only among BASE_RESEARCH-eligible rows. A nonmissing,
 nonblank question ID occurring more than once excludes every row in that group.
 No representative is retained. Missing and blank IDs are retained and do not
 form one shared group. No IDs are fabricated, and repeat detection is
-independent of outcome and input row order.
+independent of outcome and input row order. Whitespace trimming is used only
+to classify blank values; nonblank `question_id_raw` identity is not normalized
+by trimming or stringification.
 
 ## S5: Unordered Pair Support
 

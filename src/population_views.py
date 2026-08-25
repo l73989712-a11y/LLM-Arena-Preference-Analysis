@@ -200,9 +200,11 @@ def _apply_repeated_qid(frame: pd.DataFrame) -> tuple[pd.Series, dict[str, Any]]
     if "question_id_raw" not in frame.columns:
         raise ValueError("base population is missing question_id_raw")
     valid = frame["question_id_raw"].map(_nonblank)
-    counts = frame.loc[valid, "question_id_raw"].astype(str).str.strip().value_counts()
+    # ``question_id_raw`` is already a canonical scalar identity. Whitespace
+    # trimming is only for blank detection and must not alter that identity.
+    counts = frame.loc[valid, "question_id_raw"].value_counts(dropna=False)
     repeated = set(counts[counts > 1].index)
-    excluded = valid & frame["question_id_raw"].astype(str).str.strip().isin(repeated)
+    excluded = valid & frame["question_id_raw"].isin(repeated)
     return ~excluded, {
         "repeated_group_count": int(len(repeated)),
         "rows_excluded": int(excluded.sum()),
