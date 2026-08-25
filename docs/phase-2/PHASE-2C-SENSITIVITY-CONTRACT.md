@@ -42,11 +42,11 @@ evidence. No 20/50/100-attempt result is formal robustness evidence.
 | S1-COALESCED-TIES | tie-policy sensitivity | effective tie policy only | `davidson_coalesced_ties` | `base_research` | `judge_cluster` | 2000 | formal robustness | READY BY CONFIG |
 | S2-DECISIVE-BT | decisive-only estimator | estimator and outcome policy only | `bradley_terry_decisive` | `base_research` | `judge_cluster` | 2000 | formal robustness | READY BY CONFIG |
 | S3-ROW-BOOTSTRAP | dependence-unit sensitivity | resampling unit only | `davidson` | `base_research` | `battle_row` | 2000 | formal robustness | READY BY CONFIG |
-| S4-REPEATED-QID-EXCLUSION | repeated-question sensitivity | whole repeated-`question_id` groups excluded | `davidson` | named repeated-qid exclusion view | `judge_cluster` | 2000 | formal robustness | NEEDS POPULATION TOOLING |
-| S5-PAIR-GE10 | low-support robustness | pair support threshold only | `davidson` | named pair-support >=10 view | `judge_cluster` | 2000 | secondary robustness | NEEDS POPULATION TOOLING |
-| S5-PAIR-GE20 | low-support robustness | pair support threshold only | `davidson` | named pair-support >=20 view | `judge_cluster` | 2000 | secondary robustness | NEEDS POPULATION TOOLING |
-| S5-PAIR-GE50 | low-support robustness | pair support threshold only | `davidson` | named pair-support >=50 view | `judge_cluster` | 2000 | secondary robustness | NEEDS POPULATION TOOLING |
-| S6-ENGLISH | language heterogeneity | source language filter only | `davidson` | English `BASE_RESEARCH` equivalent | `judge_cluster` | 2000 | formal heterogeneity | NEEDS POPULATION TOOLING |
+| S4-REPEATED-QID-EXCLUSION | repeated-question sensitivity | whole repeated-`question_id` groups excluded | `davidson` | named repeated-qid exclusion view | `judge_cluster` | 2000 | formal robustness | READY BY VIEW TOOLING |
+| S5-PAIR-GE10 | low-support robustness | pair support threshold only | `davidson` | named pair-support >=10 view | `judge_cluster` | 2000 | secondary robustness | READY BY VIEW TOOLING |
+| S5-PAIR-GE20 | low-support robustness | pair support threshold only | `davidson` | named pair-support >=20 view | `judge_cluster` | 2000 | secondary robustness | READY BY VIEW TOOLING |
+| S5-PAIR-GE50 | low-support robustness | pair support threshold only | `davidson` | named pair-support >=50 view | `judge_cluster` | 2000 | secondary robustness | READY BY VIEW TOOLING |
+| S6-ENGLISH | language heterogeneity | source language filter only | `davidson` | English `BASE_RESEARCH` equivalent | `judge_cluster` | 2000 | formal heterogeneity | READY BY VIEW TOOLING |
 | L2-* | language support audits | source language filter only | none in T13 | one L2 language at a time | none in T13 | 0 | exploratory heterogeneity | NEEDS SUPPORT AUDIT |
 
 Every sensitivity that changes `analysis_config` receives its own

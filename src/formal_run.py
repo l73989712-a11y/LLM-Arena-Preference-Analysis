@@ -37,6 +37,13 @@ from src.population import (
     PopulationSpec,
     apply_population,
 )
+from src.population_views import (
+    POPULATION_VIEW_SCHEMA_VERSION,
+    PopulationViewSpec,
+    apply_population_view,
+    derived_population_spec,
+    population_view_for_id,
+)
 from src.preference_bootstrap import (
     BootstrapConfig,
     BootstrapResult,
@@ -96,12 +103,15 @@ class FormalRunConfig:
     git_branch: str = "main"
     require_published: bool = True
     created_by: str = "formal-research-runner"
+    population_view: PopulationViewSpec | None = None
 
     def __post_init__(self) -> None:
         if self.execution_mode not in {"preflight", "development", "formal"}:
             raise FormalRunError(FormalRunErrorCode.INVALID_FORMAL_CONFIG, "unsupported execution_mode")
         if not self.population_id.strip():
             raise FormalRunError(FormalRunErrorCode.INVALID_FORMAL_CONFIG, "population_id must not be empty")
+        if self.population_view is not None and self.population_view.population_id != self.population_id:
+            raise FormalRunError(FormalRunErrorCode.INVALID_FORMAL_CONFIG, "population view id differs from population_id")
         if not self.git_commit.strip() or not self.git_branch.strip():
             raise FormalRunError(FormalRunErrorCode.INVALID_FORMAL_CONFIG, "Git identity is required")
         if self.bootstrap_config.estimator_config != self.estimator_config:
@@ -117,7 +127,7 @@ class FormalRunConfig:
             raise FormalRunError(FormalRunErrorCode.INVALID_FORMAL_CONFIG, "artifact_root must not be empty")
 
     def analysis_config(self) -> dict[str, Any]:
-        return {
+        config = {
             "estimator": self.estimator_config.to_dict(),
             "bootstrap": self.bootstrap_config.to_dict(),
             "formal_run": {
@@ -126,6 +136,9 @@ class FormalRunConfig:
                 "require_published": self.require_published,
             },
         }
+        if self.population_view is not None:
+            config["population_view"] = self.population_view.to_dict()
+        return config
 
 
 @dataclass(frozen=True)
@@ -216,10 +229,37 @@ def _population_spec(population_id: str) -> PopulationSpec:
     return spec
 
 
+def _population_view(config: FormalRunConfig) -> PopulationViewSpec | None:
+    if config.population_view is not None:
+        try:
+            registered = population_view_for_id(config.population_id)
+        except KeyError:
+            _error(FormalRunErrorCode.UNKNOWN_POPULATION, f"unknown population view: {config.population_id}")
+        if config.population_view.to_dict() != registered.to_dict():
+            _error(FormalRunErrorCode.INVALID_FORMAL_CONFIG, "population view does not match registry")
+        return config.population_view
+    if config.population_id in {
+        "base_research_no_repeated_qid",
+        "base_research_pair_support_ge10",
+        "base_research_pair_support_ge20",
+        "base_research_pair_support_ge50",
+        "base_research_language_en",
+    }:
+        _error(FormalRunErrorCode.UNKNOWN_POPULATION, "sensitivity population requires a population_view definition")
+    return None
+
+
+def _effective_population_spec(config: FormalRunConfig) -> PopulationSpec:
+    view = _population_view(config)
+    if view is not None:
+        return derived_population_spec(view)
+    return _population_spec(config.population_id)
+
+
 def _manifest(config: FormalRunConfig, *, environment: Mapping[str, Any] | None = None) -> RunManifest:
     return create_run_manifest(
         source_provenance=config.source_provenance,
-        population_spec=_population_spec(config.population_id),
+        population_spec=_effective_population_spec(config),
         git_commit=config.git_commit,
         git_branch=config.git_branch,
         analysis_config=config.analysis_config(),
@@ -261,8 +301,11 @@ def preflight_formal_run(
     if config.require_published and state.get("origin_main") != config.git_commit:
         _error(FormalRunErrorCode.UNPUBLISHED_GIT_SHA, "origin/main does not contain the formal Git SHA")
     checks["publication"] = "PASS"
-    spec = _population_spec(config.population_id)
-    if spec.population_spec_version != POPULATION_SPEC_SCHEMA_VERSION:
+    spec = _effective_population_spec(config)
+    expected_population_version = (
+        POPULATION_VIEW_SCHEMA_VERSION if config.population_view is not None else POPULATION_SPEC_SCHEMA_VERSION
+    )
+    if spec.population_spec_version != expected_population_version:
         _error(FormalRunErrorCode.UNKNOWN_POPULATION, "population schema version mismatch")
     checks["population"] = "PASS"
     if CANONICAL_BATTLE_SCHEMA_VERSION <= 0:
@@ -539,8 +582,13 @@ def execute_formal_run(
     source = Path(source_path).resolve()
     raw = (loader or pd.read_parquet)(source)
     canonical = canonicalize_battles(raw, provenance=config.source_provenance)
-    population = apply_population(canonical, _population_spec(config.population_id))
-    if population.spec.population_spec_version != POPULATION_SPEC_SCHEMA_VERSION:
+    view = _population_view(config)
+    base_spec = BASE_RESEARCH if view is not None else _population_spec(config.population_id)
+    population = apply_population(canonical, base_spec)
+    if view is not None:
+        population = apply_population_view(population, view).population
+    expected_population_version = POPULATION_VIEW_SCHEMA_VERSION if view is not None else POPULATION_SPEC_SCHEMA_VERSION
+    if population.spec.population_spec_version != expected_population_version:
         _error(FormalRunErrorCode.UNKNOWN_POPULATION, "population schema version mismatch")
     point = fit_preference(population, config.estimator_config)
     bootstrap = run_bootstrap(population, config.bootstrap_config)
