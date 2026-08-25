@@ -51,8 +51,14 @@ artifact_manifest.json
 
 The run ID comes from `RunManifest`; it is not a timestamp, model name, seed, or
 random directory name. A temporary `.tmp-<run_id>` directory is populated first,
-verified, and atomically renamed. Existing final run directories are rejected.
-Incomplete temporary directories are never valid result directories.
+verified, and atomically renamed. Existing final and temporary run directories
+are fail-closed: pre-existing temporary directories are never deleted, reused,
+truncated, or renamed aside. Cleanup is limited to an incomplete temporary
+directory explicitly created by the current invocation; a directory observed
+after a mkdir collision is never treated as owned. The public artifact verifier
+accepts finalized `<run_id>` directories by default. Internal staging
+verification must explicitly pass `allow_temporary=True`; incomplete temporary
+directories are never valid result directories.
 
 `artifact_manifest.json` records artifact schema version 1, the run ID, each
 other filename, byte size, and SHA-256. It intentionally does not hash itself.
@@ -75,8 +81,11 @@ replicate_count >= 2,000
 and failed_replicates == 0
 ```
 
-The artifact verifier recomputes this gate and checks manifest identity, file
-hashes/sizes, matrix shapes, and status length. A failed formal run may be kept
+The artifact verifier recomputes this gate and checks manifest identity, final
+directory/run-ID identity, file hashes/sizes, and semantic cross-file
+consistency. Semantic checks bind point-estimate population and estimator fields
+to `RunManifest`, plus bootstrap attempts, model universe, matrix shapes, and
+status length. A failed formal run may be kept
 as a complete diagnostic artifact marked `formal_ci_valid: false`; it must not be
 reported as a valid confidence interval.
 

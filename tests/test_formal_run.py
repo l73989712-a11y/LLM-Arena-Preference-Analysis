@@ -19,6 +19,7 @@ from src.formal_run import (
     preflight_formal_run,
     verify_research_artifacts,
 )
+import src.formal_run as formal_run
 from src.population import BASE_RESEARCH, apply_population
 from src.preference_bootstrap import BootstrapConfig
 from src.preference_estimation import PreferenceEstimatorConfig
@@ -98,6 +99,17 @@ def _run(tmp_path: Path, *, count: int = 4) -> Path:
         git_state=GIT_STATE,
         loader=lambda _path: _rows(),
     )
+
+
+def _refresh_artifact_record(run_dir: Path, filename: str) -> None:
+    artifact_path = run_dir / "artifact_manifest.json"
+    artifact = json.loads(artifact_path.read_text(encoding="utf-8"))
+    changed = run_dir / filename
+    artifact["files"][filename] = {
+        "sha256": hashlib.sha256(changed.read_bytes()).hexdigest(),
+        "size_bytes": changed.stat().st_size,
+    }
+    artifact_path.write_text(json.dumps(artifact, sort_keys=True, separators=(",", ":")), encoding="utf-8")
 
 
 def test_development_run_writes_and_verifies_complete_artifacts(tmp_path: Path) -> None:
@@ -180,6 +192,15 @@ def test_wrong_artifact_manifest_run_id_fails_consistency(tmp_path: Path) -> Non
     assert caught.value.code == FormalRunErrorCode.ARTIFACT_CONSISTENCY_ERROR
 
 
+def test_final_directory_name_must_match_manifest_run_id(tmp_path: Path) -> None:
+    run_dir = _run(tmp_path)
+    mismatched_dir = run_dir.with_name("wrong-run-directory")
+    run_dir.rename(mismatched_dir)
+    with pytest.raises(FormalRunError) as caught:
+        verify_research_artifacts(mismatched_dir)
+    assert caught.value.code == FormalRunErrorCode.ARTIFACT_CONSISTENCY_ERROR
+
+
 def test_matrix_shape_mismatch_fails_consistency(tmp_path: Path) -> None:
     run_dir = _run(tmp_path)
     summary_path = run_dir / "bootstrap_summary.json"
@@ -193,6 +214,26 @@ def test_matrix_shape_mismatch_fails_consistency(tmp_path: Path) -> None:
         "size_bytes": summary_path.stat().st_size,
     }
     artifact_path.write_text(json.dumps(artifact, sort_keys=True, separators=(",", ":")), encoding="utf-8")
+    with pytest.raises(FormalRunError) as caught:
+        verify_research_artifacts(run_dir)
+    assert caught.value.code == FormalRunErrorCode.ARTIFACT_CONSISTENCY_ERROR
+
+
+@pytest.mark.parametrize(
+    ("field", "value"),
+    [
+        ("population_id", "other-population"),
+        ("estimator_config", {"estimator": "bradley_terry_decisive"}),
+        ("population_spec_version", 999),
+    ],
+)
+def test_hash_valid_point_payload_semantic_mismatch_is_rejected(tmp_path: Path, field: str, value: object) -> None:
+    run_dir = _run(tmp_path)
+    point_path = run_dir / "point_estimate.json"
+    point = json.loads(point_path.read_text(encoding="utf-8"))
+    point[field] = value
+    point_path.write_text(json.dumps(point, sort_keys=True, separators=(",", ":")), encoding="utf-8")
+    _refresh_artifact_record(run_dir, "point_estimate.json")
     with pytest.raises(FormalRunError) as caught:
         verify_research_artifacts(run_dir)
     assert caught.value.code == FormalRunErrorCode.ARTIFACT_CONSISTENCY_ERROR
@@ -253,6 +294,84 @@ def test_unknown_population_and_existing_run_are_rejected(tmp_path: Path) -> Non
     assert caught.value.code == FormalRunErrorCode.RUN_ALREADY_EXISTS
 
 
+def test_preexisting_temporary_run_is_preserved_and_rejected(tmp_path: Path) -> None:
+    source = tmp_path / "synthetic.parquet"
+    source.write_bytes(b"synthetic source")
+    config = _config(source, tmp_path / "outputs" / "research")
+    preflight = preflight_formal_run(source, config, git_state=GIT_STATE, repo_root=tmp_path)
+    assert preflight.manifest is not None
+    temp_dir = Path(config.artifact_root) / f".tmp-{preflight.manifest.run_id}"
+    temp_dir.mkdir(parents=True)
+    sentinel = temp_dir / "sentinel.bin"
+    sentinel_bytes = b"preserved interrupted evidence"
+    sentinel.write_bytes(sentinel_bytes)
+    with pytest.raises(FormalRunError) as caught:
+        execute_formal_run(source, config, repo_root=tmp_path, git_state=GIT_STATE, loader=lambda _path: _rows())
+    assert caught.value.code == FormalRunErrorCode.TEMP_RUN_ALREADY_EXISTS
+    assert sentinel.read_bytes() == sentinel_bytes
+
+
+def test_current_invocation_cleans_its_own_temporary_run_after_failure(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    source = tmp_path / "synthetic.parquet"
+    source.write_bytes(b"synthetic source")
+    config = _config(source, tmp_path / "outputs" / "research")
+    preflight = preflight_formal_run(source, config, git_state=GIT_STATE, repo_root=tmp_path)
+    assert preflight.manifest is not None
+    temp_dir = Path(config.artifact_root) / f".tmp-{preflight.manifest.run_id}"
+    original_write_json = formal_run._write_json
+
+    def fail_after_temp_creation(path: Path, value: object) -> None:
+        original_write_json(path, value)
+        if path.name == "point_estimate.json":
+            raise OSError("synthetic write failure")
+
+    monkeypatch.setattr(formal_run, "_write_json", fail_after_temp_creation)
+    with pytest.raises(FormalRunError) as caught:
+        execute_formal_run(source, config, repo_root=tmp_path, git_state=GIT_STATE, loader=lambda _path: _rows())
+    assert caught.value.code == FormalRunErrorCode.ARTIFACT_WRITE_FAILED
+    assert not temp_dir.exists()
+
+
+def test_temporary_directory_created_by_race_is_preserved(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    source = tmp_path / "synthetic.parquet"
+    source.write_bytes(b"synthetic source")
+    config = _config(source, tmp_path / "outputs" / "research")
+    preflight = preflight_formal_run(source, config, git_state=GIT_STATE, repo_root=tmp_path)
+    assert preflight.manifest is not None
+    temp_dir = Path(config.artifact_root) / f".tmp-{preflight.manifest.run_id}"
+    original_mkdir = Path.mkdir
+
+    def create_external_directory_then_fail(path: Path, *args: object, **kwargs: object) -> None:
+        if path == temp_dir:
+            original_mkdir(path, *args, **kwargs)
+            (path / "sentinel.bin").write_bytes(b"external staging evidence")
+            raise FileExistsError(path)
+        original_mkdir(path, *args, **kwargs)
+
+    monkeypatch.setattr(Path, "mkdir", create_external_directory_then_fail)
+    with pytest.raises(FormalRunError) as caught:
+        execute_formal_run(source, config, repo_root=tmp_path, git_state=GIT_STATE, loader=lambda _path: _rows())
+    assert caught.value.code == FormalRunErrorCode.TEMP_RUN_ALREADY_EXISTS
+    assert (temp_dir / "sentinel.bin").read_bytes() == b"external staging evidence"
+
+
+def test_preexisting_final_run_is_preserved_and_rejected(tmp_path: Path) -> None:
+    source = tmp_path / "synthetic.parquet"
+    source.write_bytes(b"synthetic source")
+    config = _config(source, tmp_path / "outputs" / "research")
+    preflight = preflight_formal_run(source, config, git_state=GIT_STATE, repo_root=tmp_path)
+    assert preflight.manifest is not None
+    final_dir = Path(config.artifact_root) / preflight.manifest.run_id
+    final_dir.mkdir(parents=True)
+    sentinel = final_dir / "sentinel.bin"
+    sentinel_bytes = b"preserved final evidence"
+    sentinel.write_bytes(sentinel_bytes)
+    with pytest.raises(FormalRunError) as caught:
+        execute_formal_run(source, config, repo_root=tmp_path, git_state=GIT_STATE, loader=lambda _path: _rows())
+    assert caught.value.code == FormalRunErrorCode.RUN_ALREADY_EXISTS
+    assert sentinel.read_bytes() == sentinel_bytes
+
+
 def test_formal_seed_and_replicate_requirements_are_explicit(tmp_path: Path) -> None:
     source = tmp_path / "synthetic.parquet"
     source.write_bytes(b"synthetic source")
@@ -281,3 +400,14 @@ def test_incomplete_temporary_directory_is_not_accepted(tmp_path: Path) -> None:
     with pytest.raises(FormalRunError) as caught:
         verify_research_artifacts(run_dir)
     assert caught.value.code == FormalRunErrorCode.MANIFEST_INVALID
+
+
+def test_complete_temporary_directory_requires_explicit_internal_verification(tmp_path: Path) -> None:
+    run_dir = _run(tmp_path)
+    temp_dir = run_dir.with_name(f".tmp-{run_dir.name}")
+    run_dir.rename(temp_dir)
+    with pytest.raises(FormalRunError) as caught:
+        verify_research_artifacts(temp_dir)
+    assert caught.value.code == FormalRunErrorCode.ARTIFACT_CONSISTENCY_ERROR
+    verification = verify_research_artifacts(temp_dir, allow_temporary=True)
+    assert verification.ok is True

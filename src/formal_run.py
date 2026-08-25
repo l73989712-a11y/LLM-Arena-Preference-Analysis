@@ -70,6 +70,7 @@ class FormalRunErrorCode(str, Enum):
     UNPUBLISHED_GIT_SHA = "UNPUBLISHED_GIT_SHA"
     UNKNOWN_POPULATION = "UNKNOWN_POPULATION"
     RUN_ALREADY_EXISTS = "RUN_ALREADY_EXISTS"
+    TEMP_RUN_ALREADY_EXISTS = "TEMP_RUN_ALREADY_EXISTS"
     MANIFEST_INVALID = "MANIFEST_INVALID"
     ARTIFACT_WRITE_FAILED = "ARTIFACT_WRITE_FAILED"
     ARTIFACT_HASH_MISMATCH = "ARTIFACT_HASH_MISMATCH"
@@ -283,6 +284,9 @@ def preflight_formal_run(
     final_dir = artifact_root / manifest.run_id
     if final_dir.exists():
         _error(FormalRunErrorCode.RUN_ALREADY_EXISTS, "final run directory already exists")
+    temp_dir = artifact_root / f".tmp-{manifest.run_id}"
+    if temp_dir.exists():
+        _error(FormalRunErrorCode.TEMP_RUN_ALREADY_EXISTS, "temporary run directory already exists")
     checks["artifact_root"] = "PASS"
     checks["manifest"] = "PASS"
     return PreflightResult(ok=True, checks=checks, manifest=manifest)
@@ -353,6 +357,17 @@ def _artifact_files(directory: Path) -> dict[str, dict[str, Any]]:
 
 
 def _validate_result_consistency(manifest: RunManifest, point: PreferenceEstimationResult, bootstrap: BootstrapResult) -> None:
+    estimator_config = manifest.analysis_config.get("estimator")
+    if not isinstance(estimator_config, Mapping):
+        _error(FormalRunErrorCode.ARTIFACT_CONSISTENCY_ERROR, "manifest estimator config is invalid")
+    if point.population_id != manifest.population_id:
+        _error(FormalRunErrorCode.ARTIFACT_CONSISTENCY_ERROR, "point population differs from manifest")
+    if point.population_spec_version != manifest.population_spec_version:
+        _error(FormalRunErrorCode.ARTIFACT_CONSISTENCY_ERROR, "point population spec version differs from manifest")
+    if point.estimator_config != estimator_config:
+        _error(FormalRunErrorCode.ARTIFACT_CONSISTENCY_ERROR, "point estimator config differs from manifest")
+    if point.estimator_name != estimator_config.get("estimator") or point.estimator_version != estimator_config.get("estimator_version"):
+        _error(FormalRunErrorCode.ARTIFACT_CONSISTENCY_ERROR, "point estimator identity differs from manifest")
     if tuple(point.model_ids) != tuple(bootstrap.model_ids):
         _error(FormalRunErrorCode.ARTIFACT_CONSISTENCY_ERROR, "point and bootstrap model universes differ")
     if bootstrap.attempted_replicates != bootstrap.bootstrap_config.replicate_count:
@@ -381,9 +396,14 @@ def write_research_artifacts(
         _error(FormalRunErrorCode.RUN_ALREADY_EXISTS, "final run directory already exists")
     temp_dir = root / f".tmp-{manifest.run_id}"
     if temp_dir.exists():
-        shutil.rmtree(temp_dir)
-    temp_dir.mkdir(parents=False)
+        _error(FormalRunErrorCode.TEMP_RUN_ALREADY_EXISTS, "temporary run directory already exists")
+    temp_created = False
     try:
+        try:
+            temp_dir.mkdir(parents=False)
+            temp_created = True
+        except FileExistsError:
+            _error(FormalRunErrorCode.TEMP_RUN_ALREADY_EXISTS, "temporary run directory already exists")
         _validate_result_consistency(manifest, point, bootstrap)
         _write_json(temp_dir / "manifest.json", manifest.to_dict())
         _write_json(temp_dir / "point_estimate.json", _point_payload(point))
@@ -399,7 +419,7 @@ def write_research_artifacts(
             "run_id": manifest.run_id,
             "files": _artifact_files(temp_dir),
         })
-        verify_research_artifacts(temp_dir)
+        verify_research_artifacts(temp_dir, allow_temporary=True)
         os.replace(temp_dir, final_dir)
         try:
             verify_research_artifacts(final_dir)
@@ -409,16 +429,16 @@ def write_research_artifacts(
             raise
         return final_dir
     except FormalRunError:
-        if temp_dir.exists():
+        if temp_created and temp_dir.exists():
             shutil.rmtree(temp_dir)
         raise
     except Exception as exc:
-        if temp_dir.exists():
+        if temp_created and temp_dir.exists():
             shutil.rmtree(temp_dir)
         _error(FormalRunErrorCode.ARTIFACT_WRITE_FAILED, str(exc))
 
 
-def verify_research_artifacts(run_dir: str | Path) -> ArtifactVerification:
+def verify_research_artifacts(run_dir: str | Path, *, allow_temporary: bool = False) -> ArtifactVerification:
     directory = Path(run_dir).resolve()
     manifest_path = directory / "manifest.json"
     artifact_path = directory / "artifact_manifest.json"
@@ -433,6 +453,11 @@ def verify_research_artifacts(run_dir: str | Path) -> ArtifactVerification:
         _error(FormalRunErrorCode.ARTIFACT_CONSISTENCY_ERROR, "unsupported artifact schema version")
     if artifact_manifest.get("run_id") != manifest.run_id:
         _error(FormalRunErrorCode.ARTIFACT_CONSISTENCY_ERROR, "artifact manifest run_id mismatch")
+    valid_names = {manifest.run_id}
+    if allow_temporary:
+        valid_names.add(f".tmp-{manifest.run_id}")
+    if directory.name not in valid_names:
+        _error(FormalRunErrorCode.ARTIFACT_CONSISTENCY_ERROR, "run directory name does not match manifest run_id")
     files = artifact_manifest.get("files")
     if not isinstance(files, Mapping):
         _error(FormalRunErrorCode.ARTIFACT_CONSISTENCY_ERROR, "artifact file manifest is invalid")
@@ -450,6 +475,20 @@ def verify_research_artifacts(run_dir: str | Path) -> ArtifactVerification:
     status_payload = json.loads((directory / "replicate_status.json").read_text(encoding="utf-8"))
     if summary.get("run_id") != manifest.run_id:
         _error(FormalRunErrorCode.ARTIFACT_CONSISTENCY_ERROR, "bootstrap summary run_id mismatch")
+    estimator_config = manifest.analysis_config.get("estimator")
+    if not isinstance(estimator_config, Mapping):
+        _error(FormalRunErrorCode.ARTIFACT_CONSISTENCY_ERROR, "manifest estimator config is invalid")
+    if point_payload.get("population_id") != manifest.population_id:
+        _error(FormalRunErrorCode.ARTIFACT_CONSISTENCY_ERROR, "point population differs from manifest")
+    if point_payload.get("population_spec_version") != manifest.population_spec_version:
+        _error(FormalRunErrorCode.ARTIFACT_CONSISTENCY_ERROR, "point population spec version differs from manifest")
+    if point_payload.get("estimator_config") != estimator_config:
+        _error(FormalRunErrorCode.ARTIFACT_CONSISTENCY_ERROR, "point estimator config differs from manifest")
+    if (
+        point_payload.get("estimator_name") != estimator_config.get("estimator")
+        or point_payload.get("estimator_version") != estimator_config.get("estimator_version")
+    ):
+        _error(FormalRunErrorCode.ARTIFACT_CONSISTENCY_ERROR, "point estimator identity differs from manifest")
     if point_payload.get("model_ids") != summary.get("model_ids"):
         _error(FormalRunErrorCode.ARTIFACT_CONSISTENCY_ERROR, "point and bootstrap model universes differ")
     if status_payload.get("run_id") != manifest.run_id or status_payload.get("statuses") != summary.get("replicate_status"):
@@ -473,8 +512,15 @@ def verify_research_artifacts(run_dir: str | Path) -> ArtifactVerification:
         }
     if shapes != summary.get("matrix_shapes"):
         _error(FormalRunErrorCode.ARTIFACT_CONSISTENCY_ERROR, "matrix shape does not match summary")
-    if shapes["bootstrap_scores.npz"][1] != len(summary.get("model_ids", [])):
-        _error(FormalRunErrorCode.ARTIFACT_CONSISTENCY_ERROR, "matrix model dimension does not match summary")
+    attempted_replicates = summary.get("attempted_replicates")
+    model_count = len(summary.get("model_ids", []))
+    expected_shapes = {
+        "bootstrap_scores.npz": [attempted_replicates, model_count],
+        "bootstrap_ranks.npz": [attempted_replicates, model_count],
+        "bootstrap_tie_parameter.npz": [attempted_replicates],
+    }
+    if shapes != expected_shapes:
+        _error(FormalRunErrorCode.ARTIFACT_CONSISTENCY_ERROR, "matrix shape does not match bootstrap identity")
     return ArtifactVerification(ok=True, run_id=manifest.run_id, files_checked=tuple(sorted(files)))
 
 
