@@ -35,7 +35,7 @@ Outcome counts are 11,744 A wins, 11,550 B wins, 3,443 ordinary ties, and
 6,263 `tie_bothbad` outcomes. The raw Parquet remains external/cache-only and
 is not committed to Git.
 
-## Common Formal Contract
+## Primary / Baseline Formal Contract
 
 ```text
 estimator: Davidson (version 1)
@@ -56,6 +56,15 @@ parallelism: serial
 `quantile_method=linear` is fixed by the published bootstrap implementation
 and the frozen bootstrap-contract documentation. It is not a separately
 editable result field; formal execution uses the published implementation.
+
+This is the Primary/Baseline contract. The preregistered sensitivity runs make
+the following single-axis exceptions: S1 changes the tie policy and therefore
+the tie estimand; S2 changes the estimator and decisive-outcome policy to
+Bradley-Terry; and S3 changes only the bootstrap resampling unit to
+`battle_row`. S4, S5, and S6 retain the Primary Davidson,
+`ordinary_tie_only`, and `judge_cluster` estimator/uncertainty mechanics and
+change only the named population view. All formal mechanics not changed by a
+specific sensitivity continue to follow this frozen baseline contract.
 
 ## Formal Run Registry
 
