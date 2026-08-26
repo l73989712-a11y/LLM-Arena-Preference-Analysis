@@ -2,9 +2,9 @@
 
 This repository is the long-term development workspace for an analysis project based on pairwise LLM preference data. It evolved from a course project; course submissions and private materials are kept outside this Git repository.
 
-The current code provides a small, synthetic-data workflow for data cleaning, descriptive model statistics, topic labeling, visualizations, a Streamlit dashboard, and a demonstration preference classifier. It also contains the accepted Phase 2C paired-comparison estimator and bootstrap infrastructure; formal empirical results have not yet been run or published.
+The current code provides a small, synthetic-data workflow for data cleaning, descriptive model statistics, topic labeling, visualizations, a Streamlit dashboard, and a demonstration preference classifier. It also contains the accepted Phase 2C paired-comparison estimator and bootstrap infrastructure. Phase 2 formal analysis is now closed/frozen; the durable formal-run registry, robustness findings, claim boundaries, and limitations are recorded in [docs/phase-2/PHASE-2C-CLOSEOUT.md](docs/phase-2/PHASE-2C-CLOSEOUT.md). Phase 3 has not started.
 
-The Phase 2B research foundation is documented in [docs/phase-2/RESEARCH-CONTRACT.md](docs/phase-2/RESEARCH-CONTRACT.md) and [docs/phase-2/PHASE-2B-FOUNDATION-RESULT.md](docs/phase-2/PHASE-2B-FOUNDATION-RESULT.md). Canonical battle identity, population audit, reproducible run-manifest contracts, pinned-snapshot support audit, estimator contracts, and bootstrap infrastructure are implemented. Synthetic fixtures are for testing and reproduction only; real empirical results remain gated on a published immutable baseline, preregistered seed, formal artifacts, and the 2,000-attempt zero-failure run.
+The Phase 2B research foundation is documented in [docs/phase-2/RESEARCH-CONTRACT.md](docs/phase-2/RESEARCH-CONTRACT.md) and [docs/phase-2/PHASE-2B-FOUNDATION-RESULT.md](docs/phase-2/PHASE-2B-FOUNDATION-RESULT.md). Canonical battle identity, population audit, reproducible run-manifest contracts, pinned-snapshot support audit, estimator contracts, and bootstrap infrastructure are implemented. Synthetic fixtures are for testing and reproduction only; formal empirical evidence remains bound to the published immutable baselines and finalized artifacts listed in the Phase 2C closeout.
 
 ## Quick Start
 
