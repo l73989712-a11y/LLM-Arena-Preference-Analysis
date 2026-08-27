@@ -2,7 +2,20 @@
 
 This repository is the long-term development workspace for an analysis project based on pairwise LLM preference data. It evolved from a course project; course submissions and private materials are kept outside this Git repository.
 
-The current code provides a small, synthetic-data workflow for data cleaning, descriptive model statistics, topic labeling, visualizations, a Streamlit dashboard, and a demonstration preference classifier. It also contains the accepted Phase 2C paired-comparison estimator and bootstrap infrastructure. Phase 2 formal analysis is now closed/frozen; the durable formal-run registry, robustness findings, claim boundaries, and limitations are recorded in [docs/phase-2/PHASE-2C-CLOSEOUT.md](docs/phase-2/PHASE-2C-CLOSEOUT.md). Phase 3 has not started.
+The current code provides a small, synthetic-data workflow for data cleaning, descriptive model statistics, topic labeling, visualizations, a Streamlit dashboard, and a demonstration preference classifier. It also contains the accepted Phase 2C paired-comparison estimator and bootstrap infrastructure. Phase 2 formal analysis is now closed/frozen; the durable formal-run registry, robustness findings, claim boundaries, and limitations are recorded in [docs/phase-2/PHASE-2C-CLOSEOUT.md](docs/phase-2/PHASE-2C-CLOSEOUT.md). Phase 3 is now closed at the accepted documentation baseline; its durable evidence record is [docs/phase-3/PHASE-3-CLOSEOUT.md](docs/phase-3/PHASE-3-CLOSEOUT.md).
+
+## Phase 3 Status
+
+Phase 3 - Research Results & Reproducible Reporting: **CLOSED**.
+It adds a verified frozen-results loader, uncertainty-aware presentation and
+publication layers, a reproducible Markdown report, and an independent
+read-only formal-results explorer. These outputs remain bounded to the pinned
+historical Arena evidence; they are not a current leaderboard, capability
+evaluation, causal analysis, or external-generalization claim.
+
+The formal interface is started with `formal_app.py`. The existing `app.py`
+remains the legacy synthetic/demo surface and was not changed by Phase 3.
+Phase 4: **NOT STARTED**.
 
 The Phase 2B research foundation is documented in [docs/phase-2/RESEARCH-CONTRACT.md](docs/phase-2/RESEARCH-CONTRACT.md) and [docs/phase-2/PHASE-2B-FOUNDATION-RESULT.md](docs/phase-2/PHASE-2B-FOUNDATION-RESULT.md). Canonical battle identity, population audit, reproducible run-manifest contracts, pinned-snapshot support audit, estimator contracts, and bootstrap infrastructure are implemented. Synthetic fixtures are for testing and reproduction only; formal empirical evidence remains bound to the published immutable baselines and finalized artifacts listed in the Phase 2C closeout.
 
