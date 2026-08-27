@@ -12,12 +12,11 @@ and the presentation/report history is recorded in the [Phase 3 closeout](docs/p
 ## Current Status
 
 - Phase 3: **CLOSED / PUBLICLY FROZEN**
-- Phase 4: **implementation complete through public reproducibility documentation; hosted Ubuntu acceptance pending**
+- Phase 4: **CLOSED / PUBLICLY FROZEN**
 
-The Phase 4 implementation includes the tracked frozen bundle, a canonical
-verifier, reproducible dependency constraints, and the Ubuntu hosted
-reproducibility workflow. Hosted Ubuntu acceptance remains pending; run-
-specific hosted evidence belongs in the Phase 4 closeout.
+The Phase 4 frozen bundle, canonical verifier, reproducible dependency
+constraints, clean-checkout workflow, and hosted Ubuntu acceptance are
+recorded in the [Phase 4 closeout](docs/phase-4/PHASE-4-CLOSEOUT.md).
 
 ## Quick Reproducibility
 
