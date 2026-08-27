@@ -27,7 +27,7 @@ from src.formal_figures import (
 )
 from src.formal_presentation import PresentationModelError, build_formal_presentation
 from src.formal_report import ReportSpecificationError, build_formal_report, render_formal_report_markdown
-from src.formal_results import FrozenResultsError, load_frozen_formal_research
+from src.formal_results import DEFAULT_FROZEN_ARTIFACT_ROOT, FrozenResultsError, load_frozen_formal_research
 
 
 @dataclass(frozen=True)
@@ -39,7 +39,7 @@ class RuntimeExplorer:
     heterogeneity_figure: Any
 
 
-def build_runtime_explorer(artifact_root: str | Path = "outputs/research") -> RuntimeExplorer:
+def build_runtime_explorer(artifact_root: str | Path = DEFAULT_FROZEN_ARTIFACT_ROOT) -> RuntimeExplorer:
     """Run the one-way frozen pipeline used by the formal application entrypoint."""
     try:
         bundle = load_frozen_formal_research(artifact_root)

@@ -1,0 +1,6 @@
+# Frozen formal research payload is byte-identical evidence.
+# Never apply line-ending normalization to these files.
+artifacts/frozen/formal-research-v1/payload/** -text
+
+# This frozen historical artifact intentionally contains CRLF bytes.
+artifacts/frozen/formal-research-v1/payload/comparative_review/review.json whitespace=cr-at-eol

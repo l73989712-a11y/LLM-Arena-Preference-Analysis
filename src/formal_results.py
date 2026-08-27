@@ -88,6 +88,14 @@ FROZEN_SOURCE = FrozenSourceSpec(
     snapshot_id="2f8937a5f46ea4c3ed4ac7d59a5e51a6b3fb9bae79918b1050c6420b34ce1fa4",
 )
 
+DEFAULT_FROZEN_ARTIFACT_ROOT = (
+    Path(__file__).resolve().parents[1]
+    / "artifacts"
+    / "frozen"
+    / "formal-research-v1"
+    / "payload"
+)
+
 
 def _freeze_value(value: Any) -> Any:
     if isinstance(value, dict):
@@ -358,7 +366,7 @@ def _validate_arrays(scores: np.ndarray, ranks: np.ndarray, ties: np.ndarray, mo
     return scores, rank_int, ties
 
 
-def load_frozen_formal_run(run_id: str, artifact_root: str | Path = "outputs/research") -> FrozenRunResult:
+def load_frozen_formal_run(run_id: str, artifact_root: str | Path = DEFAULT_FROZEN_ARTIFACT_ROOT) -> FrozenRunResult:
     """Load one run from the closed frozen registry without discovery or writes."""
     spec = FROZEN_RUN_REGISTRY.get(run_id)
     if spec is None:
@@ -414,7 +422,7 @@ def _load_review(root: Path, run_ids: set[str]) -> Mapping[str, Any]:
     return _freeze(review)
 
 
-def load_frozen_formal_research(artifact_root: str | Path = "outputs/research") -> FrozenResearchBundle:
+def load_frozen_formal_research(artifact_root: str | Path = DEFAULT_FROZEN_ARTIFACT_ROOT) -> FrozenResearchBundle:
     """Load exactly the nine frozen runs and their separate review artifact."""
     root = Path(artifact_root).resolve()
     if not root.is_dir():

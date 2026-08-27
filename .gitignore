@@ -54,3 +54,14 @@ outputs/
 *.joblib
 *.pkl
 *.pickle
+
+# Public frozen formal evidence bundle (reviewed, immutable payload only)
+!artifacts/
+artifacts/*
+!artifacts/frozen/
+artifacts/frozen/*
+!artifacts/frozen/formal-research-v1/
+!artifacts/frozen/formal-research-v1/NOTICE.md
+!artifacts/frozen/formal-research-v1/bundle_manifest.json
+!artifacts/frozen/formal-research-v1/payload/
+!artifacts/frozen/formal-research-v1/payload/**

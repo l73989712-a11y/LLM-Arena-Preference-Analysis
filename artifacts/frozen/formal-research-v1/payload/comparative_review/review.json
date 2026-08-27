@@ -1,0 +1,3245 @@
+{
+  "artifact_inventory": [
+    {
+      "analysis": "Primary",
+      "artifact_directory": "outputs/research/9c1fd5abbe8681db45b535e5368c806caad8d8297914c7b86a598112900f2689",
+      "git_sha": "2dad21a4816931b0dddf4ae77282ffde1c713512",
+      "population_id": "base_research",
+      "run_id": "9c1fd5abbe8681db45b535e5368c806caad8d8297914c7b86a598112900f2689",
+      "valid": true
+    },
+    {
+      "analysis": "S1",
+      "artifact_directory": "outputs/research/fa59994fb1f9de6a093162858bda584f6241c4a42314f0b027e57e2ff04d33e7",
+      "git_sha": "2d268c753478bc695b4f516fd70c738460c683b9",
+      "population_id": "base_research",
+      "run_id": "fa59994fb1f9de6a093162858bda584f6241c4a42314f0b027e57e2ff04d33e7",
+      "valid": true
+    },
+    {
+      "analysis": "S2",
+      "artifact_directory": "outputs/research/3babe007af583d3f8a6b4e25731828a77dd6e91d1f1110c618f82aee531d49d3",
+      "git_sha": "2d268c753478bc695b4f516fd70c738460c683b9",
+      "population_id": "base_research",
+      "run_id": "3babe007af583d3f8a6b4e25731828a77dd6e91d1f1110c618f82aee531d49d3",
+      "valid": true
+    },
+    {
+      "analysis": "S3",
+      "artifact_directory": "outputs/research/3c62408ca810a5aaa34a3c237333156b8f62ebeb7e1d94f4316264f898b3e2cf",
+      "git_sha": "2d268c753478bc695b4f516fd70c738460c683b9",
+      "population_id": "base_research",
+      "run_id": "3c62408ca810a5aaa34a3c237333156b8f62ebeb7e1d94f4316264f898b3e2cf",
+      "valid": true
+    },
+    {
+      "analysis": "S4",
+      "artifact_directory": "outputs/research/33b992df5e34b50d69218931bbcbadeee9db8658bd0b697d785cc909e3bb7d1f",
+      "git_sha": "241a6db67686def7a777c00704d997e281eab1a9",
+      "population_id": "base_research_no_repeated_qid",
+      "run_id": "33b992df5e34b50d69218931bbcbadeee9db8658bd0b697d785cc909e3bb7d1f",
+      "valid": true
+    },
+    {
+      "analysis": "S5-ge10",
+      "artifact_directory": "outputs/research/60c314ba7c6453b8227db0be16a73963df0bda1e8321cd1085ae698549d6a466",
+      "git_sha": "241a6db67686def7a777c00704d997e281eab1a9",
+      "population_id": "base_research_pair_support_ge10",
+      "run_id": "60c314ba7c6453b8227db0be16a73963df0bda1e8321cd1085ae698549d6a466",
+      "valid": true
+    },
+    {
+      "analysis": "S5-ge20",
+      "artifact_directory": "outputs/research/29a6ad3a3e401210de5a0ac1ad915e92d86bdcd6d954223dbb73fcf2e6f5ab7f",
+      "git_sha": "241a6db67686def7a777c00704d997e281eab1a9",
+      "population_id": "base_research_pair_support_ge20",
+      "run_id": "29a6ad3a3e401210de5a0ac1ad915e92d86bdcd6d954223dbb73fcf2e6f5ab7f",
+      "valid": true
+    },
+    {
+      "analysis": "S5-ge50",
+      "artifact_directory": "outputs/research/da1dbcf8f4a55403f1df8e8cd4ada2b903b93431486ce337849f116f2aadc7e2",
+      "git_sha": "241a6db67686def7a777c00704d997e281eab1a9",
+      "population_id": "base_research_pair_support_ge50",
+      "run_id": "da1dbcf8f4a55403f1df8e8cd4ada2b903b93431486ce337849f116f2aadc7e2",
+      "valid": true
+    },
+    {
+      "analysis": "S6-English",
+      "artifact_directory": "outputs/research/8dba0d09c93abafe6c448a3ddb8ee22671792208e85b378f5c1b2328ee52624d",
+      "git_sha": "241a6db67686def7a777c00704d997e281eab1a9",
+      "population_id": "base_research_language_en",
+      "run_id": "8dba0d09c93abafe6c448a3ddb8ee22671792208e85b378f5c1b2328ee52624d",
+      "valid": true
+    }
+  ],
+  "bootstrap_stability": {
+    "Primary": {
+      "attempted_replicates": 2000,
+      "failed_replicates": 0,
+      "formal_ci_valid": true,
+      "median_score_interval_width": 0.20190280458677998,
+      "rank_summary": {
+        "RWKV-4-Raven-14B": {
+          "lower_rank_quantile": 11.0,
+          "median_rank": 13.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 13.0
+        },
+        "alpaca-13b": {
+          "lower_rank_quantile": 14.0,
+          "median_rank": 14.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 15.0
+        },
+        "chatglm-6b": {
+          "lower_rank_quantile": 16.0,
+          "median_rank": 17.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 17.0
+        },
+        "claude-instant-v1": {
+          "lower_rank_quantile": 3.0,
+          "median_rank": 3.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 3.0
+        },
+        "claude-v1": {
+          "lower_rank_quantile": 2.0,
+          "median_rank": 2.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 2.0
+        },
+        "dolly-v2-12b": {
+          "lower_rank_quantile": 19.0,
+          "median_rank": 19.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 19.0
+        },
+        "fastchat-t5-3b": {
+          "lower_rank_quantile": 16.0,
+          "median_rank": 16.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 17.0
+        },
+        "gpt-3.5-turbo": {
+          "lower_rank_quantile": 4.0,
+          "median_rank": 4.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 4.0
+        },
+        "gpt-4": {
+          "lower_rank_quantile": 1.0,
+          "median_rank": 1.0,
+          "probability_rank_1": 1.0,
+          "upper_rank_quantile": 1.0
+        },
+        "gpt4all-13b-snoozy": {
+          "lower_rank_quantile": 11.0,
+          "median_rank": 11.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 13.0
+        },
+        "guanaco-33b": {
+          "lower_rank_quantile": 5.0,
+          "median_rank": 5.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 6.0
+        },
+        "koala-13b": {
+          "lower_rank_quantile": 10.0,
+          "median_rank": 10.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 10.0
+        },
+        "llama-13b": {
+          "lower_rank_quantile": 20.0,
+          "median_rank": 20.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 20.0
+        },
+        "mpt-7b-chat": {
+          "lower_rank_quantile": 11.0,
+          "median_rank": 12.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 13.0
+        },
+        "oasst-pythia-12b": {
+          "lower_rank_quantile": 14.0,
+          "median_rank": 15.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 15.0
+        },
+        "palm-2": {
+          "lower_rank_quantile": 6.0,
+          "median_rank": 8.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 8.0
+        },
+        "stablelm-tuned-alpha-7b": {
+          "lower_rank_quantile": 18.0,
+          "median_rank": 18.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 18.0
+        },
+        "vicuna-13b": {
+          "lower_rank_quantile": 6.0,
+          "median_rank": 6.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 8.0
+        },
+        "vicuna-7b": {
+          "lower_rank_quantile": 9.0,
+          "median_rank": 9.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 9.0
+        },
+        "wizardlm-13b": {
+          "lower_rank_quantile": 6.0,
+          "median_rank": 7.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 8.0
+        }
+      },
+      "score_intervals": {
+        "RWKV-4-Raven-14B": [
+          -0.5259549494200565,
+          -0.3337227858515358
+        ],
+        "alpaca-13b": [
+          -0.6821384587311106,
+          -0.5130866404277143
+        ],
+        "chatglm-6b": [
+          -1.0298303229082495,
+          -0.8251544799561863
+        ],
+        "claude-instant-v1": [
+          1.30834428955474,
+          1.5236097532413369
+        ],
+        "claude-v1": [
+          1.4771037378145848,
+          1.6630547566241831
+        ],
+        "dolly-v2-12b": [
+          -1.5693621632966641,
+          -1.3232169816559787
+        ],
+        "fastchat-t5-3b": [
+          -0.9584248695684208,
+          -0.7389258254565968
+        ],
+        "gpt-3.5-turbo": [
+          1.0035292807131246,
+          1.1657744831731174
+        ],
+        "gpt-4": [
+          1.7767087155604673,
+          1.9558487323402076
+        ],
+        "gpt4all-13b-snoozy": [
+          -0.516132997901801,
+          -0.1915620921744714
+        ],
+        "guanaco-33b": [
+          0.5529830296987569,
+          0.853479444718885
+        ],
+        "koala-13b": [
+          0.01184161011061318,
+          0.1470897625963316
+        ],
+        "llama-13b": [
+          -1.7773187989763517,
+          -1.4914842373931614
+        ],
+        "mpt-7b-chat": [
+          -0.4607331730150985,
+          -0.2616034067936017
+        ],
+        "oasst-pythia-12b": [
+          -0.6861936552598412,
+          -0.5313103172757602
+        ],
+        "palm-2": [
+          0.37328563640714574,
+          0.5691531145115157
+        ],
+        "stablelm-tuned-alpha-7b": [
+          -1.3509498253722516,
+          -1.1275458244906609
+        ],
+        "vicuna-13b": [
+          0.4645026846029516,
+          0.5969226817836067
+        ],
+        "vicuna-7b": [
+          0.12190289934958441,
+          0.327740178550557
+        ],
+        "wizardlm-13b": [
+          0.3410487280816485,
+          0.6459938846120119
+        ]
+      },
+      "successful_replicates": 2000,
+      "tie_parameter_interval": [
+        0.34202966967287657,
+        0.38379933813317957
+      ]
+    },
+    "S1": {
+      "attempted_replicates": 2000,
+      "failed_replicates": 0,
+      "formal_ci_valid": true,
+      "median_score_interval_width": 0.19782650835188165,
+      "rank_summary": {
+        "RWKV-4-Raven-14B": {
+          "lower_rank_quantile": 11.0,
+          "median_rank": 13.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 13.0
+        },
+        "alpaca-13b": {
+          "lower_rank_quantile": 14.0,
+          "median_rank": 14.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 15.0
+        },
+        "chatglm-6b": {
+          "lower_rank_quantile": 16.0,
+          "median_rank": 17.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 17.0
+        },
+        "claude-instant-v1": {
+          "lower_rank_quantile": 3.0,
+          "median_rank": 3.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 3.0
+        },
+        "claude-v1": {
+          "lower_rank_quantile": 2.0,
+          "median_rank": 2.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 2.0
+        },
+        "dolly-v2-12b": {
+          "lower_rank_quantile": 19.0,
+          "median_rank": 19.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 19.0
+        },
+        "fastchat-t5-3b": {
+          "lower_rank_quantile": 16.0,
+          "median_rank": 16.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 17.0
+        },
+        "gpt-3.5-turbo": {
+          "lower_rank_quantile": 4.0,
+          "median_rank": 4.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 4.0
+        },
+        "gpt-4": {
+          "lower_rank_quantile": 1.0,
+          "median_rank": 1.0,
+          "probability_rank_1": 1.0,
+          "upper_rank_quantile": 1.0
+        },
+        "gpt4all-13b-snoozy": {
+          "lower_rank_quantile": 11.0,
+          "median_rank": 11.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 13.0
+        },
+        "guanaco-33b": {
+          "lower_rank_quantile": 5.0,
+          "median_rank": 5.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 6.0
+        },
+        "koala-13b": {
+          "lower_rank_quantile": 10.0,
+          "median_rank": 10.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 10.0
+        },
+        "llama-13b": {
+          "lower_rank_quantile": 20.0,
+          "median_rank": 20.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 20.0
+        },
+        "mpt-7b-chat": {
+          "lower_rank_quantile": 11.0,
+          "median_rank": 12.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 13.0
+        },
+        "oasst-pythia-12b": {
+          "lower_rank_quantile": 14.0,
+          "median_rank": 15.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 15.0
+        },
+        "palm-2": {
+          "lower_rank_quantile": 6.0,
+          "median_rank": 8.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 8.0
+        },
+        "stablelm-tuned-alpha-7b": {
+          "lower_rank_quantile": 18.0,
+          "median_rank": 18.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 18.0
+        },
+        "vicuna-13b": {
+          "lower_rank_quantile": 5.0,
+          "median_rank": 6.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 8.0
+        },
+        "vicuna-7b": {
+          "lower_rank_quantile": 9.0,
+          "median_rank": 9.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 9.0
+        },
+        "wizardlm-13b": {
+          "lower_rank_quantile": 6.0,
+          "median_rank": 7.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 8.0
+        }
+      },
+      "score_intervals": {
+        "RWKV-4-Raven-14B": [
+          -0.5988204978102407,
+          -0.4160325470358561
+        ],
+        "alpaca-13b": [
+          -0.751345524188132,
+          -0.591452425817737
+        ],
+        "chatglm-6b": [
+          -1.0406203306094255,
+          -0.8533760946137803
+        ],
+        "claude-instant-v1": [
+          1.3825276043751633,
+          1.6157000669526265
+        ],
+        "claude-v1": [
+          1.5841910810937094,
+          1.7797154245135602
+        ],
+        "dolly-v2-12b": [
+          -1.506723696799927,
+          -1.3038160742489346
+        ],
+        "fastchat-t5-3b": [
+          -0.9761588563511472,
+          -0.7760301830672347
+        ],
+        "gpt-3.5-turbo": [
+          1.0910058762650303,
+          1.2754724955469663
+        ],
+        "gpt-4": [
+          2.0241065858143465,
+          2.2444351889885654
+        ],
+        "gpt4all-13b-snoozy": [
+          -0.5594560659702037,
+          -0.25491477588674705
+        ],
+        "guanaco-33b": [
+          0.535160501030581,
+          0.8458689211350668
+        ],
+        "koala-13b": [
+          -0.07535344064168438,
+          0.06841585313312142
+        ],
+        "llama-13b": [
+          -1.722678095423271,
+          -1.470360465593557
+        ],
+        "mpt-7b-chat": [
+          -0.5167546477715499,
+          -0.33639864327633456
+        ],
+        "oasst-pythia-12b": [
+          -0.7452689048705731,
+          -0.5952734844373323
+        ],
+        "palm-2": [
+          0.3210924307471166,
+          0.523582597179016
+        ],
+        "stablelm-tuned-alpha-7b": [
+          -1.3333079630773463,
+          -1.1399486961057792
+        ],
+        "vicuna-13b": [
+          0.44730804726733786,
+          0.5861993998493672
+        ],
+        "vicuna-7b": [
+          0.05428465005438162,
+          0.2696880180545201
+        ],
+        "wizardlm-13b": [
+          0.3096566091148576,
+          0.6082400108114724
+        ]
+      },
+      "successful_replicates": 2000,
+      "tie_parameter_interval": [
+        0.990038583727245,
+        1.0809639772929631
+      ]
+    },
+    "S2": {
+      "attempted_replicates": 2000,
+      "failed_replicates": 0,
+      "formal_ci_valid": true,
+      "median_score_interval_width": 0.208184148505981,
+      "rank_summary": {
+        "RWKV-4-Raven-14B": {
+          "lower_rank_quantile": 11.0,
+          "median_rank": 13.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 13.0
+        },
+        "alpaca-13b": {
+          "lower_rank_quantile": 14.0,
+          "median_rank": 14.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 15.0
+        },
+        "chatglm-6b": {
+          "lower_rank_quantile": 16.0,
+          "median_rank": 17.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 17.0
+        },
+        "claude-instant-v1": {
+          "lower_rank_quantile": 2.0,
+          "median_rank": 3.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 3.0
+        },
+        "claude-v1": {
+          "lower_rank_quantile": 2.0,
+          "median_rank": 2.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 3.0
+        },
+        "dolly-v2-12b": {
+          "lower_rank_quantile": 18.0,
+          "median_rank": 19.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 19.0
+        },
+        "fastchat-t5-3b": {
+          "lower_rank_quantile": 16.0,
+          "median_rank": 16.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 17.0
+        },
+        "gpt-3.5-turbo": {
+          "lower_rank_quantile": 4.0,
+          "median_rank": 4.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 4.0
+        },
+        "gpt-4": {
+          "lower_rank_quantile": 1.0,
+          "median_rank": 1.0,
+          "probability_rank_1": 1.0,
+          "upper_rank_quantile": 1.0
+        },
+        "gpt4all-13b-snoozy": {
+          "lower_rank_quantile": 11.0,
+          "median_rank": 11.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 13.0
+        },
+        "guanaco-33b": {
+          "lower_rank_quantile": 5.0,
+          "median_rank": 5.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 6.0
+        },
+        "koala-13b": {
+          "lower_rank_quantile": 10.0,
+          "median_rank": 10.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 10.0
+        },
+        "llama-13b": {
+          "lower_rank_quantile": 20.0,
+          "median_rank": 20.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 20.0
+        },
+        "mpt-7b-chat": {
+          "lower_rank_quantile": 11.0,
+          "median_rank": 12.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 13.0
+        },
+        "oasst-pythia-12b": {
+          "lower_rank_quantile": 14.0,
+          "median_rank": 15.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 15.0
+        },
+        "palm-2": {
+          "lower_rank_quantile": 6.0,
+          "median_rank": 8.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 8.0
+        },
+        "stablelm-tuned-alpha-7b": {
+          "lower_rank_quantile": 18.0,
+          "median_rank": 18.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 19.0
+        },
+        "vicuna-13b": {
+          "lower_rank_quantile": 5.0,
+          "median_rank": 6.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 8.0
+        },
+        "vicuna-7b": {
+          "lower_rank_quantile": 9.0,
+          "median_rank": 9.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 9.0
+        },
+        "wizardlm-13b": {
+          "lower_rank_quantile": 6.0,
+          "median_rank": 7.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 8.0
+        }
+      },
+      "score_intervals": {
+        "RWKV-4-Raven-14B": [
+          -0.515513339611351,
+          -0.3253327658998674
+        ],
+        "alpaca-13b": [
+          -0.677359635686715,
+          -0.5094507806581581
+        ],
+        "chatglm-6b": [
+          -1.0159442610424725,
+          -0.8217626013775937
+        ],
+        "claude-instant-v1": [
+          1.2976755725797882,
+          1.5225077028896477
+        ],
+        "claude-v1": [
+          1.4502251766620955,
+          1.6430857234334735
+        ],
+        "dolly-v2-12b": [
+          -1.466992066846156,
+          -1.2425829311518235
+        ],
+        "fastchat-t5-3b": [
+          -0.9610703192804293,
+          -0.7340397746825731
+        ],
+        "gpt-3.5-turbo": [
+          0.9755672089566725,
+          1.1420142682388472
+        ],
+        "gpt-4": [
+          1.8181044220797118,
+          2.0320954985161332
+        ],
+        "gpt4all-13b-snoozy": [
+          -0.5161307376536968,
+          -0.18412292547458528
+        ],
+        "guanaco-33b": [
+          0.5169059521856145,
+          0.8119724015637813
+        ],
+        "koala-13b": [
+          -0.02960677741558026,
+          0.11364593026658226
+        ],
+        "llama-13b": [
+          -1.710559900422645,
+          -1.4380665935802264
+        ],
+        "mpt-7b-chat": [
+          -0.4807403760214844,
+          -0.27566465282784425
+        ],
+        "oasst-pythia-12b": [
+          -0.6810621266073833,
+          -0.5243859243052503
+        ],
+        "palm-2": [
+          0.32370360902327117,
+          0.5143292343223402
+        ],
+        "stablelm-tuned-alpha-7b": [
+          -1.3230052496563776,
+          -1.1033220160409642
+        ],
+        "vicuna-13b": [
+          0.4419032365417253,
+          0.5767804605812671
+        ],
+        "vicuna-7b": [
+          0.09227043642352448,
+          0.30356301024184634
+        ],
+        "wizardlm-13b": [
+          0.30235567511386036,
+          0.6067623840121046
+        ]
+      },
+      "successful_replicates": 2000,
+      "tie_parameter_interval": null
+    },
+    "S3": {
+      "attempted_replicates": 2000,
+      "failed_replicates": 0,
+      "formal_ci_valid": true,
+      "median_score_interval_width": 0.18879380680945862,
+      "rank_summary": {
+        "RWKV-4-Raven-14B": {
+          "lower_rank_quantile": 11.0,
+          "median_rank": 13.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 13.0
+        },
+        "alpaca-13b": {
+          "lower_rank_quantile": 14.0,
+          "median_rank": 14.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 15.0
+        },
+        "chatglm-6b": {
+          "lower_rank_quantile": 16.0,
+          "median_rank": 17.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 17.0
+        },
+        "claude-instant-v1": {
+          "lower_rank_quantile": 3.0,
+          "median_rank": 3.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 3.0
+        },
+        "claude-v1": {
+          "lower_rank_quantile": 2.0,
+          "median_rank": 2.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 2.0
+        },
+        "dolly-v2-12b": {
+          "lower_rank_quantile": 19.0,
+          "median_rank": 19.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 19.0
+        },
+        "fastchat-t5-3b": {
+          "lower_rank_quantile": 16.0,
+          "median_rank": 16.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 17.0
+        },
+        "gpt-3.5-turbo": {
+          "lower_rank_quantile": 4.0,
+          "median_rank": 4.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 4.0
+        },
+        "gpt-4": {
+          "lower_rank_quantile": 1.0,
+          "median_rank": 1.0,
+          "probability_rank_1": 1.0,
+          "upper_rank_quantile": 1.0
+        },
+        "gpt4all-13b-snoozy": {
+          "lower_rank_quantile": 11.0,
+          "median_rank": 11.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 13.0
+        },
+        "guanaco-33b": {
+          "lower_rank_quantile": 5.0,
+          "median_rank": 5.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 6.0
+        },
+        "koala-13b": {
+          "lower_rank_quantile": 10.0,
+          "median_rank": 10.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 10.0
+        },
+        "llama-13b": {
+          "lower_rank_quantile": 20.0,
+          "median_rank": 20.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 20.0
+        },
+        "mpt-7b-chat": {
+          "lower_rank_quantile": 11.0,
+          "median_rank": 12.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 13.0
+        },
+        "oasst-pythia-12b": {
+          "lower_rank_quantile": 14.0,
+          "median_rank": 15.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 15.0
+        },
+        "palm-2": {
+          "lower_rank_quantile": 6.0,
+          "median_rank": 8.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 8.0
+        },
+        "stablelm-tuned-alpha-7b": {
+          "lower_rank_quantile": 18.0,
+          "median_rank": 18.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 18.0
+        },
+        "vicuna-13b": {
+          "lower_rank_quantile": 6.0,
+          "median_rank": 6.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 8.0
+        },
+        "vicuna-7b": {
+          "lower_rank_quantile": 9.0,
+          "median_rank": 9.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 9.0
+        },
+        "wizardlm-13b": {
+          "lower_rank_quantile": 6.0,
+          "median_rank": 7.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 8.0
+        }
+      },
+      "score_intervals": {
+        "RWKV-4-Raven-14B": [
+          -0.5158289535183439,
+          -0.3397360851882789
+        ],
+        "alpaca-13b": [
+          -0.6736239039907196,
+          -0.5210179078031538
+        ],
+        "chatglm-6b": [
+          -1.0287155156148862,
+          -0.8282445148594791
+        ],
+        "claude-instant-v1": [
+          1.312048114194421,
+          1.5234708205635206
+        ],
+        "claude-v1": [
+          1.4820336069993134,
+          1.656841533219595
+        ],
+        "dolly-v2-12b": [
+          -1.5569168617433815,
+          -1.3221382616697377
+        ],
+        "fastchat-t5-3b": [
+          -0.948068700380823,
+          -0.7440719233214461
+        ],
+        "gpt-3.5-turbo": [
+          1.0110383709360666,
+          1.1585942579033837
+        ],
+        "gpt-4": [
+          1.7768701857915754,
+          1.9541162690903862
+        ],
+        "gpt4all-13b-snoozy": [
+          -0.5068088781981602,
+          -0.20270788204653062
+        ],
+        "guanaco-33b": [
+          0.5513429232157254,
+          0.8621881148421985
+        ],
+        "koala-13b": [
+          0.008863346277009665,
+          0.14992691472908218
+        ],
+        "llama-13b": [
+          -1.7784674838046504,
+          -1.4922352743293483
+        ],
+        "mpt-7b-chat": [
+          -0.4610293709915034,
+          -0.2679028957153933
+        ],
+        "oasst-pythia-12b": [
+          -0.6810596283502957,
+          -0.532953228152174
+        ],
+        "palm-2": [
+          0.38232421989284854,
+          0.5667853582356557
+        ],
+        "stablelm-tuned-alpha-7b": [
+          -1.355204245666761,
+          -1.1355077020791857
+        ],
+        "vicuna-13b": [
+          0.4680399920352923,
+          0.595809989096904
+        ],
+        "vicuna-7b": [
+          0.13779631343832213,
+          0.31760215208532677
+        ],
+        "wizardlm-13b": [
+          0.3411410606295883,
+          0.6320902484788296
+        ]
+      },
+      "successful_replicates": 2000,
+      "tie_parameter_interval": [
+        0.3487704154561521,
+        0.3756579152719028
+      ]
+    },
+    "S4": {
+      "attempted_replicates": 2000,
+      "failed_replicates": 0,
+      "formal_ci_valid": true,
+      "median_score_interval_width": 0.20269561634393146,
+      "rank_summary": {
+        "RWKV-4-Raven-14B": {
+          "lower_rank_quantile": 11.0,
+          "median_rank": 13.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 13.0
+        },
+        "alpaca-13b": {
+          "lower_rank_quantile": 14.0,
+          "median_rank": 14.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 15.0
+        },
+        "chatglm-6b": {
+          "lower_rank_quantile": 16.0,
+          "median_rank": 17.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 17.0
+        },
+        "claude-instant-v1": {
+          "lower_rank_quantile": 3.0,
+          "median_rank": 3.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 3.0
+        },
+        "claude-v1": {
+          "lower_rank_quantile": 2.0,
+          "median_rank": 2.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 2.0
+        },
+        "dolly-v2-12b": {
+          "lower_rank_quantile": 19.0,
+          "median_rank": 19.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 19.0
+        },
+        "fastchat-t5-3b": {
+          "lower_rank_quantile": 16.0,
+          "median_rank": 16.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 17.0
+        },
+        "gpt-3.5-turbo": {
+          "lower_rank_quantile": 4.0,
+          "median_rank": 4.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 4.0
+        },
+        "gpt-4": {
+          "lower_rank_quantile": 1.0,
+          "median_rank": 1.0,
+          "probability_rank_1": 1.0,
+          "upper_rank_quantile": 1.0
+        },
+        "gpt4all-13b-snoozy": {
+          "lower_rank_quantile": 11.0,
+          "median_rank": 11.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 13.0
+        },
+        "guanaco-33b": {
+          "lower_rank_quantile": 5.0,
+          "median_rank": 5.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 6.0
+        },
+        "koala-13b": {
+          "lower_rank_quantile": 10.0,
+          "median_rank": 10.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 10.0
+        },
+        "llama-13b": {
+          "lower_rank_quantile": 20.0,
+          "median_rank": 20.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 20.0
+        },
+        "mpt-7b-chat": {
+          "lower_rank_quantile": 11.0,
+          "median_rank": 12.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 13.0
+        },
+        "oasst-pythia-12b": {
+          "lower_rank_quantile": 14.0,
+          "median_rank": 15.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 15.0
+        },
+        "palm-2": {
+          "lower_rank_quantile": 6.0,
+          "median_rank": 8.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 8.0
+        },
+        "stablelm-tuned-alpha-7b": {
+          "lower_rank_quantile": 18.0,
+          "median_rank": 18.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 18.0
+        },
+        "vicuna-13b": {
+          "lower_rank_quantile": 6.0,
+          "median_rank": 6.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 8.0
+        },
+        "vicuna-7b": {
+          "lower_rank_quantile": 9.0,
+          "median_rank": 9.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 9.0
+        },
+        "wizardlm-13b": {
+          "lower_rank_quantile": 6.0,
+          "median_rank": 7.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 8.0
+        }
+      },
+      "score_intervals": {
+        "RWKV-4-Raven-14B": [
+          -0.5216923138408953,
+          -0.33183245747781087
+        ],
+        "alpaca-13b": [
+          -0.6795186980523631,
+          -0.5157368726266912
+        ],
+        "chatglm-6b": [
+          -1.041209831428282,
+          -0.8248793877756416
+        ],
+        "claude-instant-v1": [
+          1.3060774410309053,
+          1.524222114201563
+        ],
+        "claude-v1": [
+          1.4738989358005943,
+          1.6559415162441504
+        ],
+        "dolly-v2-12b": [
+          -1.5695927497613085,
+          -1.3203399232599518
+        ],
+        "fastchat-t5-3b": [
+          -0.9580225341079915,
+          -0.7321991868262193
+        ],
+        "gpt-3.5-turbo": [
+          1.0002055963691059,
+          1.158936005540151
+        ],
+        "gpt-4": [
+          1.7692741959534595,
+          1.964639633390873
+        ],
+        "gpt4all-13b-snoozy": [
+          -0.5138704541654594,
+          -0.1865727210305931
+        ],
+        "guanaco-33b": [
+          0.5568621037594029,
+          0.8537579487447929
+        ],
+        "koala-13b": [
+          0.013323499298839693,
+          0.1505090324779375
+        ],
+        "llama-13b": [
+          -1.779446895039251,
+          -1.485854094918846
+        ],
+        "mpt-7b-chat": [
+          -0.4619001940648991,
+          -0.2662662453924958
+        ],
+        "oasst-pythia-12b": [
+          -0.6869582186247273,
+          -0.5248969725519307
+        ],
+        "palm-2": [
+          0.3737131524607484,
+          0.5692008739309014
+        ],
+        "stablelm-tuned-alpha-7b": [
+          -1.3622937766647125,
+          -1.1257631347813868
+        ],
+        "vicuna-13b": [
+          0.4670171350913147,
+          0.5997498050789286
+        ],
+        "vicuna-7b": [
+          0.12812630447088721,
+          0.3378835884863469
+        ],
+        "wizardlm-13b": [
+          0.34900334929725346,
+          0.6314551369781771
+        ]
+      },
+      "successful_replicates": 2000,
+      "tie_parameter_interval": [
+        0.3406707081289841,
+        0.3827574674836149
+      ]
+    },
+    "S5-ge10": {
+      "attempted_replicates": 2000,
+      "failed_replicates": 0,
+      "formal_ci_valid": true,
+      "median_score_interval_width": 0.20686178551747458,
+      "rank_summary": {
+        "RWKV-4-Raven-14B": {
+          "lower_rank_quantile": 11.0,
+          "median_rank": 13.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 13.0
+        },
+        "alpaca-13b": {
+          "lower_rank_quantile": 14.0,
+          "median_rank": 14.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 15.0
+        },
+        "chatglm-6b": {
+          "lower_rank_quantile": 16.0,
+          "median_rank": 17.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 17.0
+        },
+        "claude-instant-v1": {
+          "lower_rank_quantile": 3.0,
+          "median_rank": 3.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 3.0
+        },
+        "claude-v1": {
+          "lower_rank_quantile": 2.0,
+          "median_rank": 2.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 2.0
+        },
+        "dolly-v2-12b": {
+          "lower_rank_quantile": 19.0,
+          "median_rank": 19.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 19.0
+        },
+        "fastchat-t5-3b": {
+          "lower_rank_quantile": 16.0,
+          "median_rank": 16.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 17.0
+        },
+        "gpt-3.5-turbo": {
+          "lower_rank_quantile": 4.0,
+          "median_rank": 4.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 4.0
+        },
+        "gpt-4": {
+          "lower_rank_quantile": 1.0,
+          "median_rank": 1.0,
+          "probability_rank_1": 1.0,
+          "upper_rank_quantile": 1.0
+        },
+        "gpt4all-13b-snoozy": {
+          "lower_rank_quantile": 11.0,
+          "median_rank": 11.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 13.0
+        },
+        "guanaco-33b": {
+          "lower_rank_quantile": 5.0,
+          "median_rank": 5.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 6.0
+        },
+        "koala-13b": {
+          "lower_rank_quantile": 10.0,
+          "median_rank": 10.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 10.0
+        },
+        "llama-13b": {
+          "lower_rank_quantile": 20.0,
+          "median_rank": 20.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 20.0
+        },
+        "mpt-7b-chat": {
+          "lower_rank_quantile": 11.0,
+          "median_rank": 12.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 13.0
+        },
+        "oasst-pythia-12b": {
+          "lower_rank_quantile": 14.0,
+          "median_rank": 15.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 15.0
+        },
+        "palm-2": {
+          "lower_rank_quantile": 6.0,
+          "median_rank": 8.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 8.0
+        },
+        "stablelm-tuned-alpha-7b": {
+          "lower_rank_quantile": 18.0,
+          "median_rank": 18.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 18.0
+        },
+        "vicuna-13b": {
+          "lower_rank_quantile": 6.0,
+          "median_rank": 6.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 8.0
+        },
+        "vicuna-7b": {
+          "lower_rank_quantile": 9.0,
+          "median_rank": 9.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 9.0
+        },
+        "wizardlm-13b": {
+          "lower_rank_quantile": 5.0,
+          "median_rank": 7.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 8.0
+        }
+      },
+      "score_intervals": {
+        "RWKV-4-Raven-14B": [
+          -0.5220190251667105,
+          -0.33356756441374735
+        ],
+        "alpaca-13b": [
+          -0.6813400784617751,
+          -0.5122064827573112
+        ],
+        "chatglm-6b": [
+          -1.027460610561584,
+          -0.8185718388743769
+        ],
+        "claude-instant-v1": [
+          1.3047077804040204,
+          1.5287211649707226
+        ],
+        "claude-v1": [
+          1.4783298979109465,
+          1.6609636010200304
+        ],
+        "dolly-v2-12b": [
+          -1.563343651406036,
+          -1.3238282608414704
+        ],
+        "fastchat-t5-3b": [
+          -0.9609936745587945,
+          -0.7323233019633422
+        ],
+        "gpt-3.5-turbo": [
+          0.9992004355390512,
+          1.1653820672598518
+        ],
+        "gpt-4": [
+          1.7735896986940998,
+          1.9606407793308105
+        ],
+        "gpt4all-13b-snoozy": [
+          -0.5195624107596735,
+          -0.18068931956299436
+        ],
+        "guanaco-33b": [
+          0.555410505122656,
+          0.8627085399065723
+        ],
+        "koala-13b": [
+          0.009263005792421139,
+          0.1508146538996519
+        ],
+        "llama-13b": [
+          -1.7881256883612426,
+          -1.4968194993370674
+        ],
+        "mpt-7b-chat": [
+          -0.4657532448935906,
+          -0.26051101165591933
+        ],
+        "oasst-pythia-12b": [
+          -0.6830281934031579,
+          -0.5319864627144336
+        ],
+        "palm-2": [
+          0.3715815891391413,
+          0.5728229677152494
+        ],
+        "stablelm-tuned-alpha-7b": [
+          -1.3655024125714348,
+          -1.1348348383638664
+        ],
+        "vicuna-13b": [
+          0.46202179235997437,
+          0.5976337504632815
+        ],
+        "vicuna-7b": [
+          0.12529240184223442,
+          0.33377373963951235
+        ],
+        "wizardlm-13b": [
+          0.3354588462834412,
+          0.6470008300253546
+        ]
+      },
+      "successful_replicates": 2000,
+      "tie_parameter_interval": [
+        0.3417876937187196,
+        0.38356524099228656
+      ]
+    },
+    "S5-ge20": {
+      "attempted_replicates": 2000,
+      "failed_replicates": 0,
+      "formal_ci_valid": true,
+      "median_score_interval_width": 0.20242802405977914,
+      "rank_summary": {
+        "RWKV-4-Raven-14B": {
+          "lower_rank_quantile": 11.0,
+          "median_rank": 13.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 13.0
+        },
+        "alpaca-13b": {
+          "lower_rank_quantile": 14.0,
+          "median_rank": 14.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 15.0
+        },
+        "chatglm-6b": {
+          "lower_rank_quantile": 16.0,
+          "median_rank": 17.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 17.0
+        },
+        "claude-instant-v1": {
+          "lower_rank_quantile": 3.0,
+          "median_rank": 3.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 3.0
+        },
+        "claude-v1": {
+          "lower_rank_quantile": 2.0,
+          "median_rank": 2.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 2.0
+        },
+        "dolly-v2-12b": {
+          "lower_rank_quantile": 19.0,
+          "median_rank": 19.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 19.0
+        },
+        "fastchat-t5-3b": {
+          "lower_rank_quantile": 16.0,
+          "median_rank": 16.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 17.0
+        },
+        "gpt-3.5-turbo": {
+          "lower_rank_quantile": 4.0,
+          "median_rank": 4.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 4.0
+        },
+        "gpt-4": {
+          "lower_rank_quantile": 1.0,
+          "median_rank": 1.0,
+          "probability_rank_1": 1.0,
+          "upper_rank_quantile": 1.0
+        },
+        "gpt4all-13b-snoozy": {
+          "lower_rank_quantile": 11.0,
+          "median_rank": 12.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 13.0
+        },
+        "guanaco-33b": {
+          "lower_rank_quantile": 5.0,
+          "median_rank": 5.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 6.0
+        },
+        "koala-13b": {
+          "lower_rank_quantile": 10.0,
+          "median_rank": 10.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 10.0
+        },
+        "llama-13b": {
+          "lower_rank_quantile": 20.0,
+          "median_rank": 20.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 20.0
+        },
+        "mpt-7b-chat": {
+          "lower_rank_quantile": 11.0,
+          "median_rank": 12.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 13.0
+        },
+        "oasst-pythia-12b": {
+          "lower_rank_quantile": 14.0,
+          "median_rank": 15.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 15.0
+        },
+        "palm-2": {
+          "lower_rank_quantile": 6.0,
+          "median_rank": 8.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 8.0
+        },
+        "stablelm-tuned-alpha-7b": {
+          "lower_rank_quantile": 18.0,
+          "median_rank": 18.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 18.0
+        },
+        "vicuna-13b": {
+          "lower_rank_quantile": 6.0,
+          "median_rank": 6.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 8.0
+        },
+        "vicuna-7b": {
+          "lower_rank_quantile": 9.0,
+          "median_rank": 9.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 9.0
+        },
+        "wizardlm-13b": {
+          "lower_rank_quantile": 6.0,
+          "median_rank": 7.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 8.0
+        }
+      },
+      "score_intervals": {
+        "RWKV-4-Raven-14B": [
+          -0.5181438486959198,
+          -0.32899378185269246
+        ],
+        "alpaca-13b": [
+          -0.6773391991399315,
+          -0.5082723521938228
+        ],
+        "chatglm-6b": [
+          -1.029635316236289,
+          -0.8269572583656931
+        ],
+        "claude-instant-v1": [
+          1.319916153898939,
+          1.535081927056695
+        ],
+        "claude-v1": [
+          1.4736694660210687,
+          1.655672779013433
+        ],
+        "dolly-v2-12b": [
+          -1.5663347142203303,
+          -1.315004240083219
+        ],
+        "fastchat-t5-3b": [
+          -0.9617708767939847,
+          -0.7306102001053087
+        ],
+        "gpt-3.5-turbo": [
+          1.000771528901228,
+          1.16627494321702
+        ],
+        "gpt-4": [
+          1.7739674278012982,
+          1.9656780505334728
+        ],
+        "gpt4all-13b-snoozy": [
+          -0.5230324811136634,
+          -0.1968802090620095
+        ],
+        "guanaco-33b": [
+          0.562118080556773,
+          0.8614687625785054
+        ],
+        "koala-13b": [
+          0.007155622145895497,
+          0.15479076605034967
+        ],
+        "llama-13b": [
+          -1.8139848715579885,
+          -1.5249519196316332
+        ],
+        "mpt-7b-chat": [
+          -0.45730399326650845,
+          -0.25941826624656456
+        ],
+        "oasst-pythia-12b": [
+          -0.6829700327784711,
+          -0.5282115863938465
+        ],
+        "palm-2": [
+          0.3721976904170114,
+          0.5743756806659738
+        ],
+        "stablelm-tuned-alpha-7b": [
+          -1.3564555174488584,
+          -1.1250242924510618
+        ],
+        "vicuna-13b": [
+          0.4638427081703988,
+          0.596876453649506
+        ],
+        "vicuna-7b": [
+          0.12496539196336583,
+          0.33226849984007495
+        ],
+        "wizardlm-13b": [
+          0.34588114607079345,
+          0.6468067535088087
+        ]
+      },
+      "successful_replicates": 2000,
+      "tie_parameter_interval": [
+        0.34130237223643134,
+        0.38244362059436937
+      ]
+    },
+    "S5-ge50": {
+      "attempted_replicates": 2000,
+      "failed_replicates": 0,
+      "formal_ci_valid": true,
+      "median_score_interval_width": 0.20921031781938704,
+      "rank_summary": {
+        "RWKV-4-Raven-14B": {
+          "lower_rank_quantile": 11.0,
+          "median_rank": 13.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 13.0
+        },
+        "alpaca-13b": {
+          "lower_rank_quantile": 14.0,
+          "median_rank": 14.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 15.0
+        },
+        "chatglm-6b": {
+          "lower_rank_quantile": 16.0,
+          "median_rank": 17.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 17.0
+        },
+        "claude-instant-v1": {
+          "lower_rank_quantile": 3.0,
+          "median_rank": 3.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 3.0
+        },
+        "claude-v1": {
+          "lower_rank_quantile": 2.0,
+          "median_rank": 2.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 2.0
+        },
+        "dolly-v2-12b": {
+          "lower_rank_quantile": 19.0,
+          "median_rank": 19.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 19.0
+        },
+        "fastchat-t5-3b": {
+          "lower_rank_quantile": 16.0,
+          "median_rank": 16.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 17.0
+        },
+        "gpt-3.5-turbo": {
+          "lower_rank_quantile": 4.0,
+          "median_rank": 4.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 4.0
+        },
+        "gpt-4": {
+          "lower_rank_quantile": 1.0,
+          "median_rank": 1.0,
+          "probability_rank_1": 1.0,
+          "upper_rank_quantile": 1.0
+        },
+        "gpt4all-13b-snoozy": {
+          "lower_rank_quantile": 11.0,
+          "median_rank": 11.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 13.0
+        },
+        "guanaco-33b": {
+          "lower_rank_quantile": 5.0,
+          "median_rank": 5.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 5.0
+        },
+        "koala-13b": {
+          "lower_rank_quantile": 10.0,
+          "median_rank": 10.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 10.0
+        },
+        "llama-13b": {
+          "lower_rank_quantile": 20.0,
+          "median_rank": 20.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 20.0
+        },
+        "mpt-7b-chat": {
+          "lower_rank_quantile": 11.0,
+          "median_rank": 12.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 13.0
+        },
+        "oasst-pythia-12b": {
+          "lower_rank_quantile": 14.0,
+          "median_rank": 15.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 15.0
+        },
+        "palm-2": {
+          "lower_rank_quantile": 6.0,
+          "median_rank": 8.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 8.0
+        },
+        "stablelm-tuned-alpha-7b": {
+          "lower_rank_quantile": 18.0,
+          "median_rank": 18.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 18.0
+        },
+        "vicuna-13b": {
+          "lower_rank_quantile": 6.0,
+          "median_rank": 7.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 8.0
+        },
+        "vicuna-7b": {
+          "lower_rank_quantile": 9.0,
+          "median_rank": 9.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 9.0
+        },
+        "wizardlm-13b": {
+          "lower_rank_quantile": 6.0,
+          "median_rank": 7.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 8.0
+        }
+      },
+      "score_intervals": {
+        "RWKV-4-Raven-14B": [
+          -0.5276181990824705,
+          -0.3344175036052017
+        ],
+        "alpaca-13b": [
+          -0.6889173423524112,
+          -0.520355523322045
+        ],
+        "chatglm-6b": [
+          -1.0706680380061229,
+          -0.8544271203210071
+        ],
+        "claude-instant-v1": [
+          1.3154883535966913,
+          1.5426962611273767
+        ],
+        "claude-v1": [
+          1.4796942917110951,
+          1.6593343578636075
+        ],
+        "dolly-v2-12b": [
+          -1.5719655593916193,
+          -1.3290124333295492
+        ],
+        "fastchat-t5-3b": [
+          -0.9620554288801569,
+          -0.7281451966421953
+        ],
+        "gpt-3.5-turbo": [
+          1.0046825898383567,
+          1.1609753418632283
+        ],
+        "gpt-4": [
+          1.7746415989263276,
+          1.9522515981583568
+        ],
+        "gpt4all-13b-snoozy": [
+          -0.513384332403386,
+          -0.17258684088886153
+        ],
+        "guanaco-33b": [
+          0.604500797278124,
+          0.9280064760726007
+        ],
+        "koala-13b": [
+          -0.0014294218866698245,
+          0.14578046302824624
+        ],
+        "llama-13b": [
+          -1.8196637575956012,
+          -1.5283617384982051
+        ],
+        "mpt-7b-chat": [
+          -0.46724385601969337,
+          -0.26488217689051996
+        ],
+        "oasst-pythia-12b": [
+          -0.6890483154432208,
+          -0.5300653417843898
+        ],
+        "palm-2": [
+          0.368961095274874,
+          0.5759931208566251
+        ],
+        "stablelm-tuned-alpha-7b": [
+          -1.361539860928213,
+          -1.1294722196324554
+        ],
+        "vicuna-13b": [
+          0.4625717224545694,
+          0.5936405637809102
+        ],
+        "vicuna-7b": [
+          0.12551019919352008,
+          0.336898809250543
+        ],
+        "wizardlm-13b": [
+          0.3536655148941222,
+          0.6639140828159358
+        ]
+      },
+      "successful_replicates": 2000,
+      "tie_parameter_interval": [
+        0.3425395820399124,
+        0.3821242169834839
+      ]
+    },
+    "S6-English": {
+      "attempted_replicates": 2000,
+      "failed_replicates": 0,
+      "formal_ci_valid": true,
+      "median_score_interval_width": 0.20528885140976208,
+      "rank_summary": {
+        "RWKV-4-Raven-14B": {
+          "lower_rank_quantile": 11.0,
+          "median_rank": 13.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 13.0
+        },
+        "alpaca-13b": {
+          "lower_rank_quantile": 14.0,
+          "median_rank": 15.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 15.0
+        },
+        "chatglm-6b": {
+          "lower_rank_quantile": 16.0,
+          "median_rank": 17.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 17.0
+        },
+        "claude-instant-v1": {
+          "lower_rank_quantile": 2.0,
+          "median_rank": 3.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 3.0
+        },
+        "claude-v1": {
+          "lower_rank_quantile": 2.0,
+          "median_rank": 2.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 3.0
+        },
+        "dolly-v2-12b": {
+          "lower_rank_quantile": 19.0,
+          "median_rank": 19.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 19.0
+        },
+        "fastchat-t5-3b": {
+          "lower_rank_quantile": 16.0,
+          "median_rank": 16.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 17.0
+        },
+        "gpt-3.5-turbo": {
+          "lower_rank_quantile": 4.0,
+          "median_rank": 4.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 4.0
+        },
+        "gpt-4": {
+          "lower_rank_quantile": 1.0,
+          "median_rank": 1.0,
+          "probability_rank_1": 1.0,
+          "upper_rank_quantile": 1.0
+        },
+        "gpt4all-13b-snoozy": {
+          "lower_rank_quantile": 11.0,
+          "median_rank": 11.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 13.0
+        },
+        "guanaco-33b": {
+          "lower_rank_quantile": 5.0,
+          "median_rank": 5.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 6.0
+        },
+        "koala-13b": {
+          "lower_rank_quantile": 9.0,
+          "median_rank": 10.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 10.0
+        },
+        "llama-13b": {
+          "lower_rank_quantile": 20.0,
+          "median_rank": 20.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 20.0
+        },
+        "mpt-7b-chat": {
+          "lower_rank_quantile": 11.0,
+          "median_rank": 12.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 13.0
+        },
+        "oasst-pythia-12b": {
+          "lower_rank_quantile": 14.0,
+          "median_rank": 14.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 15.0
+        },
+        "palm-2": {
+          "lower_rank_quantile": 5.0,
+          "median_rank": 6.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 6.0
+        },
+        "stablelm-tuned-alpha-7b": {
+          "lower_rank_quantile": 18.0,
+          "median_rank": 18.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 18.0
+        },
+        "vicuna-13b": {
+          "lower_rank_quantile": 7.0,
+          "median_rank": 7.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 8.0
+        },
+        "vicuna-7b": {
+          "lower_rank_quantile": 9.0,
+          "median_rank": 9.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 10.0
+        },
+        "wizardlm-13b": {
+          "lower_rank_quantile": 7.0,
+          "median_rank": 8.0,
+          "probability_rank_1": 0.0,
+          "upper_rank_quantile": 8.0
+        }
+      },
+      "score_intervals": {
+        "RWKV-4-Raven-14B": [
+          -0.5529849722973262,
+          -0.36072896981967945
+        ],
+        "alpaca-13b": [
+          -0.7169493515825657,
+          -0.5330536351618864
+        ],
+        "chatglm-6b": [
+          -0.9696883882157363,
+          -0.7618691472753912
+        ],
+        "claude-instant-v1": [
+          1.2821223289217396,
+          1.5170414025172378
+        ],
+        "claude-v1": [
+          1.413777683955797,
+          1.5963935712390105
+        ],
+        "dolly-v2-12b": [
+          -1.6245712246210937,
+          -1.362548389455387
+        ],
+        "fastchat-t5-3b": [
+          -0.9039020182981861,
+          -0.6747805205665381
+        ],
+        "gpt-3.5-turbo": [
+          0.9284803326325665,
+          1.0924860427832772
+        ],
+        "gpt-4": [
+          1.741575111398863,
+          1.9322277486722885
+        ],
+        "gpt4all-13b-snoozy": [
+          -0.48916469414507013,
+          -0.14394473248054468
+        ],
+        "guanaco-33b": [
+          0.5792721862076062,
+          0.9041190460056332
+        ],
+        "koala-13b": [
+          0.04268578195254469,
+          0.18865598372975328
+        ],
+        "llama-13b": [
+          -1.8532501368774525,
+          -1.5325257866147277
+        ],
+        "mpt-7b-chat": [
+          -0.46904172957488854,
+          -0.2662832676957095
+        ],
+        "oasst-pythia-12b": [
+          -0.6827587592908488,
+          -0.5208796620980433
+        ],
+        "palm-2": [
+          0.5679417710544508,
+          0.7677999653253903
+        ],
+        "stablelm-tuned-alpha-7b": [
+          -1.3182113362355106,
+          -1.0842410760004242
+        ],
+        "vicuna-13b": [
+          0.4155713924375958,
+          0.5624522698678169
+        ],
+        "vicuna-7b": [
+          0.07606910167975377,
+          0.28639032274837034
+        ],
+        "wizardlm-13b": [
+          0.30642866783342637,
+          0.6302755823517191
+        ]
+      },
+      "successful_replicates": 2000,
+      "tie_parameter_interval": [
+        0.35280400565036824,
+        0.39824096036392653
+      ]
+    }
+  },
+  "claim_classification": [
+    {
+      "claim_level": "C3 robustness",
+      "classification": "robust",
+      "finding": "Top point-ranking structure is preserved across S1-S5 and the S6 top-four set/order.",
+      "support": [
+        "Primary",
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5-ge10",
+        "S5-ge20",
+        "S5-ge50",
+        "S6-English"
+      ]
+    },
+    {
+      "claim_level": "C3 robustness",
+      "classification": "robust",
+      "finding": "GPT-4 has rank-1 probability 1.0 in every reviewed bootstrap summary.",
+      "support": [
+        "Primary",
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5-ge10",
+        "S5-ge20",
+        "S5-ge50",
+        "S6-English"
+      ]
+    },
+    {
+      "claim_level": "C3 robustness of uncertainty pattern",
+      "classification": "robust uncertainty",
+      "finding": "Middle/lower local ordering uncertainty remains visible in selected pairwise bootstrap frequencies.",
+      "support": [
+        "Primary",
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5-ge10",
+        "S5-ge20",
+        "S5-ge50",
+        "S6-English"
+      ]
+    },
+    {
+      "claim_level": "C3 heterogeneity",
+      "classification": "partially robust / heterogeneous",
+      "finding": "English subgroup preserves the top group but changes five local rank positions, with maximum displacement 2.",
+      "support": [
+        "Primary",
+        "S6-English"
+      ]
+    },
+    {
+      "claim_level": "estimand boundary",
+      "classification": "not comparable",
+      "finding": "Numerical Davidson tie parameters are not compared across Primary and S1.",
+      "support": [
+        "Primary",
+        "S1"
+      ]
+    }
+  ],
+  "estimand_boundaries": {
+    "S1": "ranking/order comparisons only; coalesced-tie Davidson changes the tie estimand",
+    "S2": "ranking/order comparisons only; decisive-only Bradley-Terry score scale is not Davidson scale",
+    "S3": "uncertainty/resampling behavior comparison",
+    "S5": "support-restriction robustness, not data cleaning or causal adjustment",
+    "S6": "English subgroup heterogeneity, not a language-causes-preference claim"
+  },
+  "execution_boundary": {
+    "bootstrap_executed": false,
+    "fit_executed": false,
+    "formal_artifacts_modified": false,
+    "new_sensitivity_run": false
+  },
+  "forbidden_claims": [
+    "causal claims",
+    "objective capability claims",
+    "current leaderboard claims",
+    "universal user-preference claims",
+    "C4 causal inference",
+    "C5 external generalization"
+  ],
+  "git_identity": {
+    "branch": "main",
+    "head": "241a6db67686def7a777c00704d997e281eab1a9",
+    "origin_main": "241a6db67686def7a777c00704d997e281eab1a9"
+  },
+  "pairwise_ordering_stability": [
+    {
+      "artifact_key": "claude-v1|gpt-4",
+      "band": "top",
+      "frequencies": {
+        "Primary": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.0,
+          "lt_frequency": 1.0
+        },
+        "S1": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.0,
+          "lt_frequency": 1.0
+        },
+        "S2": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.0,
+          "lt_frequency": 1.0
+        },
+        "S3": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.0,
+          "lt_frequency": 1.0
+        },
+        "S4": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.0,
+          "lt_frequency": 1.0
+        },
+        "S5-ge10": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.0,
+          "lt_frequency": 1.0
+        },
+        "S5-ge20": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.0,
+          "lt_frequency": 1.0
+        },
+        "S5-ge50": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.0,
+          "lt_frequency": 1.0
+        },
+        "S6-English": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.0,
+          "lt_frequency": 1.0
+        }
+      },
+      "pair": [
+        "gpt-4",
+        "claude-v1"
+      ]
+    },
+    {
+      "artifact_key": "claude-instant-v1|claude-v1",
+      "band": "top",
+      "frequencies": {
+        "Primary": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.012,
+          "lt_frequency": 0.988
+        },
+        "S1": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.0055,
+          "lt_frequency": 0.9945
+        },
+        "S2": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.0285,
+          "lt_frequency": 0.9715
+        },
+        "S3": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.0105,
+          "lt_frequency": 0.9895
+        },
+        "S4": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.0125,
+          "lt_frequency": 0.9875
+        },
+        "S5-ge10": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.015,
+          "lt_frequency": 0.985
+        },
+        "S5-ge20": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.0185,
+          "lt_frequency": 0.9815
+        },
+        "S5-ge50": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.019,
+          "lt_frequency": 0.981
+        },
+        "S6-English": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.0635,
+          "lt_frequency": 0.9365
+        }
+      },
+      "pair": [
+        "claude-v1",
+        "claude-instant-v1"
+      ]
+    },
+    {
+      "artifact_key": "claude-instant-v1|gpt-3.5-turbo",
+      "band": "top",
+      "frequencies": {
+        "Primary": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 1.0,
+          "lt_frequency": 0.0
+        },
+        "S1": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 1.0,
+          "lt_frequency": 0.0
+        },
+        "S2": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 1.0,
+          "lt_frequency": 0.0
+        },
+        "S3": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 1.0,
+          "lt_frequency": 0.0
+        },
+        "S4": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 1.0,
+          "lt_frequency": 0.0
+        },
+        "S5-ge10": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 1.0,
+          "lt_frequency": 0.0
+        },
+        "S5-ge20": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 1.0,
+          "lt_frequency": 0.0
+        },
+        "S5-ge50": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 1.0,
+          "lt_frequency": 0.0
+        },
+        "S6-English": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 1.0,
+          "lt_frequency": 0.0
+        }
+      },
+      "pair": [
+        "claude-instant-v1",
+        "gpt-3.5-turbo"
+      ]
+    },
+    {
+      "artifact_key": "guanaco-33b|vicuna-13b",
+      "band": "middle",
+      "frequencies": {
+        "Primary": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.974,
+          "lt_frequency": 0.026
+        },
+        "S1": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.969,
+          "lt_frequency": 0.031
+        },
+        "S2": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.9615,
+          "lt_frequency": 0.0385
+        },
+        "S3": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.973,
+          "lt_frequency": 0.027
+        },
+        "S4": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.975,
+          "lt_frequency": 0.025
+        },
+        "S5-ge10": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.9775,
+          "lt_frequency": 0.0225
+        },
+        "S5-ge20": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.979,
+          "lt_frequency": 0.021
+        },
+        "S5-ge50": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.995,
+          "lt_frequency": 0.005
+        },
+        "S6-English": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.998,
+          "lt_frequency": 0.002
+        }
+      },
+      "pair": [
+        "guanaco-33b",
+        "vicuna-13b"
+      ]
+    },
+    {
+      "artifact_key": "vicuna-13b|wizardlm-13b",
+      "band": "middle",
+      "frequencies": {
+        "Primary": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.6805,
+          "lt_frequency": 0.3195
+        },
+        "S1": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.7595,
+          "lt_frequency": 0.2405
+        },
+        "S2": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.731,
+          "lt_frequency": 0.269
+        },
+        "S3": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.712,
+          "lt_frequency": 0.288
+        },
+        "S4": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.687,
+          "lt_frequency": 0.313
+        },
+        "S5-ge10": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.681,
+          "lt_frequency": 0.319
+        },
+        "S5-ge20": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.6805,
+          "lt_frequency": 0.3195
+        },
+        "S5-ge50": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.5615,
+          "lt_frequency": 0.4385
+        },
+        "S6-English": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.5995,
+          "lt_frequency": 0.4005
+        }
+      },
+      "pair": [
+        "vicuna-13b",
+        "wizardlm-13b"
+      ]
+    },
+    {
+      "artifact_key": "palm-2|wizardlm-13b",
+      "band": "middle",
+      "frequencies": {
+        "Primary": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.3995,
+          "lt_frequency": 0.6005
+        },
+        "S1": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.3565,
+          "lt_frequency": 0.6435
+        },
+        "S2": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.3475,
+          "lt_frequency": 0.6525
+        },
+        "S3": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.4405,
+          "lt_frequency": 0.5595
+        },
+        "S4": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.4155,
+          "lt_frequency": 0.5845
+        },
+        "S5-ge10": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.422,
+          "lt_frequency": 0.578
+        },
+        "S5-ge20": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.4325,
+          "lt_frequency": 0.5675
+        },
+        "S5-ge50": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.341,
+          "lt_frequency": 0.659
+        },
+        "S6-English": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.982,
+          "lt_frequency": 0.018
+        }
+      },
+      "pair": [
+        "wizardlm-13b",
+        "palm-2"
+      ]
+    },
+    {
+      "artifact_key": "gpt4all-13b-snoozy|mpt-7b-chat",
+      "band": "lower",
+      "frequencies": {
+        "Primary": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.5505,
+          "lt_frequency": 0.4495
+        },
+        "S1": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.575,
+          "lt_frequency": 0.425
+        },
+        "S2": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.6245,
+          "lt_frequency": 0.3755
+        },
+        "S3": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.5265,
+          "lt_frequency": 0.4735
+        },
+        "S4": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.554,
+          "lt_frequency": 0.446
+        },
+        "S5-ge10": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.5325,
+          "lt_frequency": 0.4675
+        },
+        "S5-ge20": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.512,
+          "lt_frequency": 0.488
+        },
+        "S5-ge50": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.5835,
+          "lt_frequency": 0.4165
+        },
+        "S6-English": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.689,
+          "lt_frequency": 0.311
+        }
+      },
+      "pair": [
+        "gpt4all-13b-snoozy",
+        "mpt-7b-chat"
+      ]
+    },
+    {
+      "artifact_key": "alpaca-13b|oasst-pythia-12b",
+      "band": "lower",
+      "frequencies": {
+        "Primary": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.5705,
+          "lt_frequency": 0.4295
+        },
+        "S1": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.5305,
+          "lt_frequency": 0.4695
+        },
+        "S2": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.558,
+          "lt_frequency": 0.442
+        },
+        "S3": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.5645,
+          "lt_frequency": 0.4355
+        },
+        "S4": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.575,
+          "lt_frequency": 0.425
+        },
+        "S5-ge10": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.588,
+          "lt_frequency": 0.412
+        },
+        "S5-ge20": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.5505,
+          "lt_frequency": 0.4495
+        },
+        "S5-ge50": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.537,
+          "lt_frequency": 0.463
+        },
+        "S6-English": {
+          "eq_frequency": 0.0,
+          "gt_frequency": 0.348,
+          "lt_frequency": 0.652
+        }
+      },
+      "pair": [
+        "alpaca-13b",
+        "oasst-pythia-12b"
+      ]
+    }
+  ],
+  "rank_movement_vs_primary": {
+    "S1": {
+      "displacement": {
+        "RWKV-4-Raven-14B": 0,
+        "alpaca-13b": 0,
+        "chatglm-6b": 0,
+        "claude-instant-v1": 0,
+        "claude-v1": 0,
+        "dolly-v2-12b": 0,
+        "fastchat-t5-3b": 0,
+        "gpt-3.5-turbo": 0,
+        "gpt-4": 0,
+        "gpt4all-13b-snoozy": 0,
+        "guanaco-33b": 0,
+        "koala-13b": 0,
+        "llama-13b": 0,
+        "mpt-7b-chat": 0,
+        "oasst-pythia-12b": 0,
+        "palm-2": 0,
+        "stablelm-tuned-alpha-7b": 0,
+        "vicuna-13b": 0,
+        "vicuna-7b": 0,
+        "wizardlm-13b": 0
+      },
+      "max_absolute_rank_change": 0,
+      "mean_absolute_rank_change": 0.0,
+      "models_with_changed_rank": 0,
+      "spearman_rho": 1.0,
+      "top4_order_preserved": true,
+      "top4_set_preserved": true
+    },
+    "S2": {
+      "displacement": {
+        "RWKV-4-Raven-14B": 0,
+        "alpaca-13b": 0,
+        "chatglm-6b": 0,
+        "claude-instant-v1": 0,
+        "claude-v1": 0,
+        "dolly-v2-12b": 0,
+        "fastchat-t5-3b": 0,
+        "gpt-3.5-turbo": 0,
+        "gpt-4": 0,
+        "gpt4all-13b-snoozy": 0,
+        "guanaco-33b": 0,
+        "koala-13b": 0,
+        "llama-13b": 0,
+        "mpt-7b-chat": 0,
+        "oasst-pythia-12b": 0,
+        "palm-2": 0,
+        "stablelm-tuned-alpha-7b": 0,
+        "vicuna-13b": 0,
+        "vicuna-7b": 0,
+        "wizardlm-13b": 0
+      },
+      "max_absolute_rank_change": 0,
+      "mean_absolute_rank_change": 0.0,
+      "models_with_changed_rank": 0,
+      "spearman_rho": 1.0,
+      "top4_order_preserved": true,
+      "top4_set_preserved": true
+    },
+    "S3": {
+      "displacement": {
+        "RWKV-4-Raven-14B": 0,
+        "alpaca-13b": 0,
+        "chatglm-6b": 0,
+        "claude-instant-v1": 0,
+        "claude-v1": 0,
+        "dolly-v2-12b": 0,
+        "fastchat-t5-3b": 0,
+        "gpt-3.5-turbo": 0,
+        "gpt-4": 0,
+        "gpt4all-13b-snoozy": 0,
+        "guanaco-33b": 0,
+        "koala-13b": 0,
+        "llama-13b": 0,
+        "mpt-7b-chat": 0,
+        "oasst-pythia-12b": 0,
+        "palm-2": 0,
+        "stablelm-tuned-alpha-7b": 0,
+        "vicuna-13b": 0,
+        "vicuna-7b": 0,
+        "wizardlm-13b": 0
+      },
+      "max_absolute_rank_change": 0,
+      "mean_absolute_rank_change": 0.0,
+      "models_with_changed_rank": 0,
+      "spearman_rho": 1.0,
+      "top4_order_preserved": true,
+      "top4_set_preserved": true
+    },
+    "S4": {
+      "displacement": {
+        "RWKV-4-Raven-14B": 0,
+        "alpaca-13b": 0,
+        "chatglm-6b": 0,
+        "claude-instant-v1": 0,
+        "claude-v1": 0,
+        "dolly-v2-12b": 0,
+        "fastchat-t5-3b": 0,
+        "gpt-3.5-turbo": 0,
+        "gpt-4": 0,
+        "gpt4all-13b-snoozy": 0,
+        "guanaco-33b": 0,
+        "koala-13b": 0,
+        "llama-13b": 0,
+        "mpt-7b-chat": 0,
+        "oasst-pythia-12b": 0,
+        "palm-2": 0,
+        "stablelm-tuned-alpha-7b": 0,
+        "vicuna-13b": 0,
+        "vicuna-7b": 0,
+        "wizardlm-13b": 0
+      },
+      "max_absolute_rank_change": 0,
+      "mean_absolute_rank_change": 0.0,
+      "models_with_changed_rank": 0,
+      "spearman_rho": 1.0,
+      "top4_order_preserved": true,
+      "top4_set_preserved": true
+    },
+    "S5-ge10": {
+      "displacement": {
+        "RWKV-4-Raven-14B": 0,
+        "alpaca-13b": 0,
+        "chatglm-6b": 0,
+        "claude-instant-v1": 0,
+        "claude-v1": 0,
+        "dolly-v2-12b": 0,
+        "fastchat-t5-3b": 0,
+        "gpt-3.5-turbo": 0,
+        "gpt-4": 0,
+        "gpt4all-13b-snoozy": 0,
+        "guanaco-33b": 0,
+        "koala-13b": 0,
+        "llama-13b": 0,
+        "mpt-7b-chat": 0,
+        "oasst-pythia-12b": 0,
+        "palm-2": 0,
+        "stablelm-tuned-alpha-7b": 0,
+        "vicuna-13b": 0,
+        "vicuna-7b": 0,
+        "wizardlm-13b": 0
+      },
+      "max_absolute_rank_change": 0,
+      "mean_absolute_rank_change": 0.0,
+      "models_with_changed_rank": 0,
+      "spearman_rho": 1.0,
+      "top4_order_preserved": true,
+      "top4_set_preserved": true
+    },
+    "S5-ge20": {
+      "displacement": {
+        "RWKV-4-Raven-14B": 0,
+        "alpaca-13b": 0,
+        "chatglm-6b": 0,
+        "claude-instant-v1": 0,
+        "claude-v1": 0,
+        "dolly-v2-12b": 0,
+        "fastchat-t5-3b": 0,
+        "gpt-3.5-turbo": 0,
+        "gpt-4": 0,
+        "gpt4all-13b-snoozy": 0,
+        "guanaco-33b": 0,
+        "koala-13b": 0,
+        "llama-13b": 0,
+        "mpt-7b-chat": 0,
+        "oasst-pythia-12b": 0,
+        "palm-2": 0,
+        "stablelm-tuned-alpha-7b": 0,
+        "vicuna-13b": 0,
+        "vicuna-7b": 0,
+        "wizardlm-13b": 0
+      },
+      "max_absolute_rank_change": 0,
+      "mean_absolute_rank_change": 0.0,
+      "models_with_changed_rank": 0,
+      "spearman_rho": 1.0,
+      "top4_order_preserved": true,
+      "top4_set_preserved": true
+    },
+    "S5-ge50": {
+      "displacement": {
+        "RWKV-4-Raven-14B": 0,
+        "alpaca-13b": 0,
+        "chatglm-6b": 0,
+        "claude-instant-v1": 0,
+        "claude-v1": 0,
+        "dolly-v2-12b": 0,
+        "fastchat-t5-3b": 0,
+        "gpt-3.5-turbo": 0,
+        "gpt-4": 0,
+        "gpt4all-13b-snoozy": 0,
+        "guanaco-33b": 0,
+        "koala-13b": 0,
+        "llama-13b": 0,
+        "mpt-7b-chat": 0,
+        "oasst-pythia-12b": 0,
+        "palm-2": 0,
+        "stablelm-tuned-alpha-7b": 0,
+        "vicuna-13b": 0,
+        "vicuna-7b": 0,
+        "wizardlm-13b": 0
+      },
+      "max_absolute_rank_change": 0,
+      "mean_absolute_rank_change": 0.0,
+      "models_with_changed_rank": 0,
+      "spearman_rho": 1.0,
+      "top4_order_preserved": true,
+      "top4_set_preserved": true
+    },
+    "S6-English": {
+      "displacement": {
+        "RWKV-4-Raven-14B": 0,
+        "alpaca-13b": 1,
+        "chatglm-6b": 0,
+        "claude-instant-v1": 0,
+        "claude-v1": 0,
+        "dolly-v2-12b": 0,
+        "fastchat-t5-3b": 0,
+        "gpt-3.5-turbo": 0,
+        "gpt-4": 0,
+        "gpt4all-13b-snoozy": 0,
+        "guanaco-33b": 0,
+        "koala-13b": 0,
+        "llama-13b": 0,
+        "mpt-7b-chat": 0,
+        "oasst-pythia-12b": -1,
+        "palm-2": -2,
+        "stablelm-tuned-alpha-7b": 0,
+        "vicuna-13b": 1,
+        "vicuna-7b": 0,
+        "wizardlm-13b": 1
+      },
+      "max_absolute_rank_change": 2,
+      "mean_absolute_rank_change": 0.3,
+      "models_with_changed_rank": 5,
+      "spearman_rho": 0.993984962406015,
+      "top4_order_preserved": true,
+      "top4_set_preserved": true
+    }
+  },
+  "ranking_table": [
+    {
+      "Primary": 13,
+      "S1": 13,
+      "S2": 13,
+      "S3": 13,
+      "S4": 13,
+      "S5-ge10": 13,
+      "S5-ge20": 13,
+      "S5-ge50": 13,
+      "S6-English": 13,
+      "model": "RWKV-4-Raven-14B"
+    },
+    {
+      "Primary": 14,
+      "S1": 14,
+      "S2": 14,
+      "S3": 14,
+      "S4": 14,
+      "S5-ge10": 14,
+      "S5-ge20": 14,
+      "S5-ge50": 14,
+      "S6-English": 15,
+      "model": "alpaca-13b"
+    },
+    {
+      "Primary": 17,
+      "S1": 17,
+      "S2": 17,
+      "S3": 17,
+      "S4": 17,
+      "S5-ge10": 17,
+      "S5-ge20": 17,
+      "S5-ge50": 17,
+      "S6-English": 17,
+      "model": "chatglm-6b"
+    },
+    {
+      "Primary": 3,
+      "S1": 3,
+      "S2": 3,
+      "S3": 3,
+      "S4": 3,
+      "S5-ge10": 3,
+      "S5-ge20": 3,
+      "S5-ge50": 3,
+      "S6-English": 3,
+      "model": "claude-instant-v1"
+    },
+    {
+      "Primary": 2,
+      "S1": 2,
+      "S2": 2,
+      "S3": 2,
+      "S4": 2,
+      "S5-ge10": 2,
+      "S5-ge20": 2,
+      "S5-ge50": 2,
+      "S6-English": 2,
+      "model": "claude-v1"
+    },
+    {
+      "Primary": 19,
+      "S1": 19,
+      "S2": 19,
+      "S3": 19,
+      "S4": 19,
+      "S5-ge10": 19,
+      "S5-ge20": 19,
+      "S5-ge50": 19,
+      "S6-English": 19,
+      "model": "dolly-v2-12b"
+    },
+    {
+      "Primary": 16,
+      "S1": 16,
+      "S2": 16,
+      "S3": 16,
+      "S4": 16,
+      "S5-ge10": 16,
+      "S5-ge20": 16,
+      "S5-ge50": 16,
+      "S6-English": 16,
+      "model": "fastchat-t5-3b"
+    },
+    {
+      "Primary": 4,
+      "S1": 4,
+      "S2": 4,
+      "S3": 4,
+      "S4": 4,
+      "S5-ge10": 4,
+      "S5-ge20": 4,
+      "S5-ge50": 4,
+      "S6-English": 4,
+      "model": "gpt-3.5-turbo"
+    },
+    {
+      "Primary": 1,
+      "S1": 1,
+      "S2": 1,
+      "S3": 1,
+      "S4": 1,
+      "S5-ge10": 1,
+      "S5-ge20": 1,
+      "S5-ge50": 1,
+      "S6-English": 1,
+      "model": "gpt-4"
+    },
+    {
+      "Primary": 11,
+      "S1": 11,
+      "S2": 11,
+      "S3": 11,
+      "S4": 11,
+      "S5-ge10": 11,
+      "S5-ge20": 11,
+      "S5-ge50": 11,
+      "S6-English": 11,
+      "model": "gpt4all-13b-snoozy"
+    },
+    {
+      "Primary": 5,
+      "S1": 5,
+      "S2": 5,
+      "S3": 5,
+      "S4": 5,
+      "S5-ge10": 5,
+      "S5-ge20": 5,
+      "S5-ge50": 5,
+      "S6-English": 5,
+      "model": "guanaco-33b"
+    },
+    {
+      "Primary": 10,
+      "S1": 10,
+      "S2": 10,
+      "S3": 10,
+      "S4": 10,
+      "S5-ge10": 10,
+      "S5-ge20": 10,
+      "S5-ge50": 10,
+      "S6-English": 10,
+      "model": "koala-13b"
+    },
+    {
+      "Primary": 20,
+      "S1": 20,
+      "S2": 20,
+      "S3": 20,
+      "S4": 20,
+      "S5-ge10": 20,
+      "S5-ge20": 20,
+      "S5-ge50": 20,
+      "S6-English": 20,
+      "model": "llama-13b"
+    },
+    {
+      "Primary": 12,
+      "S1": 12,
+      "S2": 12,
+      "S3": 12,
+      "S4": 12,
+      "S5-ge10": 12,
+      "S5-ge20": 12,
+      "S5-ge50": 12,
+      "S6-English": 12,
+      "model": "mpt-7b-chat"
+    },
+    {
+      "Primary": 15,
+      "S1": 15,
+      "S2": 15,
+      "S3": 15,
+      "S4": 15,
+      "S5-ge10": 15,
+      "S5-ge20": 15,
+      "S5-ge50": 15,
+      "S6-English": 14,
+      "model": "oasst-pythia-12b"
+    },
+    {
+      "Primary": 8,
+      "S1": 8,
+      "S2": 8,
+      "S3": 8,
+      "S4": 8,
+      "S5-ge10": 8,
+      "S5-ge20": 8,
+      "S5-ge50": 8,
+      "S6-English": 6,
+      "model": "palm-2"
+    },
+    {
+      "Primary": 18,
+      "S1": 18,
+      "S2": 18,
+      "S3": 18,
+      "S4": 18,
+      "S5-ge10": 18,
+      "S5-ge20": 18,
+      "S5-ge50": 18,
+      "S6-English": 18,
+      "model": "stablelm-tuned-alpha-7b"
+    },
+    {
+      "Primary": 6,
+      "S1": 6,
+      "S2": 6,
+      "S3": 6,
+      "S4": 6,
+      "S5-ge10": 6,
+      "S5-ge20": 6,
+      "S5-ge50": 6,
+      "S6-English": 7,
+      "model": "vicuna-13b"
+    },
+    {
+      "Primary": 9,
+      "S1": 9,
+      "S2": 9,
+      "S3": 9,
+      "S4": 9,
+      "S5-ge10": 9,
+      "S5-ge20": 9,
+      "S5-ge50": 9,
+      "S6-English": 9,
+      "model": "vicuna-7b"
+    },
+    {
+      "Primary": 7,
+      "S1": 7,
+      "S2": 7,
+      "S3": 7,
+      "S4": 7,
+      "S5-ge10": 7,
+      "S5-ge20": 7,
+      "S5-ge50": 7,
+      "S6-English": 8,
+      "model": "wizardlm-13b"
+    }
+  ],
+  "review_schema_version": 1,
+  "review_type": "read_only_comparative_review",
+  "s6_heterogeneity": {
+    "comparison": "Primary vs S6-English",
+    "interpretation_boundary": "subgroup heterogeneity evidence; not a causal language effect",
+    "rank_movement": {
+      "displacement": {
+        "RWKV-4-Raven-14B": 0,
+        "alpaca-13b": 1,
+        "chatglm-6b": 0,
+        "claude-instant-v1": 0,
+        "claude-v1": 0,
+        "dolly-v2-12b": 0,
+        "fastchat-t5-3b": 0,
+        "gpt-3.5-turbo": 0,
+        "gpt-4": 0,
+        "gpt4all-13b-snoozy": 0,
+        "guanaco-33b": 0,
+        "koala-13b": 0,
+        "llama-13b": 0,
+        "mpt-7b-chat": 0,
+        "oasst-pythia-12b": -1,
+        "palm-2": -2,
+        "stablelm-tuned-alpha-7b": 0,
+        "vicuna-13b": 1,
+        "vicuna-7b": 0,
+        "wizardlm-13b": 1
+      },
+      "max_absolute_rank_change": 2,
+      "mean_absolute_rank_change": 0.3,
+      "models_with_changed_rank": 5,
+      "spearman_rho": 0.993984962406015,
+      "top4_order_preserved": true,
+      "top4_set_preserved": true
+    },
+    "score_ci_overlap_is_descriptive_only": {
+      "overlap_rate": 1.0,
+      "per_model": {
+        "RWKV-4-Raven-14B": true,
+        "alpaca-13b": true,
+        "chatglm-6b": true,
+        "claude-instant-v1": true,
+        "claude-v1": true,
+        "dolly-v2-12b": true,
+        "fastchat-t5-3b": true,
+        "gpt-3.5-turbo": true,
+        "gpt-4": true,
+        "gpt4all-13b-snoozy": true,
+        "guanaco-33b": true,
+        "koala-13b": true,
+        "llama-13b": true,
+        "mpt-7b-chat": true,
+        "oasst-pythia-12b": true,
+        "palm-2": true,
+        "stablelm-tuned-alpha-7b": true,
+        "vicuna-13b": true,
+        "vicuna-7b": true,
+        "wizardlm-13b": true
+      }
+    },
+    "top4_set_preserved": true
+  },
+  "same_davidson_estimand_ci_overlap_vs_primary": {
+    "S3": {
+      "overlap_rate": 1.0,
+      "per_model": {
+        "RWKV-4-Raven-14B": true,
+        "alpaca-13b": true,
+        "chatglm-6b": true,
+        "claude-instant-v1": true,
+        "claude-v1": true,
+        "dolly-v2-12b": true,
+        "fastchat-t5-3b": true,
+        "gpt-3.5-turbo": true,
+        "gpt-4": true,
+        "gpt4all-13b-snoozy": true,
+        "guanaco-33b": true,
+        "koala-13b": true,
+        "llama-13b": true,
+        "mpt-7b-chat": true,
+        "oasst-pythia-12b": true,
+        "palm-2": true,
+        "stablelm-tuned-alpha-7b": true,
+        "vicuna-13b": true,
+        "vicuna-7b": true,
+        "wizardlm-13b": true
+      }
+    },
+    "S4": {
+      "overlap_rate": 1.0,
+      "per_model": {
+        "RWKV-4-Raven-14B": true,
+        "alpaca-13b": true,
+        "chatglm-6b": true,
+        "claude-instant-v1": true,
+        "claude-v1": true,
+        "dolly-v2-12b": true,
+        "fastchat-t5-3b": true,
+        "gpt-3.5-turbo": true,
+        "gpt-4": true,
+        "gpt4all-13b-snoozy": true,
+        "guanaco-33b": true,
+        "koala-13b": true,
+        "llama-13b": true,
+        "mpt-7b-chat": true,
+        "oasst-pythia-12b": true,
+        "palm-2": true,
+        "stablelm-tuned-alpha-7b": true,
+        "vicuna-13b": true,
+        "vicuna-7b": true,
+        "wizardlm-13b": true
+      }
+    },
+    "S5-ge10": {
+      "overlap_rate": 1.0,
+      "per_model": {
+        "RWKV-4-Raven-14B": true,
+        "alpaca-13b": true,
+        "chatglm-6b": true,
+        "claude-instant-v1": true,
+        "claude-v1": true,
+        "dolly-v2-12b": true,
+        "fastchat-t5-3b": true,
+        "gpt-3.5-turbo": true,
+        "gpt-4": true,
+        "gpt4all-13b-snoozy": true,
+        "guanaco-33b": true,
+        "koala-13b": true,
+        "llama-13b": true,
+        "mpt-7b-chat": true,
+        "oasst-pythia-12b": true,
+        "palm-2": true,
+        "stablelm-tuned-alpha-7b": true,
+        "vicuna-13b": true,
+        "vicuna-7b": true,
+        "wizardlm-13b": true
+      }
+    },
+    "S5-ge20": {
+      "overlap_rate": 1.0,
+      "per_model": {
+        "RWKV-4-Raven-14B": true,
+        "alpaca-13b": true,
+        "chatglm-6b": true,
+        "claude-instant-v1": true,
+        "claude-v1": true,
+        "dolly-v2-12b": true,
+        "fastchat-t5-3b": true,
+        "gpt-3.5-turbo": true,
+        "gpt-4": true,
+        "gpt4all-13b-snoozy": true,
+        "guanaco-33b": true,
+        "koala-13b": true,
+        "llama-13b": true,
+        "mpt-7b-chat": true,
+        "oasst-pythia-12b": true,
+        "palm-2": true,
+        "stablelm-tuned-alpha-7b": true,
+        "vicuna-13b": true,
+        "vicuna-7b": true,
+        "wizardlm-13b": true
+      }
+    },
+    "S5-ge50": {
+      "overlap_rate": 1.0,
+      "per_model": {
+        "RWKV-4-Raven-14B": true,
+        "alpaca-13b": true,
+        "chatglm-6b": true,
+        "claude-instant-v1": true,
+        "claude-v1": true,
+        "dolly-v2-12b": true,
+        "fastchat-t5-3b": true,
+        "gpt-3.5-turbo": true,
+        "gpt-4": true,
+        "gpt4all-13b-snoozy": true,
+        "guanaco-33b": true,
+        "koala-13b": true,
+        "llama-13b": true,
+        "mpt-7b-chat": true,
+        "oasst-pythia-12b": true,
+        "palm-2": true,
+        "stablelm-tuned-alpha-7b": true,
+        "vicuna-13b": true,
+        "vicuna-7b": true,
+        "wizardlm-13b": true
+      }
+    },
+    "S6-English": {
+      "overlap_rate": 1.0,
+      "per_model": {
+        "RWKV-4-Raven-14B": true,
+        "alpaca-13b": true,
+        "chatglm-6b": true,
+        "claude-instant-v1": true,
+        "claude-v1": true,
+        "dolly-v2-12b": true,
+        "fastchat-t5-3b": true,
+        "gpt-3.5-turbo": true,
+        "gpt-4": true,
+        "gpt4all-13b-snoozy": true,
+        "guanaco-33b": true,
+        "koala-13b": true,
+        "llama-13b": true,
+        "mpt-7b-chat": true,
+        "oasst-pythia-12b": true,
+        "palm-2": true,
+        "stablelm-tuned-alpha-7b": true,
+        "vicuna-13b": true,
+        "vicuna-7b": true,
+        "wizardlm-13b": true
+      }
+    }
+  },
+  "source_artifacts_unchanged": true
+}
