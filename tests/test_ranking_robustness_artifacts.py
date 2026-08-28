@@ -50,10 +50,10 @@ def _instance_payload(derivation_payload: dict[str, object] | None = None) -> di
 def _records() -> dict[str, list[dict[str, object]]]:
     runs = ["c" * 64, "d" * 64]
     return {
-        "rank_distributions": [{"model_id": "alpha", "rank": 1, "count": 1, "successful_replicates": 2, "frequency": 0.5}],
-        "top_k": [{"model_id": "alpha", "k": 1, "included_count": 1, "successful_replicates": 2, "frequency": 0.5}],
-        "pairwise_ordering": [{"left_model_id": "alpha", "right_model_id": "beta", "gt_count": 1, "eq_count": 0, "lt_count": 1, "successful_replicates": 2, "gt_frequency": 0.5, "eq_frequency": 0.0, "lt_frequency": 0.5}],
-        "rank_intervals": [{"model_id": "alpha", "lower_rank_quantile": 1.0, "median_rank": 1.0, "upper_rank_quantile": 2.0, "probability_rank_1": 0.5}],
+        "rank_distributions": [{"run_id": runs[0], "model_id": "alpha", "rank": 1, "count": 1, "successful_replicates": 2, "frequency": 0.5}],
+        "top_k": [{"run_id": runs[0], "model_id": "alpha", "k": 1, "included_count": 1, "successful_replicates": 2, "frequency": 0.5}],
+        "pairwise_ordering": [{"run_id": runs[0], "left_model_id": "alpha", "right_model_id": "beta", "gt_count": 1, "eq_count": 0, "lt_count": 1, "successful_replicates": 2, "gt_frequency": 0.5, "eq_frequency": 0.0, "lt_frequency": 0.5}],
+        "rank_intervals": [{"run_id": runs[0], "model_id": "alpha", "lower_rank_quantile": 1.0, "median_rank": 1.0, "upper_rank_quantile": 2.0, "probability_rank_1": 0.5}],
         "adjacent_reversals": [{"primary_rank_higher": 1, "primary_rank_lower": 2, "higher_model_id": "alpha", "lower_model_id": "beta", "support_count": 1, "reversal_count": 1, "successful_replicates": 2, "support_frequency": 0.5, "reversal_frequency": 0.5}],
         "cross_specification": [{"model_id": "alpha", "primary_rank": 1, "rank_by_run": {runs[0]: 1, runs[1]: 2}, "primary_relative_shift_by_run": {runs[0]: 0, runs[1]: 1}, "minimum_observed_rank": 1, "maximum_observed_rank": 2, "maximum_absolute_rank_shift": 1, "top_1_specification_count": 1, "top_3_specification_count": 2, "top_5_specification_count": 2, "specification_count": 2}],
     }
@@ -109,6 +109,34 @@ def test_json_bytes_are_utf8_ascii_escaped_and_sorted(tmp_path: Path) -> None:
         json.loads(raw), ensure_ascii=True, sort_keys=True, separators=(",", ":")
     ).encode("utf-8") + b"\n"
     assert raw == expected
+
+
+def test_authorized_second_run_id_is_preserved_for_sampling_records(tmp_path: Path) -> None:
+    records = _records()
+    second_run = _derivation_payload()["ordered_run_ids"][1]
+    for metric in ("rank_distributions", "top_k", "pairwise_ordering", "rank_intervals"):
+        records[metric][0]["run_id"] = second_run
+    result = _write(tmp_path, metric_records=records)
+    for metric, filename in METRIC_FILES:
+        if metric in {"rank_distributions", "top_k", "pairwise_ordering", "rank_intervals"}:
+            document = json.loads((result.instance_path / filename).read_text(encoding="utf-8"))
+            assert document["records"][0]["run_id"] == second_run
+
+
+@pytest.mark.parametrize("metric", ["rank_distributions", "top_k", "pairwise_ordering", "rank_intervals"])
+def test_sampling_record_requires_run_id(tmp_path: Path, metric: str) -> None:
+    records = _records()
+    records[metric][0].pop("run_id")
+    with pytest.raises(RankingRobustnessArtifactError, match="fields"):
+        _write(tmp_path / metric, metric_records=records)
+
+
+@pytest.mark.parametrize("run_id", ["f" * 64, "A" * 64, "short", "g" * 64])
+def test_sampling_record_rejects_unknown_or_malformed_run_id(tmp_path: Path, run_id: str) -> None:
+    records = _records()
+    records["top_k"][0]["run_id"] = run_id
+    with pytest.raises(RankingRobustnessArtifactError, match="run_id"):
+        _write(tmp_path / "bad-run", metric_records=records)
 
 
 def test_inventory_is_sorted_excludes_manifest_and_detects_byte_change() -> None:

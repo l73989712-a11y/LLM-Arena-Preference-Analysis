@@ -13,6 +13,7 @@ import hashlib
 import math
 import os
 from pathlib import Path
+import re
 import shutil
 import tempfile
 from typing import Any
@@ -42,6 +43,7 @@ METRIC_FILES = (
 )
 FORMAL_ARTIFACT_FILENAMES = tuple(filename for _, filename in METRIC_FILES) + ("manifest.json",)
 _METRIC_NAMES = frozenset(name for name, _ in METRIC_FILES)
+_RUN_ID_RE = re.compile(r"[0-9a-f]{64}")
 
 
 class RankingRobustnessArtifactError(RankingRobustnessContractError):
@@ -146,6 +148,12 @@ def _require_fields(record: Mapping[str, Any], fields: tuple[str, ...], metric_n
         _artifact_error(f"record {index} for {metric_name} has invalid fields")
 
 
+def _run_id(value: Any, ordered_run_ids: Sequence[str], metric_name: str, index: int) -> str:
+    if not isinstance(value, str) or _RUN_ID_RE.fullmatch(value) is None or value not in ordered_run_ids:
+        _artifact_error(f"record {index} for {metric_name} has an unauthorized run_id")
+    return value
+
+
 def _frequency(value: Any, count: int, denominator: int, metric_name: str, index: int, field: str) -> float:
     if isinstance(value, bool) or not isinstance(value, Real) or not math.isfinite(float(value)):
         _artifact_error(f"record {index} for {metric_name} has invalid {field}")
@@ -158,8 +166,9 @@ def _frequency(value: Any, count: int, denominator: int, metric_name: str, index
 
 def _validate_metric_record(metric_name: str, record: Mapping[str, Any], index: int, ordered_run_ids: Sequence[str], primary_run_id: str) -> dict[str, Any]:
     if metric_name == "rank_distributions":
-        fields = ("model_id", "rank", "count", "successful_replicates", "frequency")
+        fields = ("run_id", "model_id", "rank", "count", "successful_replicates", "frequency")
         _require_fields(record, fields, metric_name, index)
+        run_id = _run_id(record["run_id"], ordered_run_ids, metric_name, index)
         if not isinstance(record["model_id"], str) or not record["model_id"]:
             _artifact_error(f"record {index} for {metric_name} has invalid model_id")
         if not _is_integer(record["rank"]) or record["rank"] <= 0:
@@ -171,11 +180,12 @@ def _validate_metric_record(metric_name: str, record: Mapping[str, Any], index: 
         if record["count"] > record["successful_replicates"]:
             _artifact_error(f"record {index} for {metric_name} has count above denominator")
         frequency = _frequency(record["frequency"], record["count"], record["successful_replicates"], metric_name, index, "frequency")
-        return {"model_id": record["model_id"], "rank": record["rank"], "count": record["count"], "successful_replicates": record["successful_replicates"], "frequency": frequency}
+        return {"run_id": run_id, "model_id": record["model_id"], "rank": record["rank"], "count": record["count"], "successful_replicates": record["successful_replicates"], "frequency": frequency}
 
     if metric_name == "top_k":
-        fields = ("model_id", "k", "included_count", "successful_replicates", "frequency")
+        fields = ("run_id", "model_id", "k", "included_count", "successful_replicates", "frequency")
         _require_fields(record, fields, metric_name, index)
+        run_id = _run_id(record["run_id"], ordered_run_ids, metric_name, index)
         if not isinstance(record["model_id"], str) or not record["model_id"]:
             _artifact_error(f"record {index} for {metric_name} has invalid model_id")
         if not _is_integer(record["k"]) or record["k"] not in FORMAL_TOP_K:
@@ -187,11 +197,12 @@ def _validate_metric_record(metric_name: str, record: Mapping[str, Any], index: 
         if record["included_count"] > record["successful_replicates"]:
             _artifact_error(f"record {index} for {metric_name} has included_count above denominator")
         frequency = _frequency(record["frequency"], record["included_count"], record["successful_replicates"], metric_name, index, "frequency")
-        return {"model_id": record["model_id"], "k": record["k"], "included_count": record["included_count"], "successful_replicates": record["successful_replicates"], "frequency": frequency}
+        return {"run_id": run_id, "model_id": record["model_id"], "k": record["k"], "included_count": record["included_count"], "successful_replicates": record["successful_replicates"], "frequency": frequency}
 
     if metric_name == "pairwise_ordering":
-        fields = ("left_model_id", "right_model_id", "gt_count", "eq_count", "lt_count", "successful_replicates", "gt_frequency", "eq_frequency", "lt_frequency")
+        fields = ("run_id", "left_model_id", "right_model_id", "gt_count", "eq_count", "lt_count", "successful_replicates", "gt_frequency", "eq_frequency", "lt_frequency")
         _require_fields(record, fields, metric_name, index)
+        run_id = _run_id(record["run_id"], ordered_run_ids, metric_name, index)
         left, right = record["left_model_id"], record["right_model_id"]
         if not isinstance(left, str) or not left or not isinstance(right, str) or not right or left == right:
             _artifact_error(f"record {index} for {metric_name} has invalid model IDs")
@@ -202,20 +213,21 @@ def _validate_metric_record(metric_name: str, record: Mapping[str, Any], index: 
         if not _is_integer(denominator) or denominator <= 0 or sum(counts) != denominator:
             _artifact_error(f"record {index} for {metric_name} has inconsistent counts")
         frequencies = {field: _frequency(record[field], record[count_field], denominator, metric_name, index, field) for field, count_field in (("gt_frequency", "gt_count"), ("eq_frequency", "eq_count"), ("lt_frequency", "lt_count"))}
-        return {**{field: record[field] for field in fields[:6]}, **frequencies}
+        return {"run_id": run_id, **{field: record[field] for field in fields[1:6]}, "successful_replicates": denominator, **frequencies}
 
     if metric_name == "rank_intervals":
-        fields = ("model_id", "lower_rank_quantile", "median_rank", "upper_rank_quantile", "probability_rank_1")
+        fields = ("run_id", "model_id", "lower_rank_quantile", "median_rank", "upper_rank_quantile", "probability_rank_1")
         _require_fields(record, fields, metric_name, index)
+        run_id = _run_id(record["run_id"], ordered_run_ids, metric_name, index)
         if not isinstance(record["model_id"], str) or not record["model_id"]:
             _artifact_error(f"record {index} for {metric_name} has invalid model_id")
-        values = [record[field] for field in fields[1:]]
+        values = [record[field] for field in fields[2:]]
         if any(isinstance(value, bool) or not isinstance(value, Real) or not math.isfinite(float(value)) for value in values):
             _artifact_error(f"record {index} for {metric_name} has non-finite values")
         lower, median, upper, probability = map(float, values)
         if lower < 1 or not lower <= median <= upper or not 0 <= probability <= 1:
             _artifact_error(f"record {index} for {metric_name} has invalid interval")
-        return {"model_id": record["model_id"], "lower_rank_quantile": lower, "median_rank": median, "upper_rank_quantile": upper, "probability_rank_1": probability}
+        return {"run_id": run_id, "model_id": record["model_id"], "lower_rank_quantile": lower, "median_rank": median, "upper_rank_quantile": upper, "probability_rank_1": probability}
 
     if metric_name == "adjacent_reversals":
         fields = ("primary_rank_higher", "primary_rank_lower", "higher_model_id", "lower_model_id", "support_count", "reversal_count", "successful_replicates", "support_frequency", "reversal_frequency")
