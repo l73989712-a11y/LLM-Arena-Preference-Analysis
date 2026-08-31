@@ -13,10 +13,35 @@ and the presentation/report history is recorded in the [Phase 3 closeout](docs/p
 
 - Phase 3: **CLOSED / PUBLICLY FROZEN**
 - Phase 4: **CLOSED / PUBLICLY FROZEN**
+- Phase 5: **CLOSED LOCALLY / PUBLIC FREEZE ON VERIFIED ORIGIN PUBLICATION**
+- Phase 6: **NOT STARTED**
 
 The Phase 4 frozen bundle, canonical verifier, reproducible dependency
 constraints, clean-checkout workflow, and hosted Ubuntu acceptance are
 recorded in the [Phase 4 closeout](docs/phase-4/PHASE-4-CLOSEOUT.md).
+
+Phase 5 adds deterministic ranking-robustness evidence derived from the
+immutable frozen E1 bundle. Its formal artifact, four-layer identity, bounded
+historical interpretation, and independent verification evidence are recorded
+in the [Phase 5 closeout](docs/phase-5/PHASE-5-CLOSEOUT.md).
+
+The committed formal E2 artifact is:
+
+```text
+artifacts/phase-5/82239159eecc2067b7b89f9e13b9cf34d36497b8fdd7105e6babbcc2668e9a1e/
+```
+
+Verify it with:
+
+```powershell
+python -B verify_ranking_robustness.py artifacts/phase-5/82239159eecc2067b7b89f9e13b9cf34d36497b8fdd7105e6babbcc2668e9a1e
+```
+
+The formal identities are `derivation_spec_id`, `producer_git_sha`,
+`artifact_instance_id`, and `e2_payload_inventory_sha256`; the closeout records
+their exact values. Phase 5 is publicly frozen once the commit containing the
+accepted closeout is present on `origin/main` and the post-push identity is
+verified.
 
 ## Quick Reproducibility
 
