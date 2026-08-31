@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from dataclasses import replace
 from collections import Counter
+import hashlib
 import json
 import math
 from pathlib import Path
@@ -16,6 +17,48 @@ from src.ranking_robustness_producer import (
     derive_ranking_robustness_e2,
     produce_ranking_robustness_artifact_instance,
 )
+
+
+def _phase5_tree_snapshot(root: Path) -> tuple[object, ...]:
+    """Capture repository Phase 5 state without following or mutating links."""
+    if not root.exists() and not root.is_symlink():
+        return ("ABSENT",)
+    if root.is_symlink() or not root.is_dir():
+        return (("root", "symlink" if root.is_symlink() else "other"),)
+    entries: list[tuple[object, ...]] = [("PRESENT",)]
+    paths = sorted(root.rglob("*"), key=lambda path: path.relative_to(root).as_posix())
+    for path in paths:
+        relative = path.relative_to(root).as_posix()
+        if path.is_symlink():
+            entries.append((relative, "symlink"))
+        elif path.is_dir():
+            entries.append((relative, "directory"))
+        elif path.is_file():
+            data = path.read_bytes()
+            entries.append((relative, "file", len(data), hashlib.sha256(data).hexdigest()))
+        else:
+            entries.append((relative, "other"))
+    return tuple(entries)
+
+
+def _is_path_under(path: Path, parent: Path) -> bool:
+    try:
+        path.resolve().relative_to(parent.resolve())
+    except ValueError:
+        return False
+    return True
+
+
+def test_phase5_tree_snapshot_distinguishes_state_and_content(tmp_path: Path) -> None:
+    root = tmp_path / "phase-5"
+    assert _phase5_tree_snapshot(root) == ("ABSENT",)
+    root.mkdir()
+    assert _phase5_tree_snapshot(root) == (("PRESENT",),)
+    payload = root / "payload.json"
+    payload.write_bytes(b"one")
+    first = _phase5_tree_snapshot(root)
+    payload.write_bytes(b"two")
+    assert _phase5_tree_snapshot(root) != first
 
 
 def test_verifier_failure_prevents_loading_and_output(tmp_path: Path) -> None:
@@ -111,6 +154,8 @@ def test_writer_failure_propagates_after_derivation(monkeypatch: pytest.MonkeyPa
 
 
 def test_real_frozen_e1_produces_complete_deterministic_instances(tmp_path: Path) -> None:
+    repository_phase5 = Path.cwd() / "artifacts" / "phase-5"
+    repository_phase5_before = _phase5_tree_snapshot(repository_phase5)
     first = produce_ranking_robustness_artifact_instance(
         output_parent=tmp_path / "first",
         producer_git_sha="a" * 40,
@@ -119,6 +164,8 @@ def test_real_frozen_e1_produces_complete_deterministic_instances(tmp_path: Path
         output_parent=tmp_path / "second",
         producer_git_sha="a" * 40,
     )
+    assert _is_path_under(first.instance_path, tmp_path)
+    assert _is_path_under(second.instance_path, tmp_path)
     assert first.derivation_spec_id == second.derivation_spec_id
     assert first.artifact_instance_id == second.artifact_instance_id
     assert first.e2_payload_inventory_sha256 == second.e2_payload_inventory_sha256
@@ -177,4 +224,5 @@ def test_real_frozen_e1_produces_complete_deterministic_instances(tmp_path: Path
     assert [record["primary_rank"] for record in by_metric["cross_specification"]["records"] if record["model_id"] == "gpt-4"][0] == 1
     top_three = [record["model_id"] for record in sorted(by_metric["cross_specification"]["records"], key=lambda record: record["primary_rank"])[:3]]
     assert top_three == ["gpt-4", "claude-v1", "claude-instant-v1"]
-    assert not (Path.cwd() / "artifacts" / "phase-5").exists()
+    repository_phase5_after = _phase5_tree_snapshot(repository_phase5)
+    assert repository_phase5_after == repository_phase5_before
