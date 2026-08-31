@@ -13,8 +13,8 @@ and the presentation/report history is recorded in the [Phase 3 closeout](docs/p
 
 - Phase 3: **CLOSED / PUBLICLY FROZEN**
 - Phase 4: **CLOSED / PUBLICLY FROZEN**
-- Phase 5: **CLOSED LOCALLY / PUBLIC FREEZE ON VERIFIED ORIGIN PUBLICATION**
-- Phase 6: **NOT STARTED**
+- Phase 5: **CLOSED / PUBLICLY FROZEN**
+- Phase 6: **CONTRACT ACCEPTED / IMPLEMENTATION NOT STARTED**
 
 The Phase 4 frozen bundle, canonical verifier, reproducible dependency
 constraints, clean-checkout workflow, and hosted Ubuntu acceptance are
@@ -39,9 +39,12 @@ python -B verify_ranking_robustness.py artifacts/phase-5/82239159eecc2067b7b89f9
 
 The formal identities are `derivation_spec_id`, `producer_git_sha`,
 `artifact_instance_id`, and `e2_payload_inventory_sha256`; the closeout records
-their exact values. Phase 5 is publicly frozen once the commit containing the
-accepted closeout is present on `origin/main` and the post-push identity is
-verified.
+their exact values. The authoritative Phase 5 public freeze is:
+
+```text
+main / origin/main:
+a3d93a8908e1797816048489821e59b90fbb5945
+```
 
 ## Quick Reproducibility
 
