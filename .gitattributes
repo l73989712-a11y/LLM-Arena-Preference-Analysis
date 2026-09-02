@@ -4,3 +4,6 @@ artifacts/frozen/formal-research-v1/payload/** -text
 
 # This frozen historical artifact intentionally contains CRLF bytes.
 artifacts/frozen/formal-research-v1/payload/comparative_review/review.json whitespace=cr-at-eol
+
+# Phase 6 publication is frozen byte-identical evidence.
+artifacts/phase-6/publication-v1/1cd6f03c87ff4e909c5b97bd8727a4d5e6b04225ef32f9fc33303ee72f612467/** -text

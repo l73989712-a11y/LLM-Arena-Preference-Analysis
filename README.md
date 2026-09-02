@@ -14,7 +14,7 @@ and the presentation/report history is recorded in the [Phase 3 closeout](docs/p
 - Phase 3: **CLOSED / PUBLICLY FROZEN**
 - Phase 4: **CLOSED / PUBLICLY FROZEN**
 - Phase 5: **CLOSED / PUBLICLY FROZEN**
-- Phase 6: **CONTRACT ACCEPTED / IMPLEMENTATION NOT STARTED**
+- Phase 6: **FORMAL PUBLICATION FROZEN / CLOSEOUT PENDING**
 
 The Phase 4 frozen bundle, canonical verifier, reproducible dependency
 constraints, clean-checkout workflow, and hosted Ubuntu acceptance are
@@ -45,6 +45,41 @@ their exact values. The authoritative Phase 5 public freeze is:
 main / origin/main:
 a3d93a8908e1797816048489821e59b90fbb5945
 ```
+
+## Phase 6 Formal Publication
+
+The [formal report](artifacts/phase-6/publication-v1/1cd6f03c87ff4e909c5b97bd8727a4d5e6b04225ef32f9fc33303ee72f612467/report.md)
+reports estimated preference under the frozen historical Arena population. Its
+historical Primary top three are `gpt-4`, `claude-v1`, and
+`claude-instant-v1`; this is not a current leaderboard, objective capability
+ranking, universal recommendation, or causal claim.
+
+The publication instance includes a machine-readable
+[manifest](artifacts/phase-6/publication-v1/1cd6f03c87ff4e909c5b97bd8727a4d5e6b04225ef32f9fc33303ee72f612467/manifest.json)
+and four publication figures:
+[primary preference](artifacts/phase-6/publication-v1/1cd6f03c87ff4e909c5b97bd8727a4d5e6b04225ef32f9fc33303ee72f612467/figures/primary_preference.png),
+[rank uncertainty](artifacts/phase-6/publication-v1/1cd6f03c87ff4e909c5b97bd8727a4d5e6b04225ef32f9fc33303ee72f612467/figures/rank_uncertainty.png),
+[robustness ranks](artifacts/phase-6/publication-v1/1cd6f03c87ff4e909c5b97bd8727a4d5e6b04225ef32f9fc33303ee72f612467/figures/robustness_ranks.png),
+and [English-subgroup ranks](artifacts/phase-6/publication-v1/1cd6f03c87ff4e909c5b97bd8727a4d5e6b04225ef32f9fc33303ee72f612467/figures/s6_heterogeneity.png).
+
+```text
+publication_instance_id: 1cd6f03c87ff4e909c5b97bd8727a4d5e6b04225ef32f9fc33303ee72f612467
+publication_spec_id: 62503b0a94b7658c6c0b48b8b9d9b7e43df2e963039b999d9a87a2af760ba400
+payload_inventory_sha256: dfd065cfc00d333f64c31e7481132954f2778e8b7a1b1f34875190d1e529f095
+producer_git_sha: ae27c390524a3e9dd6524a7c131aa9d2c51485e6
+independent verifier commit: b78a2304ae9f44486094cd390268056c1ec3f4c3
+```
+
+Verify the committed formal publication instance with:
+
+```powershell
+python -B verify_publication_bundle.py artifacts/phase-6/publication-v1/1cd6f03c87ff4e909c5b97bd8727a4d5e6b04225ef32f9fc33303ee72f612467
+```
+
+Verification checks the committed instance. Same-environment deterministic
+reproduction uses the frozen producer identity `ae27c390524a3e9dd6524a7c131aa9d2c51485e6`;
+cross-platform PNG byte equality is not required. Phase 6 formal publication:
+**FROZEN**. Overall Phase 6 closeout remains separately gated.
 
 ## Quick Reproducibility
 

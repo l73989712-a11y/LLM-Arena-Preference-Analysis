@@ -71,3 +71,11 @@ artifacts/frozen/*
 artifacts/phase-5/*
 !artifacts/phase-5/82239159eecc2067b7b89f9e13b9cf34d36497b8fdd7105e6babbcc2668e9a1e/
 !artifacts/phase-5/82239159eecc2067b7b89f9e13b9cf34d36497b8fdd7105e6babbcc2668e9a1e/**
+
+# Phase 6 formal publication (single accepted frozen instance)
+!artifacts/phase-6/
+artifacts/phase-6/*
+!artifacts/phase-6/publication-v1/
+artifacts/phase-6/publication-v1/*
+!artifacts/phase-6/publication-v1/1cd6f03c87ff4e909c5b97bd8727a4d5e6b04225ef32f9fc33303ee72f612467/
+!artifacts/phase-6/publication-v1/1cd6f03c87ff4e909c5b97bd8727a4d5e6b04225ef32f9fc33303ee72f612467/**
