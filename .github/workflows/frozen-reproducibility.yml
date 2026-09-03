@@ -38,6 +38,12 @@ jobs:
       - name: Verify frozen formal bundle
         run: python verify_frozen_bundle.py
 
+      - name: Verify ranking robustness E2
+        run: python -B verify_ranking_robustness.py artifacts/phase-5/82239159eecc2067b7b89f9e13b9cf34d36497b8fdd7105e6babbcc2668e9a1e
+
+      - name: Verify Phase 6 publication
+        run: python -B verify_publication_bundle.py artifacts/phase-6/publication-v1/1cd6f03c87ff4e909c5b97bd8727a4d5e6b04225ef32f9fc33303ee72f612467
+
       - name: Run safe test suite
         run: python -m pytest -q
 
