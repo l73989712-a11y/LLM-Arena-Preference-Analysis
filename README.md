@@ -14,7 +14,7 @@ and the presentation/report history is recorded in the [Phase 3 closeout](docs/p
 - Phase 3: **CLOSED / PUBLICLY FROZEN**
 - Phase 4: **CLOSED / PUBLICLY FROZEN**
 - Phase 5: **CLOSED / PUBLICLY FROZEN**
-- Phase 6: **CLOSED LOCALLY / PUBLIC PUSH PENDING**
+- Phase 6: **CLOSED**
 
 The Phase 4 frozen bundle, canonical verifier, reproducible dependency
 constraints, clean-checkout workflow, and hosted Ubuntu acceptance are
@@ -77,10 +77,13 @@ python -B verify_publication_bundle.py artifacts/phase-6/publication-v1/1cd6f03c
 ```
 
 Verification checks the committed instance. The [Phase 6 closeout](docs/phase-6/PHASE-6-CLOSEOUT.md)
-records the completed local closeout; only the separately gated public push remains. Same-environment deterministic
-reproduction uses the frozen producer identity `ae27c390524a3e9dd6524a7c131aa9d2c51485e6`;
-cross-platform PNG byte equality is not required. Phase 6 formal publication:
-**FROZEN**. Local Phase 6 closeout is complete; P6-T7 public push/public freeze remains separately gated.
+records the completed Phase 6 closeout. P6-T7 is the repository-publication
+operation for the closed Phase 6 commit range; public publication/freeze status
+is authoritative from remote Git history and post-push `HEAD`/`origin/main`
+identity, rather than a self-referential README status claim. Same-environment
+deterministic reproduction uses the frozen producer identity
+`ae27c390524a3e9dd6524a7c131aa9d2c51485e6`; cross-platform PNG byte equality
+is not required. Phase 6 formal publication: **FROZEN**.
 
 ## Quick Reproducibility
 

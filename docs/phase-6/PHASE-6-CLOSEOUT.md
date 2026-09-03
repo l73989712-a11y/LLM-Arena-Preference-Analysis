@@ -1,11 +1,13 @@
 # Phase 6 Closeout - Research Publication
 
-Status: **CLOSED LOCALLY / PUBLIC PUSH PENDING**
+Status: **CLOSED**
 
 This document records the Phase 6 local closeout. The formal publication, its
 producer, independent verifier, repository integration, and final validation
-are complete locally. Public push and public freeze remain a separately gated
-P6-T7 operation.
+are complete locally. P6-T7 is the separate repository-publication operation
+for this closed Phase 6 range; its completion is authoritative from remote Git
+history and post-push identity rather than embedded as a self-referential state
+in this payload.
 
 ## Objective and Final Verdict
 
@@ -14,8 +16,9 @@ publication package derived exclusively from frozen E0, E1, and E2 evidence.
 It is a communication and publication layer, not a new scientific evidence
 layer or estimand.
 
-P6-T0 through P6-T6 are closed locally. P6-T7 public push and public freeze
-have not started and are not authorized.
+P6-T0 through P6-T6 are CLOSED. P6-T7 public publication and freeze authority
+is established by remote Git history, not by a current-state claim in this
+document.
 
 ## Scope and Task Closure
 
@@ -28,7 +31,7 @@ have not started and are not authorized.
 | P6-T4 | Formal publication generation and acceptance | CLOSED |
 | P6-T5 | Repository integration and discoverability | CLOSED |
 | P6-T6 | Final validation and closeout | CLOSED |
-| P6-T7 | Public push and public freeze | NOT STARTED / NOT AUTHORIZED |
+| P6-T7 | Public push and public freeze | REMOTE-STATE AUTHORITY / SEE GIT HISTORY |
 
 ## Scientific Interpretation
 
@@ -195,7 +198,7 @@ P6-T3 verifier: b78a2304ae9f44486094cd390268056c1ec3f4c3
 P6-T5 integration: e7de904d57066d85c4e8874adf9d603a5a1fdd69
 ```
 
-Pre-closeout documentation baseline:
+Historical pre-closeout documentation baseline:
 
 ```text
 HEAD: e7de904d57066d85c4e8874adf9d603a5a1fdd69
@@ -205,9 +208,22 @@ ahead/behind: 4 / 0
 
 The P6-T6 closeout commit contains this document; its self-referential commit
 identity is authoritative in Git history and is intentionally not embedded in
-this payload. It is one ordinary child commit of the pre-closeout HEAD. The
-expected local pre-push relation after that commit is 5 / 0 while
-`origin/main` remains the Phase 5 public baseline.
+this payload. It is one ordinary child commit of the pre-closeout HEAD.
+
+Accepted pre-P6-T7 durability-reconciliation baseline:
+
+```text
+HEAD: 684b3da1dc605a414e34998815dd56fe65c13738
+origin/main: a3d93a8908e1797816048489821e59b90fbb5945
+ahead/behind: 5 / 0
+fast-forward ancestry: PASS
+```
+
+These are historical pre-publication values, not a claim about the permanent
+current remote state. The exact commit that becomes the final public Phase 6
+freeze cannot self-report its own remote-publication completion before it is
+pushed. Final public authority is therefore established by Git history when an
+ordinary P6-T7 push yields `HEAD == origin/main`.
 
 ## Non-Goals and Remaining Operation
 
@@ -216,19 +232,18 @@ claim objective capability, establish current model quality, make a causal
 claim, provide a universal recommendation, create a dashboard/API/backend, or
 create a new E3 scientific layer.
 
-P6-T7 remains separately gated:
-refresh the remote, confirm the expected Phase 5 public baseline and
-fast-forward ancestry, require a clean worktree and empty index, perform an
-ordinary `git push origin main`, then verify `HEAD == origin/main` and
-ahead/behind `0 / 0`. No force push, tag, or release is planned.
+P6-T7 is a repository-publication operation only: refresh the remote, confirm
+the accepted pre-publication baseline and fast-forward ancestry, require a
+clean worktree and empty index, perform ordinary `git push origin main`, then
+verify `HEAD == origin/main` and ahead/behind `0 / 0`. No force push, tag, or
+release is planned.
 
 ## Final Local Status
 
 ```text
 local Phase 6: CLOSED
 formal publication: FROZEN
-public remote: still at Phase 5 public baseline
-public push: PENDING / P6-T7 separately gated
+public freeze authority: remote Git history after P6-T7
 ```
 
 P6-T6 closeout commit subject:
