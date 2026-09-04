@@ -2,62 +2,91 @@
 
 ## 1. Purpose and Scope
 
-This guide describes how to inspect and consume the public frozen formal
-research product from a clean checkout. It covers delivery, verification,
-environment setup, and presentation. It does not define a new analysis.
+This is the durable external protocol for inspecting, verifying, and boundedly
+replaying the frozen research product from a clean repository checkout. It
+does not define a new analysis or scientific evidence layer.
 
-Phase 4 reproducibility does not rerun E1 inference, refresh Arena data,
-support arbitrary uploaded datasets, or create a current leaderboard.
+The project studies historical LLM Arena pairwise human-preference data. The
+formal interpretation is:
 
-## 2. Research Interpretation
+> estimated preference under the frozen historical Arena population
 
-The formal product is historical, observational, model-based preference
-research under a frozen Arena population. Its estimates are not objective
-model capability measurements, universal user-preference claims, causal
-effects, current Arena rankings, or recommendations about which model to use
-today.
+This is not an objective model capability ranking, current model quality or
+Arena leaderboard, universal ranking or recommendation, or causal effect.
 
-The [Phase 2 research contract](../phase-2/RESEARCH-CONTRACT.md) is the
-interpretation authority. The [Phase 2C closeout](../phase-2/PHASE-2C-CLOSEOUT.md)
-records the frozen E1 methodology, source, runs, and findings. The
-[Phase 3 closeout](../phase-3/PHASE-3-CLOSEOUT.md) records the accepted
-presentation, report, explorer, and application layers.
+## 2. Frozen Authority Chain
 
-## 3. Public Frozen Bundle
-
-The public bundle is named `formal-research-v1`.
+The formal authority chain is:
 
 ```text
-payload root: artifacts/frozen/formal-research-v1/payload
-payload files: 73
-payload bytes: 3,626,761
-payload inventory SHA-256: 392066c7a23408e97f0f2bcd3e2a530b167e596c9b382d999d959ba49abb7eb6
-source snapshot ID: 2f8937a5f46ea4c3ed4ac7d59a5e51a6b3fb9bae79918b1050c6420b34ce1fa4
-formal runs: 9
-comparative review: artifacts/frozen/formal-research-v1/payload/comparative_review/review.json
-comparative review bytes: 89,996
-comparative review SHA-256: 452192dabbb8e8ad428a023ab8bb78052688965473a2736c5be352d021f26ffa
+E0  frozen source snapshot
+ -> E1  frozen formal research evidence
+ -> E2  frozen ranking-robustness evidence
+ -> Phase 6 publication  derived publication bundle
 ```
 
-The 73 files are the frozen E1 payload: nine run directories with their
-finalized artifacts plus the comparative review. `bundle_manifest.json`,
-`NOTICE.md`, and the CI workflow are Phase 4 delivery metadata; they are not
-additional scientific evidence.
+E0 is the source authority. E1 is the immutable formal research bundle. E2
+is deterministic robustness evidence derived from E1. The Phase 6 publication
+is a derived, independently verifiable publication bundle. Level 2 replay is
+scratch, NON-AUTHORITATIVE reproduction evidence; it is not E3 and never
+replaces a frozen authority.
 
-The upstream source is `lmsys/chatbot_arena_conversations`, pinned to revision
-`1b6335d42a1d2c7e34870c905d03ab964f7f2bd8` and the published Parquet identity
-recorded in [NOTICE.md](../../artifacts/frozen/formal-research-v1/NOTICE.md).
+### E0 source identity
 
-## 4. Canonical Environment
+```text
+dataset: lmsys/chatbot_arena_conversations
+revision: 1b6335d42a1d2c7e34870c905d03ab964f7f2bd8
+source file: data/train-00000-of-00001-cced8514c7ed782a.parquet
+source SHA-256: 3726a6352e9bfc34e206460646f6e5e99bb837751966a671ddd30c7f64e5b06e
+source_snapshot_id: 2f8937a5f46ea4c3ed4ac7d59a5e51a6b3fb9bae79918b1050c6420b34ce1fa4
+rows: 33000
+models: 20
+unordered pairs: 190
+```
+
+The raw source file is external and is not required for frozen verification.
+
+### E1 formal evidence
+
+```text
+bundle: formal-research-v1
+root: artifacts/frozen/formal-research-v1/
+payload files: 73
+payload bytes: 3626761
+payload inventory SHA-256: 392066c7a23408e97f0f2bcd3e2a530b167e596c9b382d999d959ba49abb7eb6
+```
+
+### E2 robustness evidence
+
+```text
+root: artifacts/phase-5/82239159eecc2067b7b89f9e13b9cf34d36497b8fdd7105e6babbcc2668e9a1e/
+artifact_instance_id: 82239159eecc2067b7b89f9e13b9cf34d36497b8fdd7105e6babbcc2668e9a1e
+derivation_spec_id: dc03cc925d2a85dc023542fc21f703abbb966dd4df5da36974c8ea061ece0be4
+producer_git_sha: 766fd10a0a22c1266a70b11c1581e8f607f10c07
+payload_inventory_sha256: a6a872a6737b5fd7e8d9836ff34ee895d5e99784bca4b5ef1ccb839f7f88857f
+```
+
+### Phase 6 publication
+
+```text
+root: artifacts/phase-6/publication-v1/1cd6f03c87ff4e909c5b97bd8727a4d5e6b04225ef32f9fc33303ee72f612467/
+publication_instance_id: 1cd6f03c87ff4e909c5b97bd8727a4d5e6b04225ef32f9fc33303ee72f612467
+publication_spec_id: 62503b0a94b7658c6c0b48b8b9d9b7e43df2e963039b999d9a87a2af760ba400
+payload_inventory_sha256: dfd065cfc00d333f64c31e7481132954f2778e8b7a1b1f34875190d1e529f095
+producer_git_sha: ae27c390524a3e9dd6524a7c131aa9d2c51485e6
+```
+
+The Phase 6 public repository freeze identity is
+`18ba7f3989deb6d29dc485fcba62c0ecdc6c39e4`. It identifies the public Git
+repository state at the Phase 6 freeze, not the current repository HEAD and
+not a producer implementation. In particular, `producer_git_sha` and the
+repository public-freeze SHA must never be substituted for one another.
+
+## 3. Supported Environment
 
 The supported Python policy is `>=3.12,<3.13`. The accepted reference
-resolution is CPython 3.12.5 on Windows AMD64.
-
-Runtime intent is declared in `requirements.txt`. Development/test setup is
-`requirements-dev.txt`, which includes the runtime file and `pytest`.
-`requirements-constraints.txt` pins the accepted 58-package resolution.
-`requirements_optional.txt` is outside the canonical verification/test
-environment and is not needed for this guide.
+resolution is CPython 3.12.5 on Windows AMD64. Install from the repository
+root with the constrained development requirements:
 
 Windows PowerShell:
 
@@ -75,149 +104,163 @@ python3.12 -m venv .venv
 .venv/bin/python -m pip check
 ```
 
-The constraints provide version-resolution reproducibility. They are not an
-E1-generation contract and do not lock package wheel hashes.
+Installation is network-dependent. The project does not require or promise
+wheel hash locking, vendored dependencies, an offline wheelhouse, air-gapped
+installation, or a fully hermetic supply-chain reconstruction.
 
-## 5. Clean-Checkout Verification
+## 4. Level 1 - Verification
 
-An independent reviewer can verify the public product without Arena data or
-local generated outputs:
+Run these commands from the repository root:
+
+```text
+python -B verify_frozen_bundle.py
+python -B verify_ranking_robustness.py artifacts/phase-5/82239159eecc2067b7b89f9e13b9cf34d36497b8fdd7105e6babbcc2668e9a1e
+python -B verify_publication_bundle.py artifacts/phase-6/publication-v1/1cd6f03c87ff4e909c5b97bd8727a4d5e6b04225ef32f9fc33303ee72f612467
+```
+
+These three independent verifiers cover E1, E2, and the Phase 6 publication.
+They are read-only: they do not acquire raw Arena data, run producers, rerun
+inference, or write into accepted roots. Success reports `VERDICT: PASS` and
+returns exit code 0. Expected verification or usage failures are non-zero;
+an internal verifier error is also non-zero.
+
+Level 1 is mandatory for the Phase 7 reproducibility contract.
+
+### Clean-checkout procedure
+
+Start from a clean checkout of the repository revision containing this
+reproducibility guide:
 
 ```text
 git clone <repository>
 cd <repository>
-create the Python 3.12 virtual environment
-install requirements-dev.txt with requirements-constraints.txt
-run pip check
-run verify_frozen_bundle.py
-run the safe pytest suite
 ```
 
-Windows commands:
-
-```powershell
-.\.venv\Scripts\python verify_frozen_bundle.py
-.\.venv\Scripts\python -m pytest -q
-```
-
-POSIX commands:
-
-```bash
-.venv/bin/python verify_frozen_bundle.py
-.venv/bin/python -m pytest -q
-```
-
-This procedure does not require Hugging Face authentication, the raw Arena
-Parquet, `outputs/research`, optional requirements, E1 generation, bootstrap
-reruns, or formal statistical fitting.
-
-## 6. Canonical Verifier
-
-Run:
+Create the documented Python 3.12 environment, install
+`requirements-dev.txt` with `requirements-constraints.txt`, and run:
 
 ```text
-python verify_frozen_bundle.py
+python -m pip check
 ```
 
-The canonical command performs these read-only checks:
-
-1. required public bundle structure;
-2. closed-world payload enumeration;
-3. exact payload paths, sizes, SHA-256 values, and inventory digest;
-4. frozen run registry and run-level artifact manifests;
-5. frozen semantic loader validation;
-6. complete `FrozenResearchBundle` consumption.
-
-It does not run estimators, bootstrap generation, data acquisition, or
-artifact writing. Exit codes are:
+Then run the three Level 1 authority verifiers from the repository root:
 
 ```text
-0  verification passed
-1  expected verification failure
-2  unexpected/internal verifier error
+python -B verify_frozen_bundle.py
+python -B verify_ranking_robustness.py artifacts/phase-5/82239159eecc2067b7b89f9e13b9cf34d36497b8fdd7105e6babbcc2668e9a1e
+python -B verify_publication_bundle.py artifacts/phase-6/publication-v1/1cd6f03c87ff4e909c5b97bd8727a4d5e6b04225ef32f9fc33303ee72f612467
 ```
 
-A successful result reports the bundle name, payload count and size,
-inventory digest, source snapshot, nine verified runs, comparative review,
-and semantic validation.
+These three verifiers are the minimum Level 1 authority checks. Raw Arena
+data and E0 acquisition are not required; no producer execution or E1
+regeneration occurs. `python -m pytest -q` and `git diff --exit-code` are
+broader repository and CI-parity checks, not additional scientific authority
+verifiers.
 
-## 7. Formal Application
+## 5. Level 2 - Bounded Downstream Replay
 
-The formal application is a presentation and inspection layer over the
-verified frozen evidence:
+The supported external interface is:
 
-Windows:
-
-```powershell
-.\.venv\Scripts\python -m streamlit run formal_app.py
+```text
+python -B replay_frozen_products.py e2 --output-root <NEW_PATH>
+python -B replay_frozen_products.py publication --output-root <NEW_PATH>
 ```
 
-POSIX:
+`<NEW_PATH>` must be an explicit destination that does not already exist. The
+wrapper protects accepted E1, E2, and Phase 6 roots, rejects unsafe aliases and
+ancestor/child relationships, and never overwrites or merges an existing
+destination. Outputs are scratch and NON-AUTHORITATIVE.
 
-```bash
-.venv/bin/python -m streamlit run formal_app.py
+The two supported paths are independent:
+
+```text
+accepted E1 -> scratch E2
+accepted E1 + accepted E2 -> scratch Phase 6 publication
 ```
 
-Its default root is the tracked `artifacts/frozen/formal-research-v1/payload`
-bundle. It does not require `outputs/research`, rerun E1, or produce new
-estimates.
+Publication replay does not consume a scratch E2. Both paths verify their
+accepted inputs before production and verify the scratch result afterward.
+Replay does not acquire E0, regenerate E1, download source data, or create
+E3. A successful replay demonstrates downstream reproduction only and does
+not replace the accepted E2 or publication bundle.
 
-## 8. Formal vs Legacy/Demo Authority
+## 6. Level 3 - Intentionally Unsupported
 
-`formal_app.py` is the formal frozen-evidence interface. `app.py`,
-`run_pipeline.py --mode sample`, notebooks, and related exploratory paths are
-legacy synthetic/demo or development surfaces. They remain useful for
-demonstration and experimentation, but their outputs do not carry the frozen
-scientific authority of E1.
+The following are intentionally outside the public reproducibility contract:
 
-## 9. Hosted Reproducibility Workflow
+- remote E0 acquisition;
+- E0-to-E1 formal regeneration;
+- full source-to-publication reconstruction;
+- offline or hermetic reconstruction of the scientific record.
 
-The committed workflow is
-`.github/workflows/frozen-reproducibility.yml`. Its intended gate uses one
-`ubuntu-latest` job with Python 3.12 and read-only `contents: read`
-permissions. It runs on pushes to `main`, pull requests targeting `main`, and
-manual `workflow_dispatch`.
+This is a deliberate support boundary, not a temporary implementation defect
+or a promise of future Phase 7 work.
 
-The logical checks are canonical constrained installation, `pip check`, the
-frozen verifier, the safe pytest suite, and `git diff --exit-code` to confirm
-tracked checkout content is unchanged.
+## 7. Formal and Exploratory Interfaces
 
-The workflow is the hosted Linux reproducibility gate. Until a hosted run on
-the published Phase 4 implementation is independently accepted, this guide
-does not claim hosted GitHub Actions acceptance or proven Linux portability.
-Run-specific workflow identity, results, and acceptance evidence are recorded
-in the Phase 4 closeout rather than in this durable guide.
+`formal_app.py` presents the tracked frozen evidence and does not regenerate
+E1 or produce new estimates. `app.py`, `run_pipeline.py --mode sample`,
+`run_pipeline.py --mode real`, notebooks, and related exploratory surfaces are
+not formal E0 reproduction paths and do not carry E1/E2/publication authority.
+In particular, a current-data or convenience path must not be interpreted as
+source-to-publication reproduction.
 
-## 10. Provenance and Licensing
+## 8. Determinism and Equivalence
 
-See [NOTICE.md](../../artifacts/frozen/formal-research-v1/NOTICE.md) for the
-complete source identity, citation, upstream terms, and contents boundary.
-In summary, the upstream dataset identifies user prompts as CC BY 4.0 and
-model outputs as CC BY-NC 4.0. The published payload contains aggregate and
-statistical research derivatives only; it contains no raw prompts, raw model
-responses, conversation rows, or user identifiers.
+Level 2 inherits the existing producer, verifier, manifest, canonical JSON,
+identity, and inventory rules. E2 structured outputs and publication
+structured/text payloads follow their existing deterministic contracts under
+the frozen inputs and producer identities. Cross-platform PNG byte identity
+is not guaranteed. The publication verifier is the acceptance mechanism for
+the declared inventory and semantic validity of a replay bundle.
+
+## 9. CI and Hosted Evidence
+
+The workflow definition is
+[`.github/workflows/frozen-reproducibility.yml`](../../.github/workflows/frozen-reproducibility.yml).
+Its current Phase 7 definition contains explicit gates for:
+
+- the E1 frozen-bundle verifier;
+- the E2 ranking-robustness verifier;
+- the Phase 6 publication verifier;
+- the constrained environment, `pip check`, and safe pytest suite;
+- tracked-checkout cleanliness.
+
+The historical Phase 4 hosted Ubuntu run remains historical evidence. No
+hosted GitHub Actions success for the Phase 7-expanded workflow is claimed
+until the P7-T6 external acceptance task. A local workflow definition and a
+hosted acceptance result are separate facts.
+
+## 10. Attribution, Rights, and Contents
+
+See the [frozen bundle notice](../../artifacts/frozen/formal-research-v1/NOTICE.md)
+for the upstream dataset citation, revision, source hash, and terms links.
+The upstream dataset identifies user prompts as CC BY 4.0 and model outputs as
+CC BY-NC 4.0. The published payload contains aggregate and statistical
+derivatives only; it contains no raw prompts, model responses, conversation
+rows, or user identifiers.
 
 The repository MIT license applies to original repository material. It does
-not supersede or relicense upstream or other third-party material.
+not supersede or relicense upstream or other third-party material, and this
+guide makes no new legal conclusion about rights or database status.
 
 ## 11. Limitations and Non-Goals
 
-This reproducibility contract does not:
+The frozen results concern only the historical Arena population, frozen
+20-model universe, and committed E1/E2/publication authorities. They do not
+establish current model quality, a current leaderboard, objective capability,
+universal preference, recommendation, causal effects, or external
+generalization. Sampling uncertainty does not exhaust all possible uncertainty.
 
-- rerun or alter frozen E1 inference;
-- refresh Arena data or establish a current leaderboard;
-- establish objective model capability or universal ranking;
-- establish causal effects or external generalization;
-- analyze arbitrary uploaded datasets;
-- make legacy/demo output formal evidence;
-- lock package wheel hashes;
-- claim hosted Linux verification before the hosted workflow runs.
-
-Cross-platform binary identity of rendered Matplotlib images is not promised.
+Raw-data acquisition, E1 regeneration, arbitrary uploaded datasets, and
+current-data exploratory paths are outside the supported levels above.
+Generated paths such as `outputs/` are local outputs. Cross-platform rendered
+image bytes are not promised to be identical.
 
 ## 12. Related Records
 
+- [Phase 7 reproducibility contract](../phase-7/P7-REPRODUCIBILITY-CONTRACT.md)
+- [Phase 6 closeout](../phase-6/PHASE-6-CLOSEOUT.md)
+- [Phase 5 closeout](../phase-5/PHASE-5-CLOSEOUT.md)
 - [Phase 2 research contract](../phase-2/RESEARCH-CONTRACT.md)
-- [Phase 2C closeout](../phase-2/PHASE-2C-CLOSEOUT.md)
-- [Phase 3 closeout](../phase-3/PHASE-3-CLOSEOUT.md)
 - [Frozen bundle notice](../../artifacts/frozen/formal-research-v1/NOTICE.md)
