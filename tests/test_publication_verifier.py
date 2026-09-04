@@ -254,7 +254,16 @@ def test_self_consistent_report_top_three_forgery_fails(model: publication.Publi
 def test_self_consistent_report_table_forgery_fails(model: publication.PublicationModel, tmp_path: Path) -> None:
     bundle = _bundle(model, tmp_path)
     path = bundle / "report.md"
-    path.write_text(path.read_text(encoding="utf-8").replace("Point rank", "Forged rank", 1), encoding="utf-8")
+    report = path.read_text(encoding="utf-8")
+    primary_start = report.index("<!-- publication-section:primary-result -->")
+    uncertainty_start = report.index("<!-- publication-section:uncertainty -->", primary_start)
+    primary_section = report[primary_start:uncertainty_start]
+    assert "Point rank" in primary_section
+    primary_section = primary_section.replace("Point rank", "Forged rank", 1)
+    mutated = report[:primary_start] + primary_section + report[uncertainty_start:]
+    mutated_bytes = mutated.encode("utf-8")
+    assert b"\r" not in mutated_bytes
+    path.write_bytes(mutated_bytes)
     bundle = _rebind_bundle(bundle)
     _expect_fail(bundle, "report")
 

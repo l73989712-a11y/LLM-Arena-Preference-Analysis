@@ -430,6 +430,9 @@ def _verify_traceability(trace: Mapping[str, Any], expected_claims: list[dict[st
         _fail("figures", "figure semantic registry differs from accepted Phase 3 mapping")
     if report.count("<!-- publication-claim:") != 8:
         _fail("report", "report does not contain exactly eight claim anchors")
+    primary_section = _report_section(report, "primary-result")
+    if _markdown_table(tables[0]) not in primary_section:
+        _fail("report", "canonical primary-results table is not rendered in primary-result section")
     for claim in expected_claims:
         for binding in claim["render_bindings"]:
             if binding["kind"] == "report_claim":
