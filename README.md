@@ -15,7 +15,7 @@ and the presentation/report history is recorded in the [Phase 3 closeout](docs/p
 - Phase 4: **CLOSED / PUBLICLY FROZEN**
 - Phase 5: **CLOSED / PUBLICLY FROZEN**
 - Phase 6: **CLOSED / PUBLICLY FROZEN**
-- Phase 7: **IN PROGRESS LOCALLY / NOT YET PUBLICLY FROZEN**
+- Phase 7: **IN PROGRESS / NOT YET PUBLICLY FROZEN**
 
 The Phase 6 public repository freeze identity is:
 
