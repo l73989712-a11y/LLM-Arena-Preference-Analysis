@@ -226,10 +226,25 @@ Its current Phase 7 definition contains explicit gates for:
 - the constrained environment, `pip check`, and safe pytest suite;
 - tracked-checkout cleanliness.
 
-The historical Phase 4 hosted Ubuntu run remains historical evidence. No
-hosted GitHub Actions success for the Phase 7-expanded workflow is claimed
-until the P7-T6 external acceptance task. A local workflow definition and a
-hosted acceptance result are separate facts.
+The historical Phase 4 hosted Ubuntu run remains historical evidence. The
+Phase 7-expanded workflow completed hosted Level 1 acceptance on GitHub
+Actions:
+
+```text
+workflow: Frozen Reproducibility
+run: 33936320166
+event: push
+commit: c1dce0e235f6b0790e583668f4731fb8b33a7134
+conclusion: success
+job: verify
+```
+
+The successful `verify` job completed constrained environment setup, `pip
+check`, the E1, E2, and Phase 6 publication verifiers, the safe pytest suite,
+and tracked-checkout cleanliness. This is hosted Level 1 verification evidence
+only: it does not create E3, replace a frozen authority, or extend the Level 3
+support boundary. A local workflow definition and a hosted acceptance result
+remain separate facts.
 
 ## 10. Attribution, Rights, and Contents
 
